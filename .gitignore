@@ -1,0 +1,10 @@
+node_modules/
+.next/
+out/
+.env
+.env.local
+*.pyc
+__pycache__/
+.python-version
+/tmp/fmp_cache/
+pipeline/__pycache__/
