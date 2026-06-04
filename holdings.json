@@ -1,10 +1,10 @@
 {
   "positions": [
-    { "ticker": "MNST",  "shares": 18.1635,  "cost_basis_per_share": 0,  "purchase_date": "TODO" },
-    { "ticker": "VOO",   "shares": 1.8121,  "cost_basis_per_share": 0,  "purchase_date": "TODO" },
-    { "ticker": "FTEC",  "shares": 2.8118,  "cost_basis_per_share": 0,  "purchase_date": "TODO" },
-    { "ticker": "NVDA",  "shares": 4.5420,  "cost_basis_per_share": 0,  "purchase_date": "TODO" },
-    { "ticker": "UUUU",  "shares": 9.1611,  "cost_basis_per_share": 0,  "purchase_date": "TODO" }
+    { "ticker": "MNST",  "shares": 18.1635,  "cost_basis_per_share": 76.67,  "purchase_date": "2026-01-01" },
+    { "ticker": "VOO",   "shares": 1.8121,   "cost_basis_per_share": 627.13, "purchase_date": "2026-01-01" },
+    { "ticker": "FTEC",  "shares": 2.8118,   "cost_basis_per_share": 224.67, "purchase_date": "2026-01-01" },
+    { "ticker": "NVDA",  "shares": 4.5420,   "cost_basis_per_share": 186.50, "purchase_date": "2026-01-01" },
+    { "ticker": "UUUU",  "shares": 9.1611,   "cost_basis_per_share": 14.54,  "purchase_date": "2026-01-01" }
   ],
   "benchmark": "SPY",
   "risk_free_rate_annual": 0.043,

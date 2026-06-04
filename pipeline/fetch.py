@@ -10,6 +10,8 @@ Interface contract every provider must satisfy:
   - get_history(ticker, years) -> pd.DataFrame with columns [date, close] sorted asc
   - get_quote(ticker)          -> float (latest price)
 """
+from __future__ import annotations
+
 import os
 import json
 import time
