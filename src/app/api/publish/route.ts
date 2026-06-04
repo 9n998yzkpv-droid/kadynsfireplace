@@ -29,146 +29,161 @@ async function githubApi(endpoint: string, options: RequestInit = {}) {
       Authorization: `Bearer ${GITHUB_TOKEN}`,
       Accept: 'application/vnd.github+json',
       'Content-Type': 'application/json',
-      ...options.headers,
+      ...(options.headers || {}),
     },
   })
-  if (!res.ok && res.status !== 404) {
-    const text = await res.text()
-    throw new Error(`GitHub API error ${res.status}: ${text}`)
-  }
   return res
 }
 
 async function getFileSha(filePath: string): Promise<string | null> {
   const res = await githubApi(`/contents/${filePath}`)
-  if (res.status === 404) return null
+  if (!res.ok) return null
   const data = await res.json()
   return data.sha
 }
 
 export async function GET(req: NextRequest) {
-  const { searchParams } = new URL(req.url)
-  const password = searchParams.get('password') ?? ''
-  const slug = searchParams.get('slug')
+  try {
+    const { searchParams } = new URL(req.url)
+    const password = searchParams.get('password') ?? ''
+    const slug = searchParams.get('slug')
 
-  const authError = checkPassword(password)
-  if (authError) return authError
+    const authError = checkPassword(password)
+    if (authError) return authError
 
-  if (slug) {
-    const filePath = path.join(POSTS_DIR, `${slug}.md`)
-    if (!fs.existsSync(filePath)) {
-      return NextResponse.json({ error: 'Post not found' }, { status: 404 })
-    }
-    const raw = fs.readFileSync(filePath, 'utf8')
-    const { data, content } = matter(raw)
-    return NextResponse.json({
-      slug,
-      title: data.title ?? slug,
-      date: data.date ?? '',
-      excerpt: data.excerpt ?? '',
-      content: content.trim(),
-    })
-  }
-
-  if (!fs.existsSync(POSTS_DIR)) {
-    return NextResponse.json({ posts: [] })
-  }
-
-  const files = fs.readdirSync(POSTS_DIR).filter((f) => f.endsWith('.md') || f.endsWith('.mdx'))
-  const posts = files
-    .map((filename) => {
-      const s = filename.replace(/\.mdx?$/, '')
-      const raw = fs.readFileSync(path.join(POSTS_DIR, filename), 'utf8')
+    if (slug) {
+      const filePath = path.join(POSTS_DIR, `${slug}.md`)
+      if (!fs.existsSync(filePath)) {
+        return NextResponse.json({ error: 'Post not found' }, { status: 404 })
+      }
+      const raw = fs.readFileSync(filePath, 'utf8')
       const { data, content } = matter(raw)
-      const words = content.split(/\s+/).length
-      return {
-        slug: s,
-        title: data.title ?? s,
+      return NextResponse.json({
+        slug,
+        title: data.title ?? slug,
         date: data.date ?? '',
         excerpt: data.excerpt ?? '',
-        readingTime: `${Math.max(1, Math.round(words / 200))} min read`,
-      }
-    })
-    .sort((a, b) => (a.date < b.date ? 1 : -1))
+        content: content.trim(),
+      })
+    }
 
-  return NextResponse.json({ posts })
+    if (!fs.existsSync(POSTS_DIR)) {
+      return NextResponse.json({ posts: [] })
+    }
+
+    const files = fs.readdirSync(POSTS_DIR).filter((f: string) => f.endsWith('.md') || f.endsWith('.mdx'))
+    const posts = files
+      .map((filename: string) => {
+        const s = filename.replace(/\.mdx?$/, '')
+        const raw = fs.readFileSync(path.join(POSTS_DIR, filename), 'utf8')
+        const { data, content } = matter(raw)
+        const words = content.split(/\s+/).length
+        return {
+          slug: s,
+          title: data.title ?? s,
+          date: data.date ?? '',
+          excerpt: data.excerpt ?? '',
+          readingTime: `${Math.max(1, Math.round(words / 200))} min read`,
+        }
+      })
+      .sort((a: { date: string }, b: { date: string }) => (a.date < b.date ? 1 : -1))
+
+    return NextResponse.json({ posts })
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : 'Unknown error'
+    return NextResponse.json({ error: message }, { status: 500 })
+  }
 }
 
 export async function POST(req: NextRequest) {
-  const body = await req.json()
-  const { password, title, date, excerpt, content, existingSlug } = body
+  try {
+    const body = await req.json()
+    const { password, title, date, excerpt, content, existingSlug } = body
 
-  const authError = checkPassword(password)
-  if (authError) return authError
+    const authError = checkPassword(password)
+    if (authError) return authError
 
-  if (!title || !content) {
-    return NextResponse.json({ error: 'Title and content are required' }, { status: 400 })
-  }
+    if (!title || !content) {
+      return NextResponse.json({ error: 'Title and content are required' }, { status: 400 })
+    }
 
-  const slug = existingSlug || slugify(title)
-  const frontmatter = [
-    '---',
-    `title: "${title.replace(/"/g, '\\"')}"`,
-    `date: "${date || new Date().toISOString().slice(0, 10)}"`,
-    `excerpt: "${(excerpt || '').replace(/"/g, '\\"')}"`,
-    '---',
-  ].join('\n')
+    if (!GITHUB_TOKEN) {
+      return NextResponse.json({ error: 'GITHUB_TOKEN not configured on server' }, { status: 500 })
+    }
 
-  const markdown = `${frontmatter}\n\n${content}\n`
-  const ghPath = `posts/${slug}.md`
+    const slug = existingSlug || slugify(title)
+    const frontmatter = [
+      '---',
+      `title: "${title.replace(/"/g, '\\"')}"`,
+      `date: "${date || new Date().toISOString().slice(0, 10)}"`,
+      `excerpt: "${(excerpt || '').replace(/"/g, '\\"')}"`,
+      '---',
+    ].join('\n')
 
-  if (GITHUB_TOKEN) {
+    const markdown = `${frontmatter}\n\n${content}\n`
+    const ghPath = `posts/${slug}.md`
+    const encoded = btoa(unescape(encodeURIComponent(markdown)))
+
     const sha = await getFileSha(ghPath)
-    await githubApi(`/contents/${ghPath}`, {
+    const ghRes = await githubApi(`/contents/${ghPath}`, {
       method: 'PUT',
       body: JSON.stringify({
         message: existingSlug ? `Update post: ${title}` : `Publish post: ${title}`,
-        content: Buffer.from(markdown).toString('base64'),
+        content: encoded,
         ...(sha ? { sha } : {}),
       }),
     })
-  } else {
-    if (!fs.existsSync(POSTS_DIR)) {
-      fs.mkdirSync(POSTS_DIR, { recursive: true })
-    }
-    fs.writeFileSync(path.join(POSTS_DIR, `${slug}.md`), markdown, 'utf8')
-  }
 
-  return NextResponse.json({ slug })
+    if (!ghRes.ok) {
+      const errData = await ghRes.text()
+      return NextResponse.json({ error: `GitHub API error: ${ghRes.status} ${errData}` }, { status: 502 })
+    }
+
+    return NextResponse.json({ slug })
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : 'Unknown error'
+    return NextResponse.json({ error: message }, { status: 500 })
+  }
 }
 
 export async function DELETE(req: NextRequest) {
-  const body = await req.json()
-  const { password, slug } = body
+  try {
+    const body = await req.json()
+    const { password, slug } = body
 
-  const authError = checkPassword(password)
-  if (authError) return authError
+    const authError = checkPassword(password)
+    if (authError) return authError
 
-  if (!slug) {
-    return NextResponse.json({ error: 'Slug is required' }, { status: 400 })
-  }
+    if (!slug) {
+      return NextResponse.json({ error: 'Slug is required' }, { status: 400 })
+    }
 
-  const ghPath = `posts/${slug}.md`
+    if (!GITHUB_TOKEN) {
+      return NextResponse.json({ error: 'GITHUB_TOKEN not configured on server' }, { status: 500 })
+    }
 
-  if (GITHUB_TOKEN) {
+    const ghPath = `posts/${slug}.md`
     const sha = await getFileSha(ghPath)
     if (!sha) {
       return NextResponse.json({ error: 'Post not found' }, { status: 404 })
     }
-    await githubApi(`/contents/${ghPath}`, {
+
+    const ghRes = await githubApi(`/contents/${ghPath}`, {
       method: 'DELETE',
       body: JSON.stringify({
         message: `Delete post: ${slug}`,
         sha,
       }),
     })
-  } else {
-    const filePath = path.join(POSTS_DIR, `${slug}.md`)
-    if (!fs.existsSync(filePath)) {
-      return NextResponse.json({ error: 'Post not found' }, { status: 404 })
-    }
-    fs.unlinkSync(filePath)
-  }
 
-  return NextResponse.json({ deleted: slug })
+    if (!ghRes.ok) {
+      const errData = await ghRes.text()
+      return NextResponse.json({ error: `GitHub API error: ${ghRes.status} ${errData}` }, { status: 502 })
+    }
+
+    return NextResponse.json({ deleted: slug })
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : 'Unknown error'
+    return NextResponse.json({ error: message }, { status: 500 })
+  }
 }
