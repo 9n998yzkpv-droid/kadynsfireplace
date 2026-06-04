@@ -25,15 +25,15 @@ export default function TopLine({ portfolio: p }: { portfolio: PortfolioMetrics 
   const gain = p.total_return_dollar >= 0
   return (
     <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-      <Card label="Portfolio Value" value={`$${fmt(p.total_value)}`} sub={`Cost basis: $${fmt(p.total_cost_basis)}`} />
       <Card
         label="Total Return"
-        value={`${gain ? '+' : '−'}${fmtDollar(p.total_return_dollar)}`}
-        sub={`${gain ? '+' : ''}${fmt(p.total_return_pct)}%`}
+        value={`${gain ? '+' : ''}${fmt(p.total_return_pct)}%`}
+        sub="Since inception"
         positive={gain}
       />
       <Card label="CAGR" value={`${p.cagr > 0 ? '+' : ''}${fmt(p.cagr)}%`} sub="Annualised compound growth" positive={p.cagr >= 0} />
       <Card label="Sharpe Ratio" value={fmt(p.sharpe_ratio, 2)} sub="Excess return per unit of risk" positive={p.sharpe_ratio >= 1} />
+      <Card label="Sortino Ratio" value={fmt(p.sortino_ratio, 2)} sub="Downside risk-adjusted return" positive={p.sortino_ratio >= 1} />
     </div>
   )
 }
