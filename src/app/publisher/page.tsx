@@ -124,7 +124,7 @@ export default function Publisher() {
         return
       }
 
-      setSuccess(editingSlug ? 'Post updated!' : `Published! View at /blog/${data.slug}`)
+      setSuccess(editingSlug ? 'Post updated! Site will redeploy in ~30 seconds.' : `Published! Site will redeploy in ~30 seconds. View at /blog/${data.slug}`)
       await fetchPosts()
       setTimeout(() => {
         setView('list')

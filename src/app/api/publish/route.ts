@@ -5,6 +5,8 @@ import matter from 'gray-matter'
 
 const POSTS_DIR = path.join(process.cwd(), 'posts')
 const PASSWORD = process.env.PUBLISHER_PASSWORD ?? 'fireside2024'
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN ?? ''
+const GITHUB_REPO = process.env.GITHUB_REPO ?? '9n998yzkpv-droid/kadynsfireplace'
 
 function slugify(title: string): string {
   return title
@@ -20,6 +22,30 @@ function checkPassword(password: string) {
   return null
 }
 
+async function githubApi(endpoint: string, options: RequestInit = {}) {
+  const res = await fetch(`https://api.github.com/repos/${GITHUB_REPO}${endpoint}`, {
+    ...options,
+    headers: {
+      Authorization: `Bearer ${GITHUB_TOKEN}`,
+      Accept: 'application/vnd.github+json',
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  })
+  if (!res.ok && res.status !== 404) {
+    const text = await res.text()
+    throw new Error(`GitHub API error ${res.status}: ${text}`)
+  }
+  return res
+}
+
+async function getFileSha(filePath: string): Promise<string | null> {
+  const res = await githubApi(`/contents/${filePath}`)
+  if (res.status === 404) return null
+  const data = await res.json()
+  return data.sha
+}
+
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
   const password = searchParams.get('password') ?? ''
@@ -28,15 +54,9 @@ export async function GET(req: NextRequest) {
   const authError = checkPassword(password)
   if (authError) return authError
 
-  if (!fs.existsSync(POSTS_DIR)) {
-    return NextResponse.json({ posts: [] })
-  }
-
   if (slug) {
-    const mdPath = path.join(POSTS_DIR, `${slug}.md`)
-    const mdxPath = path.join(POSTS_DIR, `${slug}.mdx`)
-    const filePath = fs.existsSync(mdPath) ? mdPath : fs.existsSync(mdxPath) ? mdxPath : null
-    if (!filePath) {
+    const filePath = path.join(POSTS_DIR, `${slug}.md`)
+    if (!fs.existsSync(filePath)) {
       return NextResponse.json({ error: 'Post not found' }, { status: 404 })
     }
     const raw = fs.readFileSync(filePath, 'utf8')
@@ -50,20 +70,26 @@ export async function GET(req: NextRequest) {
     })
   }
 
+  if (!fs.existsSync(POSTS_DIR)) {
+    return NextResponse.json({ posts: [] })
+  }
+
   const files = fs.readdirSync(POSTS_DIR).filter((f) => f.endsWith('.md') || f.endsWith('.mdx'))
-  const posts = files.map((filename) => {
-    const s = filename.replace(/\.mdx?$/, '')
-    const raw = fs.readFileSync(path.join(POSTS_DIR, filename), 'utf8')
-    const { data, content } = matter(raw)
-    const words = content.split(/\s+/).length
-    return {
-      slug: s,
-      title: data.title ?? s,
-      date: data.date ?? '',
-      excerpt: data.excerpt ?? '',
-      readingTime: `${Math.max(1, Math.round(words / 200))} min read`,
-    }
-  }).sort((a, b) => (a.date < b.date ? 1 : -1))
+  const posts = files
+    .map((filename) => {
+      const s = filename.replace(/\.mdx?$/, '')
+      const raw = fs.readFileSync(path.join(POSTS_DIR, filename), 'utf8')
+      const { data, content } = matter(raw)
+      const words = content.split(/\s+/).length
+      return {
+        slug: s,
+        title: data.title ?? s,
+        date: data.date ?? '',
+        excerpt: data.excerpt ?? '',
+        readingTime: `${Math.max(1, Math.round(words / 200))} min read`,
+      }
+    })
+    .sort((a, b) => (a.date < b.date ? 1 : -1))
 
   return NextResponse.json({ posts })
 }
@@ -89,13 +115,24 @@ export async function POST(req: NextRequest) {
   ].join('\n')
 
   const markdown = `${frontmatter}\n\n${content}\n`
+  const ghPath = `posts/${slug}.md`
 
-  if (!fs.existsSync(POSTS_DIR)) {
-    fs.mkdirSync(POSTS_DIR, { recursive: true })
+  if (GITHUB_TOKEN) {
+    const sha = await getFileSha(ghPath)
+    await githubApi(`/contents/${ghPath}`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        message: existingSlug ? `Update post: ${title}` : `Publish post: ${title}`,
+        content: Buffer.from(markdown).toString('base64'),
+        ...(sha ? { sha } : {}),
+      }),
+    })
+  } else {
+    if (!fs.existsSync(POSTS_DIR)) {
+      fs.mkdirSync(POSTS_DIR, { recursive: true })
+    }
+    fs.writeFileSync(path.join(POSTS_DIR, `${slug}.md`), markdown, 'utf8')
   }
-
-  const filePath = path.join(POSTS_DIR, `${slug}.md`)
-  fs.writeFileSync(filePath, markdown, 'utf8')
 
   return NextResponse.json({ slug })
 }
@@ -111,14 +148,27 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json({ error: 'Slug is required' }, { status: 400 })
   }
 
-  const mdPath = path.join(POSTS_DIR, `${slug}.md`)
-  const mdxPath = path.join(POSTS_DIR, `${slug}.mdx`)
-  const filePath = fs.existsSync(mdPath) ? mdPath : fs.existsSync(mdxPath) ? mdxPath : null
+  const ghPath = `posts/${slug}.md`
 
-  if (!filePath) {
-    return NextResponse.json({ error: 'Post not found' }, { status: 404 })
+  if (GITHUB_TOKEN) {
+    const sha = await getFileSha(ghPath)
+    if (!sha) {
+      return NextResponse.json({ error: 'Post not found' }, { status: 404 })
+    }
+    await githubApi(`/contents/${ghPath}`, {
+      method: 'DELETE',
+      body: JSON.stringify({
+        message: `Delete post: ${slug}`,
+        sha,
+      }),
+    })
+  } else {
+    const filePath = path.join(POSTS_DIR, `${slug}.md`)
+    if (!fs.existsSync(filePath)) {
+      return NextResponse.json({ error: 'Post not found' }, { status: 404 })
+    }
+    fs.unlinkSync(filePath)
   }
 
-  fs.unlinkSync(filePath)
   return NextResponse.json({ deleted: slug })
 }
