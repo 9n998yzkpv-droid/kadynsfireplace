@@ -3,8 +3,8 @@ import './globals.css'
 import Nav from '@/components/Nav'
 
 export const metadata: Metadata = {
-  title: 'Finance Dashboard',
-  description: 'Personal portfolio analytics and finance education',
+  title: "Kadyn's Fireplace",
+  description: 'Finance education, portfolio analytics, and equity for everyone.',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

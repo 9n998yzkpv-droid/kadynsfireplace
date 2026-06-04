@@ -10,9 +10,11 @@ export default function Nav() {
   return (
     <header style={{ background: 'var(--surface)', borderBottom: '1px solid var(--border)' }}>
       <div className="max-w-7xl mx-auto px-4 h-14 flex items-center gap-8">
-        <span className="font-semibold text-white tracking-tight">FinanceOS</span>
+        <Link href="/" className="font-semibold text-white tracking-tight hover:text-blue-400 transition-colors">
+          Kadyn&apos;s Fireplace
+        </Link>
         <nav className="flex gap-6 text-sm font-medium">
-          <Link href="/" className={path === '/' ? active : inactive}>Dashboard</Link>
+          <Link href="/dashboard" className={path.startsWith('/dashboard') ? active : inactive}>Dashboard</Link>
           <Link href="/blog" className={path.startsWith('/blog') ? active : inactive}>Blog</Link>
           <Link href="/publisher" className={path.startsWith('/publisher') ? active : inactive}>Publisher</Link>
         </nav>
