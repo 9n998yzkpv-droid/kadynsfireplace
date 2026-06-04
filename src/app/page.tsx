@@ -41,21 +41,20 @@ export default function HomePage() {
           className="rounded-lg p-6"
           style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}
         >
-          <h2 className="text-base font-semibold text-white mb-3">Why this exists</h2>
           <p className="text-sm leading-relaxed mb-4" style={{ color: '#cbd5e1' }}>
-            The lack of equity in America doesn&apos;t just affect one generation — it sets
+            The lack of equity in America doesn&apos;t just affect one generation, it has set
             entire families back for decades. When people are shut out of markets, they miss
-            the single most powerful tool for building long-term wealth. That gap compounds
-            just like interest does, except in the wrong direction.
+            the single most powerful tool for building long-term wealth. That gap, which
+            compounds every year we miss out, expands in the wrong direction.
           </p>
-          <p className="text-sm leading-relaxed mb-4" style={{ color: '#cbd5e1' }}>
+          <p className="text-sm leading-relaxed mb-4 font-bold" style={{ color: '#cbd5e1' }}>
             This project exists to make finance less intimidating. Every dashboard, every
             metric explanation, every blog post is written for the person who was never taught
             this stuff — because most people weren&apos;t. Understanding how money works
-            shouldn&apos;t require a finance degree or a family that already had wealth.
+            shouldn&apos;t require a finance degree or a family that already has wealth.
           </p>
           <p className="text-sm leading-relaxed" style={{ color: '#cbd5e1' }}>
-            Equity — in markets and in opportunity — is the point. Pull up a chair.
+            Equity, in markets and in opportunity is the point. Pull up a chair.
           </p>
         </div>
       </section>
