@@ -10,22 +10,6 @@ No server. No database. No ongoing costs.
 
 ---
 
-## Architecture
-
-```
-holdings.json  ←  you edit this
-      ↓
-pipeline/run.py  (GitHub Actions, nightly 21:30 UTC)
-      ↓  reads FMP API (secret)
-public/data.json  ←  committed back to repo
-      ↓
-Next.js static export (npm run build → out/)
-      ↓
-GitHub Pages  (auto-deployed on push)
-```
-
----
-
 
 ## Adding a Blog Post
 
