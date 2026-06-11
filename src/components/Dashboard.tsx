@@ -11,29 +11,29 @@ export default function Dashboard({ data }: { data: DashboardData }) {
   const bm = data.portfolio.benchmark
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-12">
       {/* Sample data banner */}
       {data.is_sample_data && (
-        <div className="rounded-lg border border-yellow-700 bg-yellow-900/20 px-4 py-3 text-sm text-yellow-300">
-          <strong>Demo mode</strong> — showing sample data. Edit{' '}
-          <code className="rounded bg-yellow-900/40 px-1">holdings.json</code>{' '}
+        <div className="card px-4 py-3 text-sm" style={{ color: 'var(--text-secondary)' }}>
+          <strong style={{ color: 'var(--text)' }}>Demo mode</strong> — showing sample data. Edit{' '}
+          <code className="rounded px-1" style={{ background: 'var(--surface2)' }}>holdings.json</code>{' '}
           and re-run the pipeline to see your real portfolio.
         </div>
       )}
 
       {/* Header */}
-      <div className="flex items-baseline justify-between">
-        <h1 className="text-2xl font-bold tracking-tight">Portfolio Dashboard</h1>
+      <div className="flex flex-wrap items-baseline justify-between gap-2">
+        <h1 className="font-serif-display text-3xl tracking-tight">Portfolio Dashboard</h1>
         <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
           Last updated: {data.last_updated}
         </span>
       </div>
 
-      {/* Top-line value cards */}
+      {/* Top-line stat row */}
       <TopLine portfolio={data.portfolio} />
 
       {/* Growth chart + Allocation side-by-side */}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-12 lg:grid-cols-3 lg:gap-10">
         <div className="lg:col-span-2">
           <GrowthChart data={data.growth_chart} benchmark={bm} />
         </div>

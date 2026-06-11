@@ -1,6 +1,10 @@
 import type { Metadata } from 'next'
+import { Inter, Source_Serif_4 } from 'next/font/google'
 import './globals.css'
 import Nav from '@/components/Nav'
+
+const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
+const serif = Source_Serif_4({ subsets: ['latin'], variable: '--font-serif' })
 
 export const metadata: Metadata = {
   title: "Kadyn's Fireplace",
@@ -9,10 +13,20 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${inter.variable} ${serif.variable}`}>
       <body>
         <Nav />
-        <main className="max-w-7xl mx-auto px-4 py-8">{children}</main>
+        <main className="fade-in mx-auto w-full max-w-[1140px] px-6 py-12">{children}</main>
+        <footer className="mt-24" style={{ borderTop: '1px solid var(--border)' }}>
+          <div className="mx-auto flex w-full max-w-[1140px] flex-wrap items-center justify-between gap-2 px-6 py-8">
+            <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
+              &copy; {new Date().getFullYear()} Kadyn&apos;s Fireplace
+            </p>
+            <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
+              Educational content — not financial advice.
+            </p>
+          </div>
+        </footer>
       </body>
     </html>
   )

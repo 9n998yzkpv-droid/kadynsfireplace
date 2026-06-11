@@ -15,11 +15,15 @@ export default async function BlogPost({ params }: { params: { slug: string } })
   }
 
   return (
-    <div className="max-w-2xl">
-      <Link href="/blog" className="text-sm mb-6 inline-block" style={{ color: 'var(--text-muted)' }}>
+    <div className="mx-auto max-w-[42rem]">
+      <Link
+        href="/blog"
+        className="mb-10 inline-block text-sm transition-colors hover:text-[var(--text)]"
+        style={{ color: 'var(--text-muted)' }}
+      >
         ← Back to Blog
       </Link>
-      <p className="text-xs mb-2" style={{ color: 'var(--text-muted)' }}>
+      <p className="label mb-3">
         {post.date} · {post.readingTime}
       </p>
       <article

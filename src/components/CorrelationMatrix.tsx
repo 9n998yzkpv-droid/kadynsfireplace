@@ -5,30 +5,30 @@ interface Props {
 }
 
 function cellColor(v: number): string {
-  // Blue (positive) to white to red (negative)
-  if (v >= 0.9) return '#1e3a8a'
-  if (v >= 0.7) return '#1d4ed8'
-  if (v >= 0.5) return '#2563eb'
-  if (v >= 0.3) return '#3b82f6'
-  if (v >= 0.1) return '#93c5fd'
-  if (v >= -0.1) return '#1e2d4a'
-  if (v >= -0.3) return '#fca5a5'
-  if (v >= -0.5) return '#ef4444'
-  if (v >= -0.7) return '#dc2626'
-  return '#7f1d1d'
+  // Navy (positive) through bone (neutral) to oxblood (negative)
+  if (v >= 0.9) return '#1e40af'
+  if (v >= 0.7) return '#3d5bc0'
+  if (v >= 0.5) return '#93a5de'
+  if (v >= 0.3) return '#c3cdee'
+  if (v >= 0.1) return '#e4e8f7'
+  if (v >= -0.1) return '#f2efe9'
+  if (v >= -0.3) return '#f3e0dc'
+  if (v >= -0.5) return '#e5b8b0'
+  if (v >= -0.7) return '#b0473c'
+  return '#991b1b'
 }
 
 function textColor(v: number): string {
-  return Math.abs(v) > 0.4 ? '#ffffff' : '#94a3b8'
+  return v >= 0.7 || v <= -0.7 ? '#ffffff' : '#1a1714'
 }
 
 export default function CorrelationMatrix({ matrix }: Props) {
   const tickers = Object.keys(matrix)
 
   return (
-    <div className="card">
-      <p className="label mb-1">Correlation Matrix</p>
-      <p className="text-xs mb-4" style={{ color: 'var(--text-muted)' }}>
+    <div>
+      <p className="label mb-2">Correlation Matrix</p>
+      <p className="mb-5 max-w-[42rem] text-sm" style={{ color: 'var(--text-muted)' }}>
         Pairwise Pearson correlation of daily returns. Blue = positive co-movement; Red = inverse.
         High correlation between holdings means less diversification benefit.
       </p>
@@ -36,9 +36,9 @@ export default function CorrelationMatrix({ matrix }: Props) {
         <table style={{ borderCollapse: 'separate', borderSpacing: 3 }}>
           <thead>
             <tr>
-              <th style={{ width: 60 }} />
+              <th style={{ width: 60, position: 'sticky', left: 0, background: 'var(--bg)' }} />
               {tickers.map((t) => (
-                <th key={t} style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 600, padding: '0 4px 4px', textAlign: 'center', width: 64 }}>
+                <th key={t} style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 500, letterSpacing: '0.05em', padding: '0 4px 4px', textAlign: 'center', width: 64 }}>
                   {t}
                 </th>
               ))}
@@ -47,7 +47,7 @@ export default function CorrelationMatrix({ matrix }: Props) {
           <tbody>
             {tickers.map((row) => (
               <tr key={row}>
-                <td style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-muted)', paddingRight: 8, textAlign: 'right', whiteSpace: 'nowrap' }}>
+                <td style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.05em', color: 'var(--text-muted)', paddingRight: 8, textAlign: 'right', whiteSpace: 'nowrap', position: 'sticky', left: 0, background: 'var(--bg)' }}>
                   {row}
                 </td>
                 {tickers.map((col) => {
@@ -57,14 +57,15 @@ export default function CorrelationMatrix({ matrix }: Props) {
                     <td
                       key={col}
                       style={{
-                        background: isDiag ? '#152a52' : cellColor(v),
-                        color: isDiag ? '#64748b' : textColor(v),
+                        background: isDiag ? 'var(--surface2)' : cellColor(v),
+                        color: isDiag ? 'var(--text-muted)' : textColor(v),
                         borderRadius: 4,
-                        padding: '6px 4px',
+                        padding: '7px 4px',
                         textAlign: 'center',
                         fontSize: 12,
-                        fontWeight: isDiag ? 400 : 600,
+                        fontWeight: isDiag ? 400 : 500,
                         width: 64,
+                        minWidth: 56,
                       }}
                     >
                       {isDiag ? '—' : v.toFixed(2)}

@@ -8,3 +8,4 @@ __pycache__/
 .python-version
 /tmp/fmp_cache/
 pipeline/__pycache__/
+tsconfig.tsbuildinfo

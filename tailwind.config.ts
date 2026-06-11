@@ -9,16 +9,14 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        navy: {
-          900: '#0a1628',
-          800: '#0e1f3d',
-          700: '#152a52',
-        },
-        accent: '#2563eb',
+        ink: '#1a1714',
+        bone: '#f7f5f0',
+        accent: '#1e40af',
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        mono: ['JetBrains Mono', 'monospace'],
+        sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
+        serif: ['var(--font-serif)', 'Georgia', 'serif'],
+        mono: ['ui-monospace', 'SF Mono', 'Menlo', 'monospace'],
       },
     },
   },

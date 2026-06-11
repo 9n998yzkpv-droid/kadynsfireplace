@@ -15,12 +15,20 @@ interface MetricDef {
 }
 
 function Metric({ label, value, unit = '', tooltip, positive }: MetricDef) {
-  const color = positive === undefined ? 'text-white' : positive ? 'positive' : 'negative'
+  const color = positive === undefined ? 'var(--text)' : positive ? 'var(--green)' : 'var(--red)'
   return (
-    <div className="card" style={{ minHeight: 90 }}>
-      <p className="label mb-2" data-tooltip={tooltip}>{label} ℹ</p>
-      <p className={`text-xl font-semibold ${color}`}>
-        {value}{unit && <span className="text-sm font-normal ml-1" style={{ color: 'var(--text-muted)' }}>{unit}</span>}
+    <div className="pt-3" style={{ borderTop: '1px solid var(--border-faint)' }}>
+      <p className="label mb-1.5" data-tooltip={tooltip}>
+        {label}
+        <span className="info-mark" aria-hidden="true">ℹ</span>
+      </p>
+      <p className="text-xl font-medium" style={{ color, letterSpacing: '-0.01em' }}>
+        {value}
+        {unit && (
+          <span className="ml-1 text-sm font-normal" style={{ color: 'var(--text-muted)' }}>
+            {unit}
+          </span>
+        )}
       </p>
     </div>
   )
@@ -117,8 +125,8 @@ export default function MetricsGrid({
 
   return (
     <div>
-      <h2 className="text-base font-semibold mb-3">Risk &amp; Return Metrics</h2>
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+      <p className="label mb-6">Risk &amp; Return Metrics</p>
+      <div className="grid grid-cols-2 gap-x-8 gap-y-6 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
         {metrics.map((m) => (
           <Metric key={m.label} {...m} />
         ))}
