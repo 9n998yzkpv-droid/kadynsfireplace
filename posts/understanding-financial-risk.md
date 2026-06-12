@@ -1,5 +1,5 @@
 ---
-title: "**Understanding Financial Risk**"
+title: "Understanding Financial Risk"
 date: "2026-06-11"
 excerpt: "Financial risk carries a psychological toll that varies from person to person, leading many potential investors to stay away from financial markets instead of t"
 ---
