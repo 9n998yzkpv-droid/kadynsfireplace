@@ -87,9 +87,14 @@ The **Build Claude Request** Code node holds the prompt — the persona (young i
 [Blog → Faceless Video](https://kadynsfireplace.app.n8n.cloud/workflow/1ryN0Arw5xC7YKDJ) is called automatically by Blog → LinkedIn on every new post:
 
 ```
-post → Claude writes hook-first script → quality gates → json2video renders
-(vertical 1080x1920, AI voiceover + bold captions) → poll → upload to YouTube as PRIVATE
+post → Claude writes narrator script → quality gates → json2video renders
+(Minecraft parkour gameplay background + AI narrator + bold captions, vertical 1080x1920)
+→ poll → upload to YouTube as PRIVATE
 ```
+
+**Format:** the proven faceless style — muted Minecraft parkour footage holds the eyes, the narrator holds the brain. A random clip from your pool is picked per scene.
+
+**Required one-time setup — parkour clips:** open the *Build Render Payload* node and add direct `.mp4` URLs (vertical 9:16) to the `CLIP_URLS` array. Easiest hosting: drop clips into this repo under `public/clips/` and use `https://<your-site>/clips/<file>.mp4`. Use your own recorded gameplay or no-copyright gameplay footage. The workflow refuses to render until at least one clip is configured.
 
 **Engagement enforcement** lives in the *Build Render Payload* Code node — scripts that don't meet the bar fail the run instead of becoming boring videos:
 - hook ≤ 14 words (no "In this video…" openers — the prompt bans them, the gate catches them)
