@@ -1,0 +1,191 @@
+{
+  "name": "Blog → LinkedIn",
+  "nodes": [
+    {
+      "id": "webhook-trigger",
+      "name": "Blog Published Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [0, 0],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "blog-published",
+        "authentication": "headerAuth",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "",
+          "name": "Blog Webhook Secret"
+        }
+      }
+    },
+    {
+      "id": "if-new-post",
+      "name": "Only New Posts",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [220, 0],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose"
+          },
+          "combinator": "and",
+          "conditions": [
+            {
+              "leftValue": "={{ $json.body.event }}",
+              "rightValue": "post.published",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "build-claude-request",
+      "name": "Build Claude Request",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [440, 0],
+      "parameters": {
+        "jsCode": "const post = $json.body;\n\nconst system = `You write LinkedIn posts for Kadyn, a young investor who runs Kadyn's Fireplace, a finance education site built around one idea: the lack of equity in America sets entire families back for decades, and people his age keep sitting out of markets while the gap compounds.\n\nVoice: direct, personal, a little fed up with how many people his age ignore investing. Plain English — no corporate tone, no buzzwords, no emoji spam, no hashtag walls (2-3 niche hashtags max, at the very end). The post should read like a person talking, not a brand.`;\n\nconst user = `Write a LinkedIn post promoting my new blog article.\n\nTitle: ${post.title}\nExcerpt: ${post.excerpt || '(none)'}\nArticle URL: ${post.url}\n\nFull article content (markdown):\n${post.content}\n\nRequirements:\n- Open with a scroll-stopping first line. LinkedIn truncates after ~2 lines, so the hook matters most.\n- Share one genuinely useful piece or insight FROM the article — give real value, don't just tease.\n- End with a line inviting people to read the full article, followed by the URL on its own line.\n- 900-1300 characters total. Short paragraphs with line breaks between them.\n- Return ONLY the post text, nothing else — no preamble, no quotes around it.`;\n\nreturn [{\n  json: {\n    claudeRequest: {\n      model: 'claude-opus-4-8',\n      max_tokens: 4000,\n      thinking: { type: 'adaptive' },\n      system,\n      messages: [{ role: 'user', content: user }],\n    },\n  },\n}];"
+      }
+    },
+    {
+      "id": "claude-draft",
+      "name": "Draft with Claude",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [660, 0],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "anthropic-version",
+              "value": "2023-06-01"
+            },
+            {
+              "name": "content-type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.claudeRequest) }}",
+        "options": {
+          "timeout": 180000
+        }
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "",
+          "name": "Anthropic API Key"
+        }
+      }
+    },
+    {
+      "id": "extract-text",
+      "name": "Extract Post Text",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [880, 0],
+      "parameters": {
+        "jsCode": "// The Messages API returns a content array that may include thinking blocks;\n// only the text blocks are the actual post.\nconst blocks = $json.content || [];\nconst text = blocks\n  .filter((b) => b.type === 'text')\n  .map((b) => b.text)\n  .join('\\n')\n  .trim();\n\nif (!text) {\n  throw new Error('Claude returned no text — check the Draft with Claude node output.');\n}\n\nconst post = $('Blog Published Webhook').first().json.body;\n\nreturn [{\n  json: {\n    linkedinPost: text,\n    title: post.title,\n    url: post.url,\n    slug: post.slug,\n  },\n}];"
+      }
+    },
+    {
+      "id": "linkedin-post",
+      "name": "Post to LinkedIn",
+      "type": "n8n-nodes-base.linkedIn",
+      "typeVersion": 1,
+      "position": [1100, 0],
+      "parameters": {
+        "postAs": "person",
+        "person": "",
+        "text": "={{ $json.linkedinPost }}",
+        "shareMediaCategory": "NONE",
+        "additionalFields": {}
+      },
+      "credentials": {
+        "linkedInOAuth2Api": {
+          "id": "",
+          "name": "LinkedIn account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Blog Published Webhook": {
+      "main": [
+        [
+          {
+            "node": "Only New Posts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Only New Posts": {
+      "main": [
+        [
+          {
+            "node": "Build Claude Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Claude Request": {
+      "main": [
+        [
+          {
+            "node": "Draft with Claude",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Draft with Claude": {
+      "main": [
+        [
+          {
+            "node": "Extract Post Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Post Text": {
+      "main": [
+        [
+          {
+            "node": "Post to LinkedIn",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}

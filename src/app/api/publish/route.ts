@@ -7,6 +7,28 @@ const POSTS_DIR = path.join(process.cwd(), 'posts')
 const PASSWORD = process.env.PUBLISHER_PASSWORD ?? 'fireside2024'
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN ?? ''
 const GITHUB_REPO = process.env.GITHUB_REPO ?? '9n998yzkpv-droid/kadynsfireplace'
+const N8N_WEBHOOK_URL = process.env.N8N_WEBHOOK_URL ?? ''
+const N8N_WEBHOOK_SECRET = process.env.N8N_WEBHOOK_SECRET ?? ''
+const SITE_URL = process.env.SITE_URL ?? ''
+
+// Hands the post off to n8n for distribution (LinkedIn etc.).
+// Must never block or fail the publish itself.
+async function notifyN8n(payload: Record<string, unknown>) {
+  if (!N8N_WEBHOOK_URL) return
+  try {
+    await fetch(N8N_WEBHOOK_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(N8N_WEBHOOK_SECRET ? { 'x-webhook-secret': N8N_WEBHOOK_SECRET } : {}),
+      },
+      body: JSON.stringify(payload),
+      signal: AbortSignal.timeout(5000),
+    })
+  } catch {
+    // n8n being down should not break publishing
+  }
+}
 
 function slugify(title: string): string {
   return title
@@ -138,6 +160,17 @@ export async function POST(req: NextRequest) {
       const errData = await ghRes.text()
       return NextResponse.json({ error: `GitHub API error: ${ghRes.status} ${errData}` }, { status: 502 })
     }
+
+    const origin = SITE_URL || new URL(req.url).origin
+    await notifyN8n({
+      event: existingSlug ? 'post.updated' : 'post.published',
+      slug,
+      title,
+      date: date || new Date().toISOString().slice(0, 10),
+      excerpt: excerpt || '',
+      content,
+      url: `${origin}/blog/${slug}`,
+    })
 
     return NextResponse.json({ slug })
   } catch (err: unknown) {
