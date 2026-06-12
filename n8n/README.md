@@ -82,6 +82,26 @@ Check the execution log in n8n — you should see Claude's draft in **Extract Po
 
 The **Build Claude Request** Code node holds the prompt — the persona (young investor, fed up with people his age sitting out of markets, plain English, no corporate tone) and the format rules (hook first line, one real insight from the article, link at the end, 900–1300 chars). Edit that node to tune the voice. The model is `claude-opus-4-8` with adaptive thinking.
 
-## Phase 2: faceless TikTok/YouTube pipeline
+## Phase 2: faceless video pipeline (built)
 
-The same webhook can fan out to a second branch later: Claude writes a 60-second script from the post → TTS (e.g. ElevenLabs node) → video assembly (e.g. ffmpeg on the n8n host or a service like Creatomate) → YouTube/TikTok upload nodes. Per the plan, LinkedIn comes first — build that habit, then add this branch to the same workflow.
+[Blog → Faceless Video](https://kadynsfireplace.app.n8n.cloud/workflow/1ryN0Arw5xC7YKDJ) is called automatically by Blog → LinkedIn on every new post:
+
+```
+post → Claude writes hook-first script → quality gates → json2video renders
+(vertical 1080x1920, AI voiceover + bold captions) → poll → upload to YouTube as PRIVATE
+```
+
+**Engagement enforcement** lives in the *Build Render Payload* Code node — scripts that don't meet the bar fail the run instead of becoming boring videos:
+- hook ≤ 14 words (no "In this video…" openers — the prompt bans them, the gate catches them)
+- 90–175 total voiceover words (≈ 40–65 seconds)
+- 3–7 scenes, one idea each, ≤ 30 spoken words per scene
+- on-screen caption ≤ 9 words per scene
+- YouTube title ≤ 95 chars
+
+Both paths are tested: a good script builds the full render payload; a weak script errors with the exact reasons.
+
+**Extra credentials needed** (beyond the LinkedIn workflow's): `json2video API Key` (Header Auth, name `x-api-key`, key from [json2video.com](https://json2video.com) — free tier available) and `YouTube account` (OAuth2 via a Google Cloud project with YouTube Data API v3 enabled).
+
+**Review loop:** uploads land **private** on YouTube. Watch the first few, tweak the prompt/voice if needed (voice = `VOICE` constant in Build Render Payload), then flip `privacyStatus` to `public` in the Upload node once you trust the output. Vertical videos under 60s are auto-treated as Shorts.
+
+**TikTok:** no official n8n node (TikTok's posting API requires an approved app). Easiest paths: cross-post from YouTube with a tool like repurpose.io or Blotato, or grab the rendered MP4 from json2video and upload manually.
