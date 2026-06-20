@@ -28,6 +28,12 @@ jobs:
       - name: Run portfolio pipeline
         run: python pipeline/run.py
 
+      # When the projects portion launches (PROJECTS_ENABLED=true in
+      # src/lib/flags.ts), re-enable the EF dataset refresh:
+      #   - name: Bake efficient-frontier dataset
+      #     run: python pipeline/ef_universe.py
+      # ...and add public/ef-data.json to the `git add` below.
+
       - name: Commit and push if changed
         run: |
           git config user.name "github-actions[bot]"

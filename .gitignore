@@ -9,3 +9,7 @@ __pycache__/
 /tmp/fmp_cache/
 pipeline/__pycache__/
 tsconfig.tsbuildinfo
+
+# EF dataset for the (currently hidden) projects portion. Keep it out of the
+# repo until PROJECTS_ENABLED=true so the unreleased tool's data isn't public.
+public/ef-data.json

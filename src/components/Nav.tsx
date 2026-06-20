@@ -2,6 +2,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import { PUBLISHER_ENABLED } from '@/lib/flags'
 
 export default function Nav() {
   const path = usePathname()
@@ -43,7 +44,9 @@ export default function Nav() {
         <nav className="flex gap-4 text-[13px] font-medium sm:gap-8 sm:text-sm">
           <Link href="/dashboard" className="hover:!text-[var(--text)]" style={linkStyle(isProjects)}>Portfolio</Link>
           <Link href="/blog" className="hover:!text-[var(--text)]" style={linkStyle(path.startsWith('/blog'))}>Blog</Link>
-          <Link href="/publisher" className="hover:!text-[var(--text)]" style={linkStyle(path.startsWith('/publisher'))}>Publisher</Link>
+          {PUBLISHER_ENABLED && (
+            <Link href="/publisher" className="hover:!text-[var(--text)]" style={linkStyle(path.startsWith('/publisher'))}>Publisher</Link>
+          )}
         </nav>
       </div>
     </header>

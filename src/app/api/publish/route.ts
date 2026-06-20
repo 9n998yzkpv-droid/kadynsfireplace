@@ -1,10 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server'
+import crypto from 'crypto'
 import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
+import { PUBLISHER_ENABLED } from '@/lib/flags'
 
 const POSTS_DIR = path.join(process.cwd(), 'posts')
-const PASSWORD = process.env.PUBLISHER_PASSWORD ?? 'fireside2024'
+// No hardcoded fallback — if PUBLISHER_PASSWORD isn't set in the environment,
+// the endpoint fails closed (checkPassword returns 503). Never ship a default.
+const PASSWORD = process.env.PUBLISHER_PASSWORD ?? ''
+
+// 404s the entire API surface (read/write/delete) when the publisher is off,
+// so disabling isn't just cosmetic — there's nothing to POST/DELETE against.
+function disabledGuard() {
+  return PUBLISHER_ENABLED ? null : new NextResponse(null, { status: 404 })
+}
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN ?? ''
 const GITHUB_REPO = process.env.GITHUB_REPO ?? '9n998yzkpv-droid/kadynsfireplace'
 const N8N_WEBHOOK_URL = process.env.N8N_WEBHOOK_URL ?? ''
@@ -37,8 +47,19 @@ function slugify(title: string): string {
     .replace(/^-|-$/g, '')
 }
 
+// Constant-time comparison (via fixed-length digests) so the secret can't be
+// recovered by timing the response.
+function safeEqual(a: string, b: string): boolean {
+  const ha = crypto.createHash('sha256').update(a).digest()
+  const hb = crypto.createHash('sha256').update(b).digest()
+  return crypto.timingSafeEqual(ha, hb)
+}
+
 function checkPassword(password: string) {
-  if (password !== PASSWORD) {
+  if (!PASSWORD) {
+    return NextResponse.json({ error: 'Publishing is not configured.' }, { status: 503 })
+  }
+  if (!safeEqual(password, PASSWORD)) {
     return NextResponse.json({ error: 'Wrong password' }, { status: 401 })
   }
   return null
@@ -65,9 +86,13 @@ async function getFileSha(filePath: string): Promise<string | null> {
 }
 
 export async function GET(req: NextRequest) {
+  const off = disabledGuard()
+  if (off) return off
   try {
+    // Password via header (not the query string) so it never lands in access
+    // logs or browser history.
+    const password = req.headers.get('x-publisher-password') ?? ''
     const { searchParams } = new URL(req.url)
-    const password = searchParams.get('password') ?? ''
     const slug = searchParams.get('slug')
 
     const authError = checkPassword(password)
@@ -118,6 +143,8 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
+  const off = disabledGuard()
+  if (off) return off
   try {
     const body = await req.json()
     const { password, title, date, excerpt, content, existingSlug } = body
@@ -180,6 +207,8 @@ export async function POST(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
+  const off = disabledGuard()
+  if (off) return off
   try {
     const body = await req.json()
     const { password, slug } = body

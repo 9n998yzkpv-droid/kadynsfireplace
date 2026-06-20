@@ -92,7 +92,7 @@ export default function Publisher() {
   const fetchPosts = useCallback(async () => {
     setLoading(true)
     try {
-      const res = await fetch(`/api/publish?password=${encodeURIComponent(password)}`)
+      const res = await fetch('/api/publish', { headers: { 'x-publisher-password': password } })
       if (res.status === 401) {
         setAuthed(false)
         setPassword('')
@@ -134,7 +134,9 @@ export default function Publisher() {
     setError('')
     setSuccess('')
     try {
-      const res = await fetch(`/api/publish?password=${encodeURIComponent(password)}&slug=${slug}`)
+      const res = await fetch(`/api/publish?slug=${encodeURIComponent(slug)}`, {
+        headers: { 'x-publisher-password': password },
+      })
       if (!res.ok) {
         setError('Failed to load post')
         return

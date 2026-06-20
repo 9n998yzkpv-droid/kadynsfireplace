@@ -1,21 +1,22 @@
 import Link from 'next/link'
 import { getAllPosts } from '@/lib/blog'
+import { PROJECTS_ENABLED } from '@/lib/flags'
 import data from '../../public/data.json'
 
 const projects = [
   {
     title: 'EF Dashboard',
     description:
-      'Efficient Frontier visualization that maps the risk-return tradeoff across portfolio combinations.',
-    tags: ['Python', 'Optimization', 'Data Viz'],
+      'Efficient Frontier visualization that maps the risk-return tradeoff across portfolio combinations — optimized live in your browser.',
+    tags: ['In-browser', 'Optimization', 'Data Viz'],
     href: '/projects/ef-dashboard',
     status: 'Live',
   },
   {
     title: 'Arb Scanner',
     description:
-      'Scanner that monitors price discrepancies across markets in real time, showing how inefficiencies get corrected.',
-    tags: ['Python', 'Real-time Data', 'Market Microstructure'],
+      'Scans live Polymarket prediction markets for mispricings and mutually-exclusive arbitrage, showing how inefficiencies get corrected.',
+    tags: ['In-browser', 'Real-time Data', 'Market Microstructure'],
     href: '/projects/arb-scanner',
     status: 'Live',
   },
@@ -166,28 +167,30 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* More projects — compact */}
-      <section className="pt-10" style={{ borderTop: '1px solid var(--border)' }}>
-        <p className="label mb-10">More projects</p>
-        <div className="grid grid-cols-1 gap-x-10 gap-y-10 md:grid-cols-2">
-          {projects.map((p) => (
-            <Link key={p.title} href={p.href} className="group block">
-              <div className="mb-2 flex items-center justify-between gap-3">
-                <h3 className="text-[17px] font-semibold tracking-tight transition-colors group-hover:text-[var(--accent)]">
-                  {p.title}
-                </h3>
-                <span className="pill">{p.status}</span>
-              </div>
-              <p className="mb-3 text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-                {p.description}
-              </p>
-              <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
-                {p.tags.join(' · ')}
-              </p>
-            </Link>
-          ))}
-        </div>
-      </section>
+      {/* More projects — compact (hidden until projects are released) */}
+      {PROJECTS_ENABLED && (
+        <section className="pt-10" style={{ borderTop: '1px solid var(--border)' }}>
+          <p className="label mb-10">More projects</p>
+          <div className="grid grid-cols-1 gap-x-10 gap-y-10 md:grid-cols-2">
+            {projects.map((p) => (
+              <Link key={p.title} href={p.href} className="group block">
+                <div className="mb-2 flex items-center justify-between gap-3">
+                  <h3 className="text-[17px] font-semibold tracking-tight transition-colors group-hover:text-[var(--accent)]">
+                    {p.title}
+                  </h3>
+                  <span className="pill">{p.status}</span>
+                </div>
+                <p className="mb-3 text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                  {p.description}
+                </p>
+                <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
+                  {p.tags.join(' · ')}
+                </p>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   )
 }

@@ -6,9 +6,26 @@ import Nav from '@/components/Nav'
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 const serif = Source_Serif_4({ subsets: ['latin'], variable: '--font-serif' })
 
+const SITE_DESCRIPTION = 'Finance education, portfolio analytics, and equity for everyone.'
+
 export const metadata: Metadata = {
-  title: "Kadyn's Fireplace",
-  description: 'Finance education, portfolio analytics, and equity for everyone.',
+  metadataBase: process.env.SITE_URL ? new URL(process.env.SITE_URL) : undefined,
+  title: {
+    default: "Kadyn's Fireplace",
+    template: "%s · Kadyn's Fireplace",
+  },
+  description: SITE_DESCRIPTION,
+  openGraph: {
+    type: 'website',
+    siteName: "Kadyn's Fireplace",
+    title: "Kadyn's Fireplace",
+    description: SITE_DESCRIPTION,
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Kadyn's Fireplace",
+    description: SITE_DESCRIPTION,
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

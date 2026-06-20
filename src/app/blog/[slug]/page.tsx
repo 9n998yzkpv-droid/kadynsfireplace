@@ -1,9 +1,30 @@
+import type { Metadata } from 'next'
 import { getAllPosts, getPost } from '@/lib/blog'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 export async function generateStaticParams() {
   return getAllPosts().map((p) => ({ slug: p.slug }))
+}
+
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  try {
+    const post = await getPost(params.slug)
+    const description = post.excerpt || undefined
+    return {
+      title: post.title,
+      description,
+      openGraph: {
+        type: 'article',
+        title: post.title,
+        description,
+        ...(post.date ? { publishedTime: post.date } : {}),
+      },
+      twitter: { card: 'summary_large_image', title: post.title, description },
+    }
+  } catch {
+    return {}
+  }
 }
 
 export default async function BlogPost({ params }: { params: { slug: string } }) {
