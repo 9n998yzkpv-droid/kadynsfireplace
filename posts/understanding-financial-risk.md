@@ -1,7 +1,7 @@
 ---
 title: "Understanding Financial Risk"
 date: "2026-06-11"
-excerpt: "Financial risk carries a psychological toll that varies from person to person, leading many potential investors to stay away from financial markets instead of t"
+excerpt: "Explaining Financial Risk, Examples of Risk, and Different Subsets of Risk "
 ---
 
 Financial risk carries a psychological toll that varies from person to person, leading many potential investors to stay away from financial markets instead of taking precautionary actions that can minimize risk while still generating stable returns.
