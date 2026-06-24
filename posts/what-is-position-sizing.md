@@ -4,7 +4,7 @@ date: "2026-06-24"
 excerpt: "Explaining Position Sizing and Use Cases "
 ---
 
-**_DWhat is Position Sizing ?_**
+**_What is Position Sizing ?_**
 
 **Intro**
 
