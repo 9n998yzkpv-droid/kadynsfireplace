@@ -44,6 +44,7 @@ export default function Nav() {
         <nav className="flex gap-4 text-[13px] font-medium sm:gap-8 sm:text-sm">
           <Link href="/dashboard" className="hover:!text-[var(--text)]" style={linkStyle(isProjects)}>Portfolio</Link>
           <Link href="/blog" className="hover:!text-[var(--text)]" style={linkStyle(path.startsWith('/blog'))}>Blog</Link>
+          <Link href="/about" className="hover:!text-[var(--text)]" style={linkStyle(path.startsWith('/about'))}>About</Link>
           {PUBLISHER_ENABLED && (
             <Link href="/publisher" className="hover:!text-[var(--text)]" style={linkStyle(path.startsWith('/publisher'))}>Publisher</Link>
           )}
