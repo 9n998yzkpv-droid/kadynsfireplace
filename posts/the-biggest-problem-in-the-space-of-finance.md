@@ -8,17 +8,17 @@ excerpt: "This blog is a little different from my other ones, less finance orien
 
 I believe that the greatest problem in the space of finance and personal investing, is simply put: laziness.
 
-Everyday, as a 17 year old teenager, someone is asking me about day-trading or trying to get some type of information out of me that would give them some type of edge in their bullshit systemic trading strategy.
+Everyday, as a 17 year old teenager, someone is asking me about day-trading, or trying to get some type of information out of me that would give them some type of edge in their BS systemic trading strategy.
 
 I'm gonna just say this flat out and plain, people don't want to think about the long term. People are willing to take enormous short term risks in the pursuit of making a lot of money, and the truth is you’re not going to get rich doing this.
 
 **Learning Is hard**
 
-One of the things that draws people away from making real progress and seeing their money actually start working for them, is the simple fact that: learning is hard.
+One of the things that draws people away from making real progress and seeing their money actually start working for them is the simple fact that learning is hard.
 
 Finance gets overwhelming extremely quickly, and it can take years for you to even understand what everything is called.
 
-I’ve been interested in this space since my father was teaching about interest rates and index funds as an extremely young child and I am blessed for that opportunity.
+I’ve been interested in this space since my father was teaching me about interest rates and index funds as an extremely young child, and I am blessed for that opportunity to have been interested for so long.
 
 But the thing is, the statistics, economics, quantitative finance strategies, hasn’t made anything easier.
 
