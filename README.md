@@ -19,6 +19,33 @@ Drop a Markdown file in `posts/`:
 posts/my-new-post.md
 ```
 
+## Newsletter (email subscriptions)
+
+Visitors can subscribe on `/blog` (and at the bottom of every post). Emails are
+stored in a **Resend Audience** — that's the subscriber database. View or export
+the list anytime at resend.com → Audiences (CSV export). Unsubscribes are
+handled by Resend automatically, so the list stays CAN-SPAM compliant.
+
+When a **new** post is published through the publisher, it is automatically
+emailed to every subscriber (edits to existing posts do not re-send).
+
+**One-time setup:**
+
+1. Create a free account at [resend.com](https://resend.com) (free tier: 1,000
+   contacts, 3,000 emails/month).
+2. Verify your sending domain (Resend → Domains → add DNS records). Sending
+   requires a domain you control — a gmail.com address won't work as a sender.
+3. Create an Audience (Resend → Audiences) and copy its ID.
+4. Create an API key (Resend → API Keys).
+5. Set these env vars in the Vercel project (and `.env.local` for local dev):
+   - `RESEND_API_KEY`
+   - `RESEND_AUDIENCE_ID`
+   - `NEWSLETTER_FROM` — e.g. `Kadyn <posts@yourdomain.com>` (must use the
+     verified domain)
+6. Flip `NEWSLETTER_ENABLED` to `true` in `src/lib/flags.ts` and deploy.
+
+Until the flag is on, the form is hidden and `/api/subscribe` returns 404.
+
 ## Metrics Reference
 
 All metrics computed in `pipeline/metrics.py` with inline formula comments.

@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { getAllPosts } from '@/lib/blog'
+import SubscribeForm from '@/components/SubscribeForm'
 
 export default function BlogIndex() {
   const posts = getAllPosts()
@@ -29,6 +30,7 @@ export default function BlogIndex() {
           </Link>
         ))}
       </div>
+      <SubscribeForm />
     </div>
   )
 }

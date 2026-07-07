@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { getAllPosts, getPost } from '@/lib/blog'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import SubscribeForm from '@/components/SubscribeForm'
 
 export async function generateStaticParams() {
   return getAllPosts().map((p) => ({ slug: p.slug }))
@@ -51,6 +52,7 @@ export default async function BlogPost({ params }: { params: { slug: string } })
         className="prose"
         dangerouslySetInnerHTML={{ __html: post.contentHtml }}
       />
+      <SubscribeForm />
     </div>
   )
 }

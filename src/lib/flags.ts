@@ -17,3 +17,15 @@ export const PROJECTS_ENABLED: boolean = false
 // and compared in constant time. You MUST set a strong PUBLISHER_PASSWORD in the
 // deploy environment, or the endpoint returns 503.
 export const PUBLISHER_ENABLED: boolean = true
+
+// Flip NEWSLETTER_ENABLED to true once Resend is configured. While false:
+//   - the subscribe form is hidden everywhere it's rendered
+//   - the /api/subscribe endpoint returns 404
+//   - publishing a post does NOT attempt an email broadcast
+// Required env vars in the deploy environment (see README "Newsletter"):
+//   RESEND_API_KEY      — API key from resend.com
+//   RESEND_AUDIENCE_ID  — the Audience that stores subscriber emails
+//   NEWSLETTER_FROM     — verified sender, e.g. 'Kadyn <posts@yourdomain.com>'
+// If the flag is on but env vars are missing, subscribe fails closed with 503
+// and broadcasts are skipped — nothing breaks, but nothing sends either.
+export const NEWSLETTER_ENABLED: boolean = true

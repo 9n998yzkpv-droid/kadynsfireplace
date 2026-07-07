@@ -3,7 +3,8 @@ import crypto from 'crypto'
 import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
-import { PUBLISHER_ENABLED } from '@/lib/flags'
+import { PUBLISHER_ENABLED, NEWSLETTER_ENABLED } from '@/lib/flags'
+import { sendPostBroadcast } from '@/lib/newsletter'
 
 const POSTS_DIR = path.join(process.cwd(), 'posts')
 // No hardcoded fallback — if PUBLISHER_PASSWORD isn't set in the environment,
@@ -189,6 +190,22 @@ export async function POST(req: NextRequest) {
     }
 
     const origin = SITE_URL || new URL(req.url).origin
+
+    // Email subscribers on first publish only — editing a post must not
+    // re-send it. Like notifyN8n, a failed send never fails the publish.
+    if (NEWSLETTER_ENABLED && !existingSlug) {
+      try {
+        await sendPostBroadcast({
+          title,
+          excerpt: excerpt || '',
+          markdown: content,
+          url: `${origin}/blog/${slug}`,
+        })
+      } catch (err) {
+        console.error('Newsletter broadcast failed:', err)
+      }
+    }
+
     await notifyN8n({
       event: existingSlug ? 'post.updated' : 'post.published',
       slug,
