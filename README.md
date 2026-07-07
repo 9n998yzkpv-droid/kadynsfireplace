@@ -21,10 +21,13 @@ posts/my-new-post.md
 
 ## Newsletter (email subscriptions)
 
-Visitors can subscribe on `/blog` (and at the bottom of every post). Emails are
-stored in a **Resend Audience** — that's the subscriber database. View or export
-the list anytime at resend.com → Audiences (CSV export). Unsubscribes are
-handled by Resend automatically, so the list stays CAN-SPAM compliant.
+Visitors can subscribe on `/blog` (and at the bottom of every post). Signup is
+**double opt-in**: submitting the form sends a confirmation email with a signed
+link (HMAC, 3-day expiry — stateless, nothing stored for pending signups); only
+clicking it adds the address to the **Resend Audience** — that's the subscriber
+database. View or export the list anytime at resend.com → Audiences (CSV
+export). Unsubscribes are handled by Resend automatically, so the list stays
+CAN-SPAM compliant, and every stored address has documented consent.
 
 When a **new** post is published through the publisher, it is automatically
 emailed to every subscriber (edits to existing posts do not re-send).
@@ -42,6 +45,8 @@ emailed to every subscriber (edits to existing posts do not re-send).
    - `RESEND_AUDIENCE_ID`
    - `NEWSLETTER_FROM` — e.g. `Kadyn <posts@yourdomain.com>` (must use the
      verified domain)
+   - `NEWSLETTER_SECRET` — random string (e.g. `openssl rand -hex 32`) that
+     signs confirmation links; falls back to `RESEND_API_KEY` if unset
 6. Flip `NEWSLETTER_ENABLED` to `true` in `src/lib/flags.ts` and deploy.
 
 Until the flag is on, the form is hidden and `/api/subscribe` returns 404.

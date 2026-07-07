@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { NEWSLETTER_ENABLED } from '@/lib/flags'
-import { addSubscriber, newsletterConfigured } from '@/lib/newsletter'
+import { createConfirmToken, newsletterConfigured, sendConfirmationEmail } from '@/lib/newsletter'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
+const SITE_URL = process.env.SITE_URL ?? ''
 
 export async function POST(req: NextRequest) {
   // Same convention as /api/publish: flag off means the endpoint doesn't exist.
@@ -26,7 +27,11 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    await addSubscriber(email)
+    // Double opt-in: nothing is stored yet. The contact is only added when
+    // the signed link in the confirmation email is clicked.
+    const origin = SITE_URL || new URL(req.url).origin
+    const confirmUrl = `${origin}/api/subscribe/confirm?token=${createConfirmToken(email)}`
+    await sendConfirmationEmail(email, confirmUrl)
     return NextResponse.json({ ok: true })
   } catch {
     // Never surface Resend error details to the public form.

@@ -44,7 +44,8 @@ export default function SubscribeForm() {
       </p>
       {status === 'success' ? (
         <p className="text-[15px] font-medium" style={{ color: 'var(--green)' }}>
-          You&apos;re in — new posts will land in your inbox.
+          Almost there — we sent you a confirmation link. If it&apos;s not in your inbox, check
+          Spam or Promotions (and drag it to Primary so new posts notify you).
         </p>
       ) : (
         <>
