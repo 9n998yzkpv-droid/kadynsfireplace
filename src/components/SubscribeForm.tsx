@@ -3,7 +3,13 @@
 import { useState } from 'react'
 import { NEWSLETTER_ENABLED } from '@/lib/flags'
 
-export default function SubscribeForm() {
+export default function SubscribeForm({
+  className = 'mt-14',
+  showHeader = true,
+}: {
+  className?: string
+  showHeader?: boolean
+}) {
   const [email, setEmail] = useState('')
   const [company, setCompany] = useState('') // honeypot — hidden from humans
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
@@ -34,14 +40,18 @@ export default function SubscribeForm() {
 
   return (
     <div
-      className="mt-14 rounded-[10px] p-6"
+      className={`rounded-[10px] p-6 ${className}`}
       style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}
     >
-      <h3 className="mb-1 text-lg font-semibold tracking-tight">Get new posts in your inbox</h3>
-      <p className="mb-4 text-[15px] leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-        Plain-English finance writing, emailed when a new post goes live. Free, and you can
-        unsubscribe anytime.
-      </p>
+      {showHeader && (
+        <>
+          <h3 className="mb-1 text-lg font-semibold tracking-tight">Get new posts in your inbox</h3>
+          <p className="mb-4 text-[15px] leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+            Plain-English finance writing, emailed when a new post goes live. Free, and you can
+            unsubscribe anytime.
+          </p>
+        </>
+      )}
       {status === 'success' ? (
         <p className="text-[15px] font-medium" style={{ color: 'var(--green)' }}>
           Almost there — we sent you a confirmation link. If it&apos;s not in your inbox, check

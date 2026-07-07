@@ -7,9 +7,10 @@ export default function BlogIndex() {
   return (
     <div className="mx-auto max-w-[42rem]">
       <h1 className="font-serif-display mb-3 text-4xl tracking-tight">Finance Blog</h1>
-      <p className="mb-12 text-[17px] leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+      <p className="mb-8 text-[17px] leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
         Plain-English explainers on portfolio math, risk metrics, and how to actually read them.
       </p>
+      <SubscribeForm className="mb-12 mt-0" />
       <div>
         {posts.map((p) => (
           <Link
@@ -30,7 +31,6 @@ export default function BlogIndex() {
           </Link>
         ))}
       </div>
-      <SubscribeForm />
     </div>
   )
 }

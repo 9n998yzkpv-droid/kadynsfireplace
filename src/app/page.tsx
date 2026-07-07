@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { getAllPosts } from '@/lib/blog'
-import { PROJECTS_ENABLED } from '@/lib/flags'
+import { PROJECTS_ENABLED, NEWSLETTER_ENABLED } from '@/lib/flags'
+import SubscribeForm from '@/components/SubscribeForm'
 import data from '../../public/data.json'
 
 const projects = [
@@ -166,6 +167,23 @@ export default function HomePage() {
           ))}
         </div>
       </section>
+
+      {/* Newsletter — the site's main call to action */}
+      {NEWSLETTER_ENABLED && (
+        <section className="mb-20 pt-10" style={{ borderTop: '1px solid var(--border)' }}>
+          <div className="mx-auto max-w-[42rem]">
+            <p className="label mb-6">Newsletter</p>
+            <h2 className="font-serif-display mb-4 text-2xl tracking-tight sm:text-3xl">
+              Never miss a post.
+            </h2>
+            <p className="mb-6 text-[15px] leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+              Every new post, delivered straight to your inbox the moment it goes live. Free,
+              no spam, unsubscribe anytime.
+            </p>
+            <SubscribeForm className="mt-0" showHeader={false} />
+          </div>
+        </section>
+      )}
 
       {/* More projects — compact (hidden until projects are released) */}
       {PROJECTS_ENABLED && (
