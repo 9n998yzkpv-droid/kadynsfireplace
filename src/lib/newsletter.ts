@@ -123,6 +123,44 @@ export async function sendConfirmationEmail(email: string, confirmUrl: string): 
   }
 }
 
+// Sends a member their answered "Be Heard" question. Transactional (goes to
+// one member who explicitly asked), so no unsubscribe footer is required.
+export async function sendAnswerEmail(params: {
+  to: string
+  memberName: string
+  question: string
+  answer: string
+  targetLabel: string
+}): Promise<void> {
+  if (!RESEND_API_KEY || !NEWSLETTER_FROM) {
+    throw new Error('Email sending is not configured')
+  }
+  const emailHtml = `
+<div style="background:#f7f5f0;padding:24px 12px;">
+  <div style="max-width:600px;margin:0 auto;background:#ffffff;border:1px solid #e6e1d6;border-radius:10px;padding:32px;font-family:Georgia,serif;color:#1a1714;font-size:16px;line-height:1.65;">
+    <h1 style="margin:0 0 12px;font-size:24px;line-height:1.25;">Kadyn answered your question</h1>
+    <p style="margin:0 0 6px;color:#7c766b;font-size:12px;font-family:system-ui,sans-serif;letter-spacing:0.1em;text-transform:uppercase;">You asked · ${escapeHtml(params.targetLabel)}</p>
+    <blockquote style="margin:0 0 20px;padding-left:16px;border-left:2px solid #e6e1d6;color:#5a544b;font-style:italic;">${escapeHtml(params.question)}</blockquote>
+    <p style="margin:0 0 6px;color:#7c766b;font-size:12px;font-family:system-ui,sans-serif;letter-spacing:0.1em;text-transform:uppercase;">The answer</p>
+    <p style="margin:0 0 24px;white-space:pre-wrap;">${escapeHtml(params.answer)}</p>
+    <p style="margin:0;color:#7c766b;font-size:13px;">Thanks for being a member, ${escapeHtml(params.memberName)}. Reply-worthy follow-up? Ask again any time from the Be Heard page.</p>
+  </div>
+</div>`
+  const res = await resendApi('/emails', {
+    method: 'POST',
+    body: JSON.stringify({
+      from: NEWSLETTER_FROM,
+      to: [params.to],
+      subject: 'Your question was answered — Kadyn’s Fireplace',
+      html: emailHtml,
+    }),
+  })
+  if (!res.ok) {
+    const text = await res.text()
+    throw new Error(`Resend email API error ${res.status}: ${text}`)
+  }
+}
+
 function escapeHtml(s: string): string {
   return s
     .replace(/&/g, '&amp;')

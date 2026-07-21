@@ -1,6 +1,8 @@
 'use client'
 
 import { useState, useEffect, useCallback, useRef } from 'react'
+import PortfolioAdmin from '@/components/publisher/PortfolioAdmin'
+import QuestionsAdmin from '@/components/publisher/QuestionsAdmin'
 
 interface PostMeta {
   slug: string
@@ -11,8 +13,10 @@ interface PostMeta {
 }
 
 type View = 'list' | 'editor'
+type Tab = 'posts' | 'portfolio' | 'questions'
 
 export default function Publisher() {
+  const [tab, setTab] = useState<Tab>('posts')
   const [authed, setAuthed] = useState(false)
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -386,42 +390,70 @@ export default function Publisher() {
 
   return (
     <div className="mx-auto max-w-[42rem]">
-      <div className="mb-10 flex items-center justify-between">
+      <div className="mb-6 flex items-center justify-between">
         <div>
           <h1 className="font-serif-display text-3xl tracking-tight">Publisher Mode</h1>
-          <p className="mt-1 text-sm" style={{ color: 'var(--text-muted)' }}>
-            {posts.length} post{posts.length !== 1 ? 's' : ''} published
-          </p>
+          {tab === 'posts' && (
+            <p className="mt-1 text-sm" style={{ color: 'var(--text-muted)' }}>
+              {posts.length} post{posts.length !== 1 ? 's' : ''} published
+            </p>
+          )}
         </div>
-        <div className="flex gap-2">
-          <button
-            onClick={() => fileInputRef.current?.click()}
-            disabled={importing}
-            className={`px-4 py-2 text-sm ${secondaryBtn}`}
-            style={secondaryStyle}
-          >
-            {importing ? 'Importing...' : 'Import .docx'}
-          </button>
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept=".docx"
-            className="hidden"
-            onChange={(e) => {
-              const file = e.target.files?.[0]
-              if (file) handleDocxImport(file)
-            }}
-          />
-          <button
-            onClick={openNewPost}
-            className={`px-4 py-2 ${primaryBtn}`}
-            style={{ background: 'var(--accent)' }}
-          >
-            + New Post
-          </button>
-        </div>
+        {tab === 'posts' && (
+          <div className="flex gap-2">
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              disabled={importing}
+              className={`px-4 py-2 text-sm ${secondaryBtn}`}
+              style={secondaryStyle}
+            >
+              {importing ? 'Importing...' : 'Import .docx'}
+            </button>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".docx"
+              className="hidden"
+              onChange={(e) => {
+                const file = e.target.files?.[0]
+                if (file) handleDocxImport(file)
+              }}
+            />
+            <button
+              onClick={openNewPost}
+              className={`px-4 py-2 ${primaryBtn}`}
+              style={{ background: 'var(--accent)' }}
+            >
+              + New Post
+            </button>
+          </div>
+        )}
       </div>
 
+      {/* Tab bar: posts (password-authed GitHub writes) vs portfolio
+          (member-session-authed DB writes). */}
+      <div className="mb-8 flex gap-6 text-sm font-medium" style={{ borderBottom: '1px solid var(--border)' }}>
+        {(['posts', 'portfolio', 'questions'] as Tab[]).map((t) => (
+          <button
+            key={t}
+            onClick={() => setTab(t)}
+            className="-mb-px pb-2 capitalize transition-colors"
+            style={{
+              color: tab === t ? 'var(--text)' : 'var(--text-muted)',
+              borderBottom: tab === t ? '2px solid var(--accent)' : '2px solid transparent',
+            }}
+          >
+            {t}
+          </button>
+        ))}
+      </div>
+
+      {tab === 'portfolio' ? (
+        <PortfolioAdmin />
+      ) : tab === 'questions' ? (
+        <QuestionsAdmin />
+      ) : (
+        <>
       {error && <p className="mb-4 text-sm" style={{ color: 'var(--red)' }}>{error}</p>}
 
       {loading ? (
@@ -500,6 +532,8 @@ export default function Publisher() {
             </div>
           </div>
         </div>
+      )}
+        </>
       )}
     </div>
   )
