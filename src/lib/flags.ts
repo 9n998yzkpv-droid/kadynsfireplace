@@ -18,6 +18,22 @@ export const PROJECTS_ENABLED: boolean = false
 // deploy environment, or the endpoint returns 503.
 export const PUBLISHER_ENABLED: boolean = true
 
+// Flip MEMBERS_ENABLED to true once the Supabase project exists and its env
+// vars are set. While false:
+//   - /join, /login, /account and /be-heard return 404
+//   - the nav doesn't advertise membership
+//   - the member/admin API routes return 404
+// Required env vars (see README "Memberships"):
+//   NEXT_PUBLIC_SUPABASE_URL       — Supabase project URL
+//   NEXT_PUBLIC_SUPABASE_ANON_KEY  — public anon key (safe to expose; RLS applies)
+//   SUPABASE_SERVICE_ROLE_KEY      — server-only key for admin writes. NEVER
+//                                    expose to the client.
+//   ADMIN_PHONES                   — comma-separated E.164 allowlist of admin
+//                                    phone numbers (e.g. +17026864526)
+// Verification is email OTP (free via Supabase + Resend SMTP). The schema
+// reserves phone_verified_at so SMS OTP can be layered in later.
+export const MEMBERS_ENABLED: boolean = false
+
 // Flip NEWSLETTER_ENABLED to true once Resend is configured. While false:
 //   - the subscribe form is hidden everywhere it's rendered
 //   - the /api/subscribe endpoint returns 404

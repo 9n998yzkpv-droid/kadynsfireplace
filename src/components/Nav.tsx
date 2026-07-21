@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { PUBLISHER_ENABLED, NEWSLETTER_ENABLED } from '@/lib/flags'
+import { PUBLISHER_ENABLED, NEWSLETTER_ENABLED, MEMBERS_ENABLED } from '@/lib/flags'
 
 export default function Nav() {
   const path = usePathname()
@@ -46,6 +46,9 @@ export default function Nav() {
           <Link href="/dashboard" className="hover:!text-[var(--text)]" style={linkStyle(isProjects)}>Portfolio</Link>
           <Link href="/blog" className="hover:!text-[var(--text)]" style={linkStyle(path.startsWith('/blog'))}>Blog</Link>
           <Link href="/about" className="hover:!text-[var(--text)]" style={linkStyle(path.startsWith('/about'))}>About</Link>
+          {MEMBERS_ENABLED && (
+            <Link href="/account" className="hover:!text-[var(--text)]" style={linkStyle(path.startsWith('/account') || path.startsWith('/join') || path.startsWith('/login') || path.startsWith('/be-heard'))}>Members</Link>
+          )}
           {PUBLISHER_ENABLED && (
             <Link href="/publisher" className="hidden hover:!text-[var(--text)] sm:inline" style={linkStyle(path.startsWith('/publisher'))}>Publisher</Link>
           )}
