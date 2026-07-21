@@ -4,6 +4,8 @@ Run: python pipeline/run.py
 Reads holdings.json, fetches price data, computes metrics, writes public/data.json.
 """
 
+from __future__ import annotations
+
 import json
 import sys
 import os
@@ -56,8 +58,57 @@ SAMPLE_OVERRIDES = {
 }
 
 
+def fetch_supabase_holdings() -> list[dict] | None:
+    """
+    Pull live holdings from the Supabase DB (the admin manages them through
+    the publisher UI; transactions are the source of truth there).
+    Returns None when Supabase isn't configured, unreachable, or empty —
+    the caller then falls back to holdings.json so the pipeline never breaks.
+    Requires SUPABASE_URL and SUPABASE_ANON_KEY env vars; the anon key only
+    grants what row-level security allows (public read on holdings).
+    """
+    import requests
+
+    url = os.environ.get("SUPABASE_URL", "").rstrip("/")
+    key = os.environ.get("SUPABASE_ANON_KEY", "")
+    if not url or not key:
+        return None
+    try:
+        res = requests.get(
+            f"{url}/rest/v1/holdings",
+            params={"select": "ticker,shares,avg_cost_basis", "order": "ticker"},
+            headers={"apikey": key, "Authorization": f"Bearer {key}"},
+            timeout=15,
+        )
+        res.raise_for_status()
+        rows = res.json()
+    except Exception as e:  # noqa: BLE001 — any failure means "use the file"
+        print(f"⚠  Supabase fetch failed ({e}); falling back to holdings.json")
+        return None
+    if not rows:
+        print("⚠  Supabase holdings table is empty; falling back to holdings.json")
+        return None
+    return [
+        {
+            "ticker": r["ticker"],
+            "shares": float(r["shares"]),
+            "cost_basis_per_share": float(r["avg_cost_basis"]),
+        }
+        for r in rows
+    ]
+
+
 def load_holdings() -> dict:
+    # Benchmark / risk-free rate / history window always come from
+    # holdings.json — only the positions themselves live in the DB.
     config = json.loads(HOLDINGS_FILE.read_text())
+
+    db_positions = fetch_supabase_holdings()
+    if db_positions is not None:
+        print(f"✓ Loaded {len(db_positions)} positions from Supabase")
+        config["positions"] = db_positions
+        return config
+
     positions = config["positions"]
     all_placeholder = all(p["shares"] == 0 for p in positions)
     if all_placeholder:

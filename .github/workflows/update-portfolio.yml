@@ -26,6 +26,12 @@ jobs:
         run: pip install -r pipeline/requirements.txt
 
       - name: Run portfolio pipeline
+        # When the Supabase repo secrets are set, positions come from the live
+        # DB (managed in the publisher's Portfolio tab); otherwise the pipeline
+        # falls back to holdings.json.
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         run: python pipeline/run.py
 
       # When the projects portion launches (PROJECTS_ENABLED=true in
