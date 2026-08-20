@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "PowerShell(if \\(-not $?\\) { \"Directory does not exist\" })"
+      "PowerShell(if \\(-not $?\\) { \"Directory does not exist\" })",
+      "mcp__Claude_Preview__preview_start"
     ]
   }
 }
