@@ -1,0 +1,36 @@
+{
+  "$schema_version": 1,
+
+  "_readme": {
+    "what": "Append-only ledger of every buy, sell and corporate action. This is the source of truth: holdings, cost basis, realised P&L, TWR and IRR are all DERIVED from it by pipeline/ledger.py. Never hand-edit holdings.json positions again — edit this instead.",
+    "event_types": {
+      "buy":      "{ type, ticker, date, shares, price, fee?, note? }  price = price per share AS TRADED that day",
+      "sell":     "{ type, ticker, date, shares, price, fee?, note? }  same convention",
+      "split":    "{ type, ticker, date, ratio, note? }                ratio = share-count multiplier. 2 = 2-for-1. 0.1 = 1-for-10 reverse.",
+      "dividend": "{ type, ticker, date, amount, note? }               CASH dividends only. If it was reinvested (DRIP), record a buy instead."
+    },
+    "rules": [
+      "Prices are always as-traded. Do NOT back-adjust for splits — the replay engine does that.",
+      "Order within the same date is file order, so if a split applied before a same-day fill, list the split first.",
+      "Fees capitalise into cost basis on buys and reduce proceeds on sells.",
+      "Fractional shares are fine; 6 decimal places are preserved."
+    ],
+    "ACTION_REQUIRED": "The five 'opening balance' events below are PLACEHOLDERS reconstructed from the old holdings.json snapshot. Their date (2025-06-24) and price are the blended averages, not real fills. Replace each one with your actual purchase lots, and add the recent buys that are still missing. Until then, position values are right but TWR/IRR are not."
+  },
+
+  "events": [
+    { "type": "buy", "ticker": "MNST", "date": "2025-06-24", "shares": 18.1635, "price": 76.67,
+      "note": "PLACEHOLDER opening balance from holdings.json — replace with real lots" },
+    { "type": "buy", "ticker": "VOO",  "date": "2025-06-24", "shares": 1.8121,  "price": 627.13,
+      "note": "PLACEHOLDER opening balance from holdings.json — replace with real lots" },
+    { "type": "buy", "ticker": "FTEC", "date": "2025-06-24", "shares": 2.8118,  "price": 224.67,
+      "note": "PLACEHOLDER opening balance from holdings.json — replace with real lots" },
+    { "type": "buy", "ticker": "NVDA", "date": "2025-06-24", "shares": 4.5420,  "price": 186.50,
+      "note": "PLACEHOLDER opening balance from holdings.json — replace with real lots" },
+    { "type": "buy", "ticker": "UUUU", "date": "2025-06-24", "shares": 9.1611,  "price": 14.54,
+      "note": "PLACEHOLDER opening balance from holdings.json — replace with real lots" },
+
+    { "type": "split", "ticker": "MNST", "date": "2026-08-11", "ratio": 2,
+      "note": "2-for-1 split, effective 2026-08-11. Verified against Alpha Vantage SPLITS." }
+  ]
+}

@@ -67,6 +67,89 @@ Questions tabs. Nothing a user does at signup can grant admin — only someone w
 access can change the allowlist. Admin API writes go through the service-role key
 server-side; RLS gives members/anon no write path to portfolio data at all.
 
+## Portfolio ledger — `transactions.json`
+
+**This is the source of truth for the portfolio.** Every buy, sell and corporate
+action goes here; holdings, cost basis, realised P&L, TWR and IRR are all *derived*
+by replaying it (`pipeline/ledger.py`). Never hand-edit position numbers again.
+
+```jsonc
+{ "type": "buy",      "ticker": "MNST", "date": "2026-03-14", "shares": 4.25, "price": 88.10, "fee": 0 }
+{ "type": "sell",     "ticker": "NVDA", "date": "2026-05-02", "shares": 1.0,  "price": 210.40 }
+{ "type": "split",    "ticker": "MNST", "date": "2026-08-11", "ratio": 2 }     // 2 = 2-for-1, 0.1 = 1-for-10 reverse
+{ "type": "dividend", "ticker": "VOO",  "date": "2026-06-30", "amount": 4.12 } // cash only; DRIP → record a buy
+```
+
+Rules:
+
+- **Prices are always as-traded on the day.** Never back-adjust for a split — the
+  replay engine does that, and doing it yourself double-counts.
+- **Splits are events, not edits.** Recording one adjusts every prior lot (shares
+  × ratio, basis ÷ ratio, total cost unchanged) and preserves holding periods.
+  Adjusting `holdings.json` by hand instead loses history and silently corrupts
+  every past-dated value.
+- Same-date events replay in file order — list a split before a same-day fill if
+  it applied first.
+- Fees capitalise into basis on buys and reduce proceeds on sells.
+- `SELL_METHOD` in `pipeline/run.py` picks which basis leaves the books on a
+  partial sale: `fifo` (broker/1099-B default) or `average`. It changes the
+  realised/unrealised split, never the total.
+
+Why this replaced the snapshot: a snapshot has no cash-flow timing, so any return
+derived from it assumes you held today's portfolio for the whole window. Once you
+add shares over time that is simply the wrong number. The ledger yields both
+honest ones — **time-weighted return** (what the allocation earned, deposits
+stripped out — the fair comparison to SPY) and **money-weighted return / XIRR**
+(what your actual dollars earned, weighted by time invested).
+
+### Editing the ledger
+
+Edit `transactions.json`, then replay it offline to check your work — no price
+fetches, so it is instant:
+
+```bash
+python3 pipeline/ledger.py
+```
+
+It prints derived shares, cost basis and total cost per ticker, realised P&L,
+every corporate action, and a side-by-side against the `holdings.json` snapshot.
+Inspect a past date or the other basis method with:
+
+```bash
+python3 pipeline/ledger.py --as-of 2026-08-10 --method average
+```
+
+Then run the engine tests and the full pipeline:
+
+```bash
+python3 pipeline/test_ledger.py
+```
+
+```bash
+python3 pipeline/run.py
+```
+
+### Price-series adjustment
+
+`detect_split_adjustment()` works out from the data whether the price provider has
+back-adjusted a split, rather than trusting the field name. Yahoo's `adjclose` did
+**not** reflect MNST's 2026-08-11 split for at least a week after the fact. Guessing
+wrong scales every historical value by the split ratio and shows up as a fake ~50%
+drawdown, so the pipeline measures the step across each split date and decides. It
+self-corrects the day the provider backfills.
+
+### Source-of-truth precedence
+
+`transactions.json` → Supabase `holdings` → `holdings.json` positions.
+
+The ledger wins because it is the only source that can be *checked*. `holdings.json`
+still supplies `benchmark`, `risk_free_rate_annual` and `history_years`.
+
+> ⚠️ While `transactions.json` has events, transactions recorded through the
+> publisher's Portfolio tab **do not reach the dashboard** — the DB path is skipped
+> entirely, and `apply_transaction()` has no concept of splits. Pick one: keep the
+> ledger (edit the file, commit) or empty the ledger and go back to the DB.
+
 ## Portfolio management (publisher → Portfolio tab)
 
 - **Record transactions** (buy/sell, quantity, price, date, note). The `apply_transaction()`
@@ -83,7 +166,7 @@ server-side; RLS gives members/anon no write path to portfolio data at all.
   Requires the `GITHUB_TOKEN` on Vercel to have **Actions read/write** on the repo.
 - `holdings.json` is now config + fallback: the pipeline reads `benchmark`,
   `risk_free_rate_annual`, and `history_years` from it, and uses its positions only when
-  Supabase is unconfigured, unreachable, or empty.
+  both `transactions.json` and Supabase are empty or unavailable.
 - `/api/portfolio` is a public read endpoint for current positions (DB first, file
   fallback, 5-minute cache).
 

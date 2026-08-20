@@ -25,6 +25,11 @@ jobs:
       - name: Install dependencies
         run: pip install -r pipeline/requirements.txt
 
+      # Fail before touching the dashboard if the ledger math regressed. These
+      # are pure-function tests with no network, so they cost ~1s.
+      - name: Test ledger engine
+        run: python pipeline/test_ledger.py
+
       - name: Run portfolio pipeline
         # When the Supabase repo secrets are set, positions come from the live
         # DB (managed in the publisher's Portfolio tab); otherwise the pipeline

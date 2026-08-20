@@ -24,6 +24,7 @@ except (AttributeError, ValueError):
 # Add pipeline dir to path so it's importable from repo root too
 sys.path.insert(0, str(Path(__file__).parent))
 
+import ledger
 from fetch import get_history, get_quote
 from metrics import (
     position_metrics,
@@ -44,6 +45,13 @@ from metrics import (
 REPO_ROOT = Path(__file__).parent.parent
 HOLDINGS_FILE = REPO_ROOT / "holdings.json"
 OUTPUT_FILE = REPO_ROOT / "public" / "data.json"
+
+# Which cost basis leaves the books on a partial sale. "fifo" matches what US
+# brokers report on a 1099-B by default; "average" matches the Supabase
+# apply_transaction() function, so switch to it if you re-enable the DB path
+# and want both to agree. Only affects the realised/unrealised split, never the
+# total.
+SELL_METHOD = "fifo"
 
 # ---------------------------------------------------------------------------
 # Sample holdings used when shares = 0 (placeholder mode).
@@ -98,16 +106,51 @@ def fetch_supabase_holdings() -> list[dict] | None:
     ]
 
 
-def load_holdings() -> dict:
-    # Benchmark / risk-free rate / history window always come from
-    # holdings.json — only the positions themselves live in the DB.
+def load_holdings() -> tuple[dict, list]:
+    """
+    Resolve positions from the first source that has them, and return the
+    ledger events alongside so the caller can reconstruct real history.
+
+    Priority: transactions.json > Supabase holdings > holdings.json snapshot.
+
+    The ledger wins because it is the only source that can be *checked* — every
+    other source is a snapshot you have to trust. Benchmark, risk-free rate and
+    history window always come from holdings.json regardless.
+    """
     config = json.loads(HOLDINGS_FILE.read_text())
 
+    try:
+        events = ledger.load_ledger()
+    except ledger.LedgerError as e:
+        print(f"✗ transactions.json is invalid: {e}")
+        print("  Refusing to fall back to a snapshot — fix the ledger and re-run.")
+        raise SystemExit(1)
+
+    if events:
+        positions = ledger.positions_as_of(events, method=SELL_METHOD)
+        print(f"✓ Replayed {len(events)} ledger events → {len(positions)} open positions ({SELL_METHOD})")
+
+        # Reconcile against the snapshot so a missing buy or unrecorded split
+        # can't reach the dashboard unnoticed. Until check_reconciliation() has
+        # a policy, say so loudly rather than pretending the check passed.
+        try:
+            issues = ledger.check_reconciliation(positions, config.get("positions", []))
+            for msg in issues:
+                print(f"⚠  reconciliation: {msg}")
+            if not issues:
+                print("✓ Ledger reconciles with holdings.json")
+        except NotImplementedError:
+            print("⚠  Reconciliation check not implemented — see pipeline/ledger.py")
+
+        config["positions"] = positions
+        return config, events
+
+    print("⚠  transactions.json has no events; falling back to snapshot sources")
     db_positions = fetch_supabase_holdings()
     if db_positions is not None:
         print(f"✓ Loaded {len(db_positions)} positions from Supabase")
         config["positions"] = db_positions
-        return config
+        return config, []
 
     positions = config["positions"]
     all_placeholder = all(p["shares"] == 0 for p in positions)
@@ -116,7 +159,7 @@ def load_holdings() -> dict:
         for p in positions:
             if p["ticker"] in SAMPLE_OVERRIDES:
                 p.update(SAMPLE_OVERRIDES[p["ticker"]])
-    return config
+    return config, []
 
 
 def returns_from_history(hist: pd.DataFrame) -> pd.Series:
@@ -150,16 +193,85 @@ def growth_series(price_series: pd.Series, label: str) -> list[dict]:
     ]
 
 
+def build_value_series(
+    events: list, histories: dict[str, pd.DataFrame]
+) -> tuple[pd.Series, pd.Series]:
+    """
+    Reconstruct the portfolio's actual daily market value, and the external cash
+    flows that moved it.
+
+    For each date: value = Σ (split-adjusted shares held) × (adjusted close).
+    Because price histories are back-adjusted across splits and the share counts
+    are pushed into the same post-split denomination, the product is correct on
+    every date — including dates before a split that hadn't happened yet.
+
+    This replaces the constant-weight approximation, which projected *today's*
+    allocation backwards over the whole window and so reported the return of a
+    portfolio you never actually held.
+
+    Returns (value_series, flow_series) indexed on the common trading days.
+    """
+    ledger_tickers = sorted({e.ticker for e in events})
+
+    # Intersect the trading calendars so every date has a price for every
+    # ticker; a missing price would silently zero out a position's value.
+    common: set | None = None
+    for t in ledger_tickers:
+        idx = set(pd.to_datetime(histories[t]["date"]))
+        common = idx if common is None else (common & idx)
+    dates = sorted(common or [])
+    if not dates:
+        raise SystemExit("✗ No overlapping price history across ledger tickers")
+
+    # Start at the first date the portfolio was actually worth something, so a
+    # long run of zero-value days can't drag the return series down.
+    plain_dates = [d.date() for d in dates]
+    total = pd.Series(0.0, index=pd.DatetimeIndex(dates))
+    for t in ledger_tickers:
+        prices = (
+            histories[t]
+            .assign(date=lambda d: pd.to_datetime(d["date"]))
+            .set_index("date")["close"]
+            .reindex(dates)
+            .ffill()
+        )
+        # Ask the data whether it is back-adjusted rather than trusting the
+        # provider's field name — see detect_split_adjustment().
+        is_adj = ledger.detect_split_adjustment(
+            events, t, {d.date(): float(v) for d, v in prices.items() if pd.notna(v)}
+        )
+        if any(e.type == "split" and e.ticker == t for e in events):
+            print(f"  {t}: price series is {'split-adjusted' if is_adj else 'as-traded'}")
+        shares = ledger.adjusted_shares_timeline(
+            events, t, plain_dates, method=SELL_METHOD, price_split_adjusted=is_adj
+        )
+        total = total + pd.Series(shares, index=pd.DatetimeIndex(dates)) * prices
+
+    flows_by_date = dict(ledger.external_flows(events))
+    flows = pd.Series(
+        [flows_by_date.get(d.date(), 0.0) for d in dates], index=pd.DatetimeIndex(dates)
+    )
+
+    first = total[total > 1e-6].index.min()
+    if pd.isna(first):
+        raise SystemExit("✗ Ledger produces no positive portfolio value")
+    return total.loc[first:], flows.loc[first:]
+
+
 def main():
     print("Loading holdings…")
-    config = load_holdings()
+    config, events = load_holdings()
     positions = config["positions"]
     benchmark = config["benchmark"]
     rf = config["risk_free_rate_annual"]
     years = config.get("history_years", 3)
 
     tickers = [p["ticker"] for p in positions]
-    all_tickers = tickers + [benchmark]
+    # Positions closed earlier in the window still moved the portfolio's value
+    # while they were open, so their history is needed too — otherwise selling
+    # a loser would retroactively erase it from the return series.
+    historical_tickers = sorted({e.ticker for e in events} | set(tickers))
+    all_tickers = sorted(set(historical_tickers) | {benchmark})
 
     print(f"Fetching history for: {', '.join(all_tickers)}")
     histories: dict[str, pd.DataFrame] = {}
@@ -202,7 +314,20 @@ def main():
     total_w = sum(value_weights.values())
     weight_fractions = {t: v / total_w for t, v in value_weights.items()}
 
-    port_returns = weighted_portfolio_returns(ticker_returns, weight_fractions)
+    if events:
+        # Real history: value reconstructed from shares actually held, then
+        # time-weighted so deposits don't masquerade as performance.
+        value_series, flow_series = build_value_series(events, histories)
+        daily = ledger.time_weighted_returns(
+            [float(v) for v in value_series.values],
+            [float(f) for f in flow_series.values],
+        )
+        port_returns = pd.Series(daily, index=value_series.index[1:])
+        print(f"✓ Rebuilt {len(value_series)} days of actual portfolio value")
+    else:
+        # No ledger — fall back to the old constant-weight approximation.
+        port_returns = weighted_portfolio_returns(ticker_returns, weight_fractions)
+        value_series = flow_series = None
 
     # ── portfolio price series (synthetic index, base = 100) ───────────────
     # Build a synthetic portfolio index from the daily return stream. CAGR and
@@ -230,6 +355,40 @@ def main():
     cov_arr = returns_df.cov().values * 252
     risk_contrib = risk_contribution(w_array, cov_arr, tickers)
 
+    # ── ledger-derived performance ───────────────────────────────────────────
+    # Unrealised P&L alone understates (or flatters) what actually happened once
+    # you have sold anything or collected a dividend, so surface all three.
+    ledger_metrics: dict = {}
+    if events:
+        realised = ledger.realised_summary(events, method=SELL_METHOD)
+        unrealised = total_value - total_cost
+        net_contributed = sum(f for _, f in ledger.external_flows(events))
+
+        # IRR needs the terminal value as a closing outflow: "if I liquidated
+        # today, what annual rate did my contributions actually compound at?"
+        flows = ledger.external_flows(events)
+        flows.append((value_series.index[-1].date(), -total_value))
+        irr = ledger.xirr(flows)
+
+        # Time-weighted total return over the window — the like-for-like number
+        # to compare against the benchmark, since it ignores contribution timing.
+        twr_total = float((1 + port_returns).prod() - 1)
+
+        ledger_metrics = {
+            "realised_pl": realised["realised_pl"],
+            "unrealised_pl": round(unrealised, 2),
+            "dividends_received": realised["dividends_received"],
+            "fees_paid": realised["fees_paid"],
+            "total_pl": round(unrealised + realised["realised_pl"] + realised["dividends_received"], 2),
+            "net_contributed": round(net_contributed, 2),
+            "time_weighted_return": round(twr_total * 100, 2),
+            "money_weighted_return": round(irr * 100, 2) if irr is not None else None,
+            "sell_method": SELL_METHOD,
+            "transaction_count": len(events),
+            "first_transaction": min(e.date for e in events).isoformat(),
+            "closed_positions": realised["closed_positions"],
+        }
+
     portfolio_metrics = {
         "total_value": round(total_value, 2),
         "total_cost_basis": round(total_cost, 2),
@@ -256,6 +415,7 @@ def main():
         "var_95_parametric_pct": var["var_parametric_pct"],
         "risk_free_rate": round(rf * 100, 2),
         "benchmark": benchmark,
+        **ledger_metrics,
     }
 
     # ── growth chart data ────────────────────────────────────────────────────
@@ -281,7 +441,10 @@ def main():
     # ── assemble output ──────────────────────────────────────────────────────
     output = {
         "last_updated": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
-        "is_sample_data": all(p["shares"] == 0 for p in json.loads(HOLDINGS_FILE.read_text())["positions"]),
+        "is_sample_data": (
+            not events
+            and all(p["shares"] == 0 for p in json.loads(HOLDINGS_FILE.read_text())["positions"])
+        ),
         "portfolio": portfolio_metrics,
         "positions": position_data,
         "risk_contribution": risk_contrib,
@@ -293,6 +456,14 @@ def main():
     OUTPUT_FILE.write_text(json.dumps(output, indent=2, default=str))
     print(f"\n✓ Wrote {OUTPUT_FILE}")
     print(f"  Portfolio value: ${total_value:,.2f}  |  Sharpe: {portfolio_metrics['sharpe_ratio']}")
+    if ledger_metrics:
+        mwr = ledger_metrics["money_weighted_return"]
+        print(
+            f"  TWR: {ledger_metrics['time_weighted_return']}%  |  "
+            f"IRR: {mwr if mwr is not None else 'n/a'}%  |  "
+            f"Realised: ${ledger_metrics['realised_pl']:,.2f}  |  "
+            f"Unrealised: ${ledger_metrics['unrealised_pl']:,.2f}"
+        )
 
 
 if __name__ == "__main__":

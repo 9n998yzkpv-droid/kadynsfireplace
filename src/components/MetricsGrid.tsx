@@ -42,6 +42,41 @@ export default function MetricsGrid({
   riskContrib: Record<string, number>
 }) {
   const metrics: MetricDef[] = [
+    // Time-weighted and money-weighted returns answer different questions and
+    // only exist when the transaction ledger is driving the pipeline, so they
+    // lead the grid when present.
+    ...(p.time_weighted_return !== undefined
+      ? [
+          {
+            label: 'Time-Weighted Return',
+            value: `${p.time_weighted_return >= 0 ? '+' : ''}${fmt(p.time_weighted_return, 2)}`,
+            unit: '%',
+            tooltip: `What your holdings actually earned over the period, with deposits and withdrawals stripped out. This is the fair number to compare against ${p.benchmark}, because adding money to the account can't flatter it.`,
+            positive: p.time_weighted_return >= 0,
+          } as MetricDef,
+        ]
+      : []),
+    ...(p.money_weighted_return !== undefined && p.money_weighted_return !== null
+      ? [
+          {
+            label: 'Money-Weighted Return',
+            value: `${p.money_weighted_return >= 0 ? '+' : ''}${fmt(p.money_weighted_return, 2)}`,
+            unit: '% / yr',
+            tooltip: 'What your actual dollars earned, weighting every contribution by how long it was invested (an IRR). If this beats your time-weighted return, your timing on adding money helped; if it trails, it hurt.',
+            positive: p.money_weighted_return >= 0,
+          } as MetricDef,
+        ]
+      : []),
+    ...(p.realised_pl !== undefined
+      ? [
+          {
+            label: 'Realised P&L',
+            value: `${p.realised_pl >= 0 ? '+$' : '-$'}${fmt(Math.abs(p.realised_pl), 2)}`,
+            tooltip: `Profit or loss you've actually locked in by selling${p.sell_method ? ` (${p.sell_method.toUpperCase()} cost basis)` : ''}. Unlike unrealised gains, this money is banked and taxable.`,
+            positive: p.realised_pl >= 0,
+          } as MetricDef,
+        ]
+      : []),
     {
       label: 'Annualised Return',
       value: `${p.annualised_return >= 0 ? '+' : ''}${fmt(p.annualised_return, 2)}`,

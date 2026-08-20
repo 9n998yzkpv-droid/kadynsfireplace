@@ -36,6 +36,23 @@ export interface PortfolioMetrics {
   var_95_parametric_pct: number
   risk_free_rate: number
   benchmark: string
+
+  // Ledger-derived. Present only when transactions.json has events, since a
+  // holdings snapshot carries no cash-flow timing and cannot produce them.
+  realised_pl?: number
+  unrealised_pl?: number
+  dividends_received?: number
+  fees_paid?: number
+  total_pl?: number
+  net_contributed?: number
+  /** Time-weighted return %: what the allocation earned, ignoring when money went in. */
+  time_weighted_return?: number
+  /** Money-weighted return (XIRR) %: what your dollars earned, weighted by time invested. */
+  money_weighted_return?: number | null
+  sell_method?: 'fifo' | 'average'
+  transaction_count?: number
+  first_transaction?: string
+  closed_positions?: string[]
 }
 
 export interface DashboardData {

@@ -29,6 +29,12 @@ function Stat({ label, value, sub, positive }: {
 
 export default function TopLine({ portfolio: p }: { portfolio: PortfolioMetrics }) {
   const gain = p.total_return_dollar >= 0
+  // With a ledger, "total return" means realised + unrealised + dividends, not
+  // just the paper gain on what happens to still be open.
+  const hasLedger = p.total_pl !== undefined
+  const sub = hasLedger
+    ? `Unrealised${p.realised_pl ? ' + realised' : ''}${p.dividends_received ? ' + dividends' : ''}`
+    : 'Since inception'
   return (
     <div
       className="grid grid-cols-2 gap-x-8 gap-y-8 py-8 sm:grid-cols-4"
@@ -37,7 +43,7 @@ export default function TopLine({ portfolio: p }: { portfolio: PortfolioMetrics 
       <Stat
         label="Total Return"
         value={`${gain ? '+' : ''}${fmt(p.total_return_pct)}%`}
-        sub="Since inception"
+        sub={sub}
         positive={gain}
       />
       <Stat label="CAGR" value={`${p.cagr > 0 ? '+' : ''}${fmt(p.cagr)}%`} sub="Annualised compound growth" positive={p.cagr >= 0} />
