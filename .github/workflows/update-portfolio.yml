@@ -1,11 +1,33 @@
 name: Update Portfolio Data
 
 on:
+  # Rebuild the moment a portfolio input lands on main, so a ledger edit is
+  # live in ~2 minutes instead of waiting for the nightly cron (which is
+  # weekdays-only, so a Friday edit would otherwise sit until Monday).
+  #
+  # public/data.json is deliberately NOT in this list: this job commits that
+  # file itself, and listing it would make the workflow retrigger itself
+  # forever. (GitHub also refuses to trigger workflows from GITHUB_TOKEN
+  # pushes, so that is the second of two independent loop guards.)
+  push:
+    branches: [main]
+    paths:
+      - 'transactions.json'
+      - 'holdings.json'
+      - 'pipeline/**'
   schedule:
     # Weekdays at 4:35 PM ET (20:35 UTC standard, 21:35 UTC during DST)
     # Using 21:35 UTC to cover the more common DST period
     - cron: '35 21 * * 1-5'
   workflow_dispatch:
+
+# One run at a time. Without this, a quick series of ledger edits (or an edit
+# landing during the nightly run) races two jobs that both commit data.json,
+# and the loser's push is rejected. Ledger edits are not cancelled mid-flight
+# because the last run is the one whose data.json wins anyway.
+concurrency:
+  group: update-portfolio
+  cancel-in-progress: false
 
 permissions:
   contents: write
@@ -54,5 +76,9 @@ jobs:
             echo "No changes to data.json"
           else
             git commit -m "Update portfolio data ($(date -u '+%Y-%m-%d %H:%M UTC'))"
+            # Rebase before pushing: data.json is generated, so if main moved
+            # while the pipeline was fetching prices, replaying this commit on
+            # top is always correct and avoids a rejected push.
+            git pull --rebase --autostash origin main
             git push
           fi

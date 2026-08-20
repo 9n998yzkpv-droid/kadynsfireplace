@@ -36,6 +36,7 @@ stack.
 from __future__ import annotations
 
 import json
+import re
 from collections import defaultdict, deque
 from datetime import date, datetime
 from pathlib import Path
@@ -120,10 +121,21 @@ def load_ledger(path: Path | None = None) -> list[Event]:
     p = path or LEDGER_FILE
     if not p.exists():
         return []
+    raw = p.read_text()
     try:
-        doc = json.loads(p.read_text())
-    except json.JSONDecodeError as e:
-        raise LedgerError(f"{p.name} is not valid JSON: {e}") from None
+        doc = json.loads(raw)
+    except json.JSONDecodeError as first_error:
+        # A hand-maintained JSON file collects trailing commas — you delete the
+        # last event and the comma above it is suddenly illegal. That is a typo,
+        # not a corrupt ledger, so repair it in memory and say so loudly rather
+        # than refusing to run. Anything else still fails hard.
+        repaired = re.sub(r",(\s*[\]}])", r"\1", raw)
+        try:
+            doc = json.loads(repaired)
+        except json.JSONDecodeError:
+            raise LedgerError(f"{p.name} is not valid JSON: {first_error}") from None
+        print(f"⚠  {p.name}: ignoring a trailing comma near line {first_error.lineno}. "
+              f"It still parses, but tidy it up.")
 
     raw_events = doc.get("events", []) if isinstance(doc, dict) else doc
     if not isinstance(raw_events, list):

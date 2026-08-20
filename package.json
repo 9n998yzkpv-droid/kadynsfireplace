@@ -6,7 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "ledger": "python3 pipeline/ledger.py",
+    "ledger:test": "python3 pipeline/test_ledger.py",
+    "ledger:build": "python3 pipeline/run.py",
+    "ledger:publish": "./scripts/publish-ledger.sh"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.0",

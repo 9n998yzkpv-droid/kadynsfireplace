@@ -194,7 +194,7 @@ def growth_series(price_series: pd.Series, label: str) -> list[dict]:
 
 
 def build_value_series(
-    events: list, histories: dict[str, pd.DataFrame]
+    events: list, histories: dict[str, pd.DataFrame], benchmark: str
 ) -> tuple[pd.Series, pd.Series]:
     """
     Reconstruct the portfolio's actual daily market value, and the external cash
@@ -213,15 +213,16 @@ def build_value_series(
     """
     ledger_tickers = sorted({e.ticker for e in events})
 
-    # Intersect the trading calendars so every date has a price for every
-    # ticker; a missing price would silently zero out a position's value.
-    common: set | None = None
-    for t in ledger_tickers:
-        idx = set(pd.to_datetime(histories[t]["date"]))
-        common = idx if common is None else (common & idx)
-    dates = sorted(common or [])
+    # The benchmark's calendar is the spine — NOT the intersection of every
+    # ticker's. Intersecting looks safer but is a trap: one recently-listed
+    # holding (SKHY listed 2026-07-10, 30 bars) would truncate the *whole*
+    # portfolio's history to that window, silently collapsing the growth chart
+    # and every risk metric to a few weeks. The benchmark trades the full NYSE
+    # calendar, and on days before a ticker listed you held none of it, so its
+    # contribution is a genuine zero rather than a gap.
+    dates = sorted(pd.to_datetime(histories[benchmark]["date"]).unique())
     if not dates:
-        raise SystemExit("✗ No overlapping price history across ledger tickers")
+        raise SystemExit("✗ Benchmark history is empty")
 
     # Start at the first date the portfolio was actually worth something, so a
     # long run of zero-value days can't drag the return series down.
@@ -242,15 +243,58 @@ def build_value_series(
         )
         if any(e.type == "split" and e.ticker == t for e in events):
             print(f"  {t}: price series is {'split-adjusted' if is_adj else 'as-traded'}")
-        shares = ledger.adjusted_shares_timeline(
-            events, t, plain_dates, method=SELL_METHOD, price_split_adjusted=is_adj
+        shares = pd.Series(
+            ledger.adjusted_shares_timeline(
+                events, t, plain_dates, method=SELL_METHOD, price_split_adjusted=is_adj
+            ),
+            index=pd.DatetimeIndex(dates),
         )
-        total = total + pd.Series(shares, index=pd.DatetimeIndex(dates)) * prices
+        # No price AND no position is a real zero (before the ticker listed, or
+        # after you closed it). No price WHILE holding shares is a data gap, so
+        # leave it NaN and fail loudly below rather than understating the value.
+        contribution = (shares * prices).mask(prices.isna() & (shares.abs() < 1e-9), 0.0)
+        total = total + contribution
 
-    flows_by_date = dict(ledger.external_flows(events))
-    flows = pd.Series(
-        [flows_by_date.get(d.date(), 0.0) for d in dates], index=pd.DatetimeIndex(dates)
-    )
+    # Bucket each cash flow onto the first trading day on or after its date.
+    #
+    # A naive date lookup drops any flow dated on a weekend or market holiday —
+    # and a dropped deposit is catastrophic rather than cosmetic: the portfolio
+    # value jumps by the purchase amount with no flow to subtract, so the time-
+    # weighted return books the whole deposit as performance. A $2,797 weekend
+    # buy read as +263% TWR before this was fixed.
+    #
+    # Flows landing at or before the first trading day are folded into the
+    # opening value, which is the TWR baseline and never itself a return, so
+    # they correctly contribute nothing.
+    import bisect
+
+    date_keys = [d.date() for d in dates]
+    flow_values = [0.0] * len(dates)
+    late: list = []
+    off_calendar: list = []
+    for flow_date, amount in ledger.external_flows(events):
+        i = bisect.bisect_left(date_keys, flow_date)
+        if i >= len(date_keys):
+            late.append(flow_date)
+            continue
+        if date_keys[i] != flow_date and flow_date >= date_keys[0]:
+            off_calendar.append((flow_date, date_keys[i]))
+        flow_values[i] += amount
+
+    for bad, moved_to in off_calendar:
+        print(f"⚠  {bad} ({bad.strftime('%A')}) is not a trading day — "
+              f"treating that cash flow as {moved_to}. Check the date in transactions.json.")
+    for bad in late:
+        print(f"⚠  {bad} is after the price history ends; its cash flow is ignored.")
+
+    flows = pd.Series(flow_values, index=pd.DatetimeIndex(dates))
+
+    if total.isna().any():
+        gaps = [str(d.date()) for d in total[total.isna()].index[:5]]
+        raise SystemExit(
+            f"✗ Holding shares with no price on {', '.join(gaps)}. "
+            f"Check the tickers in transactions.json against the price provider."
+        )
 
     first = total[total > 1e-6].index.min()
     if pd.isna(first):
@@ -317,7 +361,7 @@ def main():
     if events:
         # Real history: value reconstructed from shares actually held, then
         # time-weighted so deposits don't masquerade as performance.
-        value_series, flow_series = build_value_series(events, histories)
+        value_series, flow_series = build_value_series(events, histories, benchmark)
         daily = ledger.time_weighted_returns(
             [float(v) for v in value_series.values],
             [float(f) for f in flow_series.values],

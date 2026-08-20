@@ -159,6 +159,39 @@ class TestSplitAdjustmentDetection(unittest.TestCase):
         self.assertAlmostEqual(adj, 20.0)
 
 
+class TestRecentlyOpenedPositions(unittest.TestCase):
+    """
+    A holding opened partway through the window must not disturb the dates
+    before it existed. run.py relies on this to use the benchmark's calendar
+    instead of intersecting every ticker's — intersecting would truncate the
+    whole portfolio's history to the newest ticker's listing date.
+    """
+
+    EVENTS = [
+        ev(type="buy", ticker="VOO", date="2025-01-02", shares=2, price=600.0),
+        ev(type="buy", ticker="SKHY", date="2026-07-22", shares=5.5, price=166.12),
+    ]
+
+    def test_shares_are_zero_before_the_first_buy(self):
+        dates = [date(2025, 6, 1), date(2026, 7, 21), date(2026, 7, 22), date(2026, 8, 1)]
+        skhy = L.adjusted_shares_timeline(self.EVENTS, "SKHY", dates)
+        self.assertEqual(skhy[0], 0.0)   # a year before it listed
+        self.assertEqual(skhy[1], 0.0)   # the day before the buy
+        self.assertAlmostEqual(skhy[2], 5.5)
+        self.assertAlmostEqual(skhy[3], 5.5)
+
+    def test_older_holding_is_unaffected_by_the_new_one(self):
+        dates = [date(2025, 6, 1), date(2026, 8, 1)]
+        voo = L.adjusted_shares_timeline(self.EVENTS, "VOO", dates)
+        self.assertEqual(voo, [2.0, 2.0])
+
+    def test_unknown_ticker_yields_zero_not_an_error(self):
+        """A price gap must read as 'held nothing', never crash the series."""
+        self.assertEqual(
+            L.adjusted_shares_timeline(self.EVENTS, "NOPE", [date(2026, 1, 1)]), [0.0]
+        )
+
+
 class TestReturns(unittest.TestCase):
     def test_twr_ignores_deposits(self):
         """
@@ -176,6 +209,30 @@ class TestReturns(unittest.TestCase):
         rets = L.time_weighted_returns([0.0, 100.0, 110.0], [0.0, 100.0, 0.0])
         self.assertEqual(rets[0], 0.0)
         self.assertAlmostEqual(rets[1], 0.10)
+
+    def test_a_misaligned_flow_inflates_the_return(self):
+        """
+        Why run.py buckets flows onto the next trading day.
+
+        Ledger dates come from a human and land on weekends and holidays; the
+        value series only has trading days. If a deposit's date is not found and
+        the flow silently becomes 0, the deposit is booked as pure performance.
+        A real $2,797 Saturday buy once read as +263% TWR this way.
+        """
+        values = [1000.0, 1000.0, 3797.0, 3797.0]   # Fri, Mon(+deposit), Tue
+
+        dropped = L.time_weighted_returns(values, [0.0, 0.0, 0.0, 0.0])
+        aligned = L.time_weighted_returns(values, [0.0, 0.0, 2797.0, 0.0])
+
+        total = lambda rs: (1 + rs[0]) * (1 + rs[1]) * (1 + rs[2]) - 1
+        self.assertGreater(total(dropped), 2.5)          # ~+280%, nonsense
+        self.assertAlmostEqual(total(aligned), 0.0)      # a deposit is not a gain
+
+    def test_flow_on_the_first_day_is_never_a_return(self):
+        """The opening value is the TWR baseline, so its flow must not count."""
+        rets = L.time_weighted_returns([500.0, 550.0], [500.0, 0.0])
+        self.assertEqual(len(rets), 1)
+        self.assertAlmostEqual(rets[0], 0.10)
 
     def test_xirr_recovers_a_known_rate(self):
         """$1,000 in, $1,100 out exactly one year later = 10%."""

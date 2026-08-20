@@ -19,18 +19,24 @@
   },
 
   "events": [
-    { "type": "buy", "ticker": "MNST", "date": "2025-06-24", "shares": 18.1635, "price": 76.67,
+    { "type": "buy", "ticker": "MNST", "date": "2026-01-24", "shares": 18.1635, "price": 76.67,
       "note": "PLACEHOLDER opening balance from holdings.json — replace with real lots" },
-    { "type": "buy", "ticker": "VOO",  "date": "2025-06-24", "shares": 1.8121,  "price": 627.13,
+    { "type": "buy", "ticker": "VOO",  "date": "2026-01-24", "shares": 1.43,  "price": 627.13,
       "note": "PLACEHOLDER opening balance from holdings.json — replace with real lots" },
-    { "type": "buy", "ticker": "FTEC", "date": "2025-06-24", "shares": 2.8118,  "price": 224.67,
+    { "type": "buy", "ticker": "FTEC", "date": "2025-01-24", "shares": 2.8118,  "price": 224.67,
       "note": "PLACEHOLDER opening balance from holdings.json — replace with real lots" },
-    { "type": "buy", "ticker": "NVDA", "date": "2025-06-24", "shares": 4.5420,  "price": 186.50,
+    { "type": "buy", "ticker": "NVDA", "date": "2025-01-24", "shares": 4.5420,  "price": 186.50,
       "note": "PLACEHOLDER opening balance from holdings.json — replace with real lots" },
-    { "type": "buy", "ticker": "UUUU", "date": "2025-06-24", "shares": 9.1611,  "price": 14.54,
+    { "type": "buy", "ticker": "UUUU", "date": "2025-01-24", "shares": 9.1611,  "price": 14.54,
       "note": "PLACEHOLDER opening balance from holdings.json — replace with real lots" },
 
     { "type": "split", "ticker": "MNST", "date": "2026-08-11", "ratio": 2,
-      "note": "2-for-1 split, effective 2026-08-11. Verified against Alpha Vantage SPLITS." }
+      "note": "2-for-1 split, effective 2026-08-11. Verified against Alpha Vantage SPLITS." },
+    { "type": "buy", "ticker": "SKHY", "date": "2026-07-22", "shares": 5.5, "price": 166.12,
+      "note": "PLACEHOLDER opening balance from holdings.json — replace with real lots" },
+    { "type": "buy", "ticker": "SKHY", "date": "2026-07-29", "shares": 2.25, "price": 124.80,
+      "note": "SK hynix — bought the dip; $124.80 was the intraday low that day" }, 
+    { "type": "buy", "ticker": "VOO",  "date": "2026-01-24", "shares": 0.81,  "price": 627.13,
+      "note": "PLACEHOLDER opening balance from holdings.json — replace with real lots" }
   ]
 }

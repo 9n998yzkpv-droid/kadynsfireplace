@@ -102,13 +102,34 @@ honest ones — **time-weighted return** (what the allocation earned, deposits
 stripped out — the fair comparison to SPY) and **money-weighted return / XIRR**
 (what your actual dollars earned, weighted by time invested).
 
+### Publishing a ledger change
+
+```bash
+npm run ledger:publish
+```
+
+Validates the JSON, runs the engine tests, replays the ledger, shows you the
+derived holdings and the diff, then commits and pushes after you confirm
+(`--yes` skips the prompt, `--dry-run` validates only). Pushing `transactions.json`
+to `main` now triggers the *Update Portfolio Data* workflow directly — the
+dashboard rebuilds in ~2 minutes instead of waiting for the weekday-only cron,
+which would otherwise leave a Friday edit unpublished until Monday.
+
+**These numbers are public the moment they land.** Run `npm run ledger` and check
+the derived holdings against your broker before publishing.
+
+Dates must be **real trading days.** A weekend or holiday date is rolled forward
+to the next session with a warning — a flow that cannot be placed on the calendar
+would otherwise be dropped, and a dropped deposit is booked as pure performance
+(a $2,797 Saturday buy once produced a +263% time-weighted return).
+
 ### Editing the ledger
 
 Edit `transactions.json`, then replay it offline to check your work — no price
 fetches, so it is instant:
 
 ```bash
-python3 pipeline/ledger.py
+npm run ledger
 ```
 
 It prints derived shares, cost basis and total cost per ticker, realised P&L,
