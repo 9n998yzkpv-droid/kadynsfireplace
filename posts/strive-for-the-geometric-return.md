@@ -1,7 +1,7 @@
 ---
 title: "Strive For the Geometric Return "
 date: "2026-08-22"
-excerpt: "Intro"
+excerpt: "Difference between Arithmetic & Geometric returns, How to optimize for CAGR using puts"
 ---
 
 Intro
