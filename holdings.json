@@ -1,10 +1,12 @@
 {
+  "_note": "Positions here are the INDEPENDENT reconciliation target for pipeline/ledger.py check_reconciliation() — transcribed from the broker on 2026-08-22, not derived from transactions.json. Keep it that way: if this file is ever regenerated from the ledger it stops being a check and becomes an echo. The pipeline reads positions from the ledger; benchmark, risk-free rate and history window always come from here.",
   "positions": [
-    { "ticker": "MNST",  "shares": 18.1635,  "cost_basis_per_share": 76.67,  "purchase_date": "2026-01-01" },
-    { "ticker": "VOO",   "shares": 1.8121,   "cost_basis_per_share": 627.13, "purchase_date": "2026-01-01" },
-    { "ticker": "FTEC",  "shares": 2.8118,   "cost_basis_per_share": 224.67, "purchase_date": "2026-01-01" },
-    { "ticker": "NVDA",  "shares": 4.5420,   "cost_basis_per_share": 186.50, "purchase_date": "2026-01-01" },
-    { "ticker": "UUUU",  "shares": 9.1611,   "cost_basis_per_share": 14.54,  "purchase_date": "2026-01-01" }
+    { "ticker": "FTEC",  "shares": 3.4545,   "cost_basis_per_share": 217.7301, "purchase_date": "2025-01-24" },
+    { "ticker": "MNST",  "shares": 36.3271,  "cost_basis_per_share": 38.3996,  "purchase_date": "2025-12-31" },
+    { "ticker": "NVDA",  "shares": 7.5763,   "cost_basis_per_share": 187.5666, "purchase_date": "2025-01-24" },
+    { "ticker": "SKHY",  "shares": 7.7585,   "cost_basis_per_share": 157.8916, "purchase_date": "2026-07-22" },
+    { "ticker": "UUUU",  "shares": 9.1612,   "cost_basis_per_share": 21.8312,  "purchase_date": "2025-01-24" },
+    { "ticker": "VOO",   "shares": 2.2460,   "cost_basis_per_share": 614.4212, "purchase_date": "2026-01-21" }
   ],
   "benchmark": "SPY",
   "risk_free_rate_annual": 0.043,

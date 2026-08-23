@@ -15,20 +15,24 @@
       "Fees capitalise into cost basis on buys and reduce proceeds on sells.",
       "Fractional shares are fine; 6 decimal places are preserved."
     ],
-    "ACTION_REQUIRED": "The five 'opening balance' events below are PLACEHOLDERS reconstructed from the old holdings.json snapshot. Their date (2025-06-24) and price are the blended averages, not real fills. Replace each one with your actual purchase lots, and add the recent buys that are still missing. Until then, position values are right but TWR/IRR are not."
+    "ACTION_REQUIRED": "MNST and VOO have had their dates recovered by matching the recorded price against the actual close, so their cash flows now land on the right day at the right price. FTEC, NVDA and UUUU are still PLACEHOLDERS dated 2025-01-24 with blended-average prices — that date falls outside the 1-year price window, so they fold into the opening baseline and do not distort the chart, but they DO make IRR wrong. Replace them with real lots when you have the statements. Share counts throughout are still unverified against a broker."
   },
 
   "events": [
-    { "type": "buy", "ticker": "MNST", "date": "2026-01-24", "shares": 18.1635, "price": 76.67,
-      "note": "PLACEHOLDER opening balance from holdings.json — replace with real lots" },
-    { "type": "buy", "ticker": "VOO",  "date": "2026-01-24", "shares": 1.43,  "price": 627.13,
-      "note": "PLACEHOLDER opening balance from holdings.json — replace with real lots" },
+    { "type": "buy", "ticker": "MNST", "date": "2025-12-31", "shares": 18.1635, "price": 76.67,
+      "note": "Date recovered from the price: MNST closed at exactly 76.67 on 2025-12-31. Share count still unverified against a broker statement." },
+    { "type": "buy", "ticker": "VOO",  "date": "2026-01-21", "shares": 1.43,  "price": 627.13,
+      "note": "Date recovered from the price: 2026-01-21 is the closest close to 627.13 (626.48). Share count still unverified against a broker statement." },
     { "type": "buy", "ticker": "FTEC", "date": "2025-01-24", "shares": 2.8118,  "price": 224.67,
       "note": "PLACEHOLDER opening balance from holdings.json — replace with real lots" },
+    { "type": "buy", "ticker": "FTEC", "date": "2025-01-24", "shares": 0.6427,  "price": 187.38,
+      "note": "RECONCILING LOT, not a statement. Derived 2026-08-22 from the broker screenshot: FTEC showed 3.4545 shares at $752.15 cost, the ledger only had 2.8118 at $631.73. Date is a guess (matched to the other placeholders, which fall outside the 1-year price window so they cannot distort the chart); price is the implied average of the gap. Replace when you have the real fill." },
     { "type": "buy", "ticker": "NVDA", "date": "2025-01-24", "shares": 4.5420,  "price": 186.50,
       "note": "PLACEHOLDER opening balance from holdings.json — replace with real lots" },
-    { "type": "buy", "ticker": "UUUU", "date": "2025-01-24", "shares": 9.1611,  "price": 14.54,
-      "note": "PLACEHOLDER opening balance from holdings.json — replace with real lots" },
+    { "type": "buy", "ticker": "NVDA", "date": "2025-01-24", "shares": 3.0343,  "price": 189.16,
+      "note": "RECONCILING LOT, not a statement. Derived 2026-08-22 from the broker screenshot: NVDA showed 7.5763 shares at $1,421.06 cost, the ledger only had 4.5420 at $847.08. Date is a guess (see the FTEC reconciling lot); price is the implied average of the gap. Replace when you have the real fill." },
+    { "type": "buy", "ticker": "UUUU", "date": "2025-01-24", "shares": 9.1611,  "price": 21.8315,
+      "note": "Basis corrected 2026-08-22 from the broker screenshot: share count matched exactly (9.1612 vs 9.1611) but cost was $200.00, not the $133.20 the old $14.54 blended basis implied. Date is still a placeholder." },
 
     { "type": "split", "ticker": "MNST", "date": "2026-08-11", "ratio": 2,
       "note": "2-for-1 split, effective 2026-08-11. Verified against Alpha Vantage SPLITS." },
@@ -36,7 +40,7 @@
       "note": "PLACEHOLDER opening balance from holdings.json — replace with real lots" },
     { "type": "buy", "ticker": "SKHY", "date": "2026-07-29", "shares": 2.25, "price": 124.80,
       "note": "SK hynix — bought the dip; $124.80 was the intraday low that day" }, 
-    { "type": "buy", "ticker": "VOO",  "date": "2026-01-24", "shares": 0.81,  "price": 627.13,
-      "note": "PLACEHOLDER opening balance from holdings.json — replace with real lots" }
+    { "type": "buy", "ticker": "VOO",  "date": "2026-01-21", "shares": 0.81,  "price": 627.13,
+      "note": "Date recovered from the price, same as the 1.43-share lot above. Whether these were genuinely two separate fills is still unconfirmed." }
   ]
 }
