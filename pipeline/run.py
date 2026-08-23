@@ -168,6 +168,100 @@ def returns_from_history(hist: pd.DataFrame) -> pd.Series:
     return s.pct_change().dropna()
 
 
+def repair_split_artifacts(
+    hist: pd.DataFrame, events: list, ticker: str, tol: float = 0.08
+) -> pd.DataFrame:
+    """
+    Repair individual bars a provider has half-applied a split adjustment to.
+
+    detect_split_adjustment() assumes a series is internally consistent — either
+    wholly as-traded or wholly back-adjusted. A provider mid-backfill breaks that
+    assumption: on 2026-08-22, Yahoo served MNST with five scattered bars
+    (2026-07-20/21/22, 07-31, 08-06) divided by 2 while every bar around them was
+    still as-traded. Each one reads as a -50% day immediately followed by a +100%
+    day, which is why annualised volatility came out at 43.6% against a true
+    ~23%, and R² against SPY collapsed to 0.16.
+
+    A real security does not halve and fully recover in two sessions, so a bar
+    sitting at 1/ratio of its own neighbours is a provider artifact, not a price.
+    Compare each bar against a centred rolling median of the segment it lives in
+    — computed *within* a split boundary so the legitimate step across the split
+    is never a candidate — and rescale the ones that are off by exactly a split
+    ratio.
+
+    Returns a copy with the bad bars rescaled; the input is left alone.
+    """
+    splits = [e for e in events if e.type == "split" and e.ticker == ticker]
+    if not splits or hist.empty:
+        return hist
+
+    s = hist.set_index("date")["close"].astype(float).copy()
+    repaired: list[tuple] = []
+
+    for sp in splits:
+        cut = pd.Timestamp(sp.date)
+        segments = [s.loc[: cut - pd.Timedelta(days=1)], s.loc[cut:]]
+        for seg in segments:
+            if len(seg) < 5:
+                continue
+            ref = seg.rolling(7, center=True, min_periods=3).median()
+            # Sparse artifacts can't move a 7-bar median, so it stands in for
+            # "what this bar should have been".
+            for target, factor in ((1.0 / sp.ratio, sp.ratio), (sp.ratio, 1.0 / sp.ratio)):
+                off = (seg / ref - target).abs() < tol * target
+                for d in seg.index[off.fillna(False)]:
+                    s.loc[d] *= factor
+                    repaired.append((d.date(), factor))
+
+    if repaired:
+        # More than a handful means the series is not "mostly right with a few
+        # bad bars" — it is something this heuristic should not be papering over.
+        if len(repaired) > max(5, int(0.05 * len(s))):
+            raise SystemExit(
+                f"✗ {ticker}: {len(repaired)} bars look split-misadjusted. That is too "
+                f"many to be provider noise — inspect the series before publishing."
+            )
+        shown = ", ".join(f"{d}×{f:g}" for d, f in repaired[:6])
+        print(f"⚠  {ticker}: repaired {len(repaired)} split-misadjusted bar(s) "
+              f"from the provider ({shown})")
+
+    out = hist.copy()
+    out["close"] = s.reindex(pd.to_datetime(hist["date"])).values
+    return out
+
+
+def split_corrected_returns(
+    hist: pd.DataFrame, events: list, ticker: str
+) -> pd.Series:
+    """
+    Daily returns with any un-back-adjusted split removed first.
+
+    build_value_series() already asks detect_split_adjustment() whether a series
+    is back-adjusted, because getting it wrong there fakes a 50% drawdown. The
+    covariance/correlation path needs exactly the same question asked: a raw
+    2-for-1 leaves a single -50% bar in the return series, which does not just
+    dent the volatility estimate, it *dominates* it — MNST read 55.0% annualised
+    against a true 26.7%, and one outlier that large drags every correlation
+    involving it toward zero and corrupts the whole risk-contribution split.
+
+    Dividing each as-traded price by the splits that came after it restates the
+    series in today's share denomination, which is what an adjusted series would
+    have been. A series that is already adjusted is returned untouched.
+    """
+    s = hist.set_index("date")["close"]
+    prices = {d.date(): float(v) for d, v in s.items() if pd.notna(v)}
+
+    if ledger.detect_split_adjustment(events, ticker, prices):
+        return s.pct_change().dropna()
+
+    factors = pd.Series(
+        [ledger.split_factor_after(events, ticker, d.date()) for d in s.index],
+        index=s.index,
+    )
+    print(f"  {ticker}: back-adjusting an as-traded series before computing returns")
+    return (s / factors).pct_change().dropna()
+
+
 def weighted_portfolio_returns(
     ticker_returns: dict[str, pd.Series], weights: dict[str, float]
 ) -> pd.Series:
@@ -321,7 +415,9 @@ def main():
     histories: dict[str, pd.DataFrame] = {}
     for t in all_tickers:
         print(f"  → {t}")
-        histories[t] = get_history(t, years=years)
+        # Repair provider artifacts once, here, so every downstream consumer
+        # (value series, returns, covariance) sees the same corrected prices.
+        histories[t] = repair_split_artifacts(get_history(t, years=years), events, t)
 
     print("Fetching latest quotes…")
     latest_prices: dict[str, float] = {}
@@ -347,8 +443,13 @@ def main():
         position_data.append(pos)
 
     # ── daily returns ─────────────────────────────────────────────────────────
-    ticker_returns = {t: returns_from_history(histories[t]) for t in tickers}
-    bench_returns = returns_from_history(histories[benchmark])
+    # Split-correct per ticker: the provider's series is not reliably adjusted
+    # (Yahoo still had MNST's 2026-08-11 2-for-1 unadjusted a week later), and
+    # an uncorrected split poisons every covariance this feeds.
+    ticker_returns = {
+        t: split_corrected_returns(histories[t], events, t) for t in tickers
+    }
+    bench_returns = split_corrected_returns(histories[benchmark], events, benchmark)
 
     # Value-weights for portfolio return series
     value_weights = {
@@ -390,13 +491,36 @@ def main():
     var = value_at_risk(port_returns, total_value)
     dd = max_drawdown(port_price)
 
-    # Covariance / correlation across individual holdings
-    returns_df = pd.DataFrame({t: ticker_returns[t] for t in tickers}).dropna()
+    # Covariance / correlation across individual holdings.
+    #
+    # NOT .dropna(). Dropping any row with a missing ticker means one recently
+    # listed holding truncates the window for everybody: SKHY listed 2026-07-10,
+    # and a row-wise dropna collapsed all six tickers to 26 shared observations
+    # — every correlation and every risk-contribution number on the dashboard
+    # was a 26-day sample masquerading as a year. This is the same trap
+    # build_value_series() documents; the fix only ever landed there.
+    #
+    # Pairwise-complete instead: each pair uses every day both tickers traded,
+    # so SKHY is estimated on its ~29 days while the other pairs keep all ~270.
+    returns_df = pd.DataFrame({t: ticker_returns[t] for t in tickers})
     cov_corr = covariance_matrix(returns_df)
 
-    # Risk contribution
+    obs = {t: int(returns_df[t].notna().sum()) for t in tickers}
+    thin = {t: n for t, n in obs.items() if n < 60}
+    for t, n in thin.items():
+        print(f"⚠  {t}: only {n} return observations — its correlations and risk "
+              f"share are a short-sample estimate, not a year of history.")
+
+    # Risk contribution. Pairwise covariance is not guaranteed positive
+    # semi-definite, and a negative eigenvalue yields negative "shares of
+    # variance" that sum past 100%. Clip the spectrum at zero to project onto
+    # the nearest PSD matrix before decomposing.
     w_array = np.array([weight_fractions[t] for t in tickers])
     cov_arr = returns_df.cov().values * 252
+    eigvals, eigvecs = np.linalg.eigh(cov_arr)
+    if (eigvals < -1e-12).any():
+        cov_arr = eigvecs @ np.diag(np.clip(eigvals, 0.0, None)) @ eigvecs.T
+        print("  covariance matrix was not PSD (pairwise windows); clipped to nearest PSD")
     risk_contrib = risk_contribution(w_array, cov_arr, tickers)
 
     # ── ledger-derived performance ───────────────────────────────────────────
