@@ -25,7 +25,7 @@ export default function PositionsTable({
         <table style={{ width: '100%', minWidth: 560, borderCollapse: 'collapse', fontSize: 14 }}>
           <thead>
             <tr style={{ borderBottom: '1px solid var(--border)' }}>
-              {['Ticker', 'Shares', 'Price', 'Gain/Loss %', 'Weight', 'Risk Contrib.'].map((h, i) => (
+              {['Ticker', 'Price', 'Gain/Loss %', 'Weight', 'Risk Contrib.'].map((h, i) => (
                 <th
                   key={h}
                   style={{
@@ -68,7 +68,6 @@ export default function PositionsTable({
                   >
                     {p.ticker}
                   </td>
-                  <td style={{ ...num, color: 'var(--text-secondary)' }}>{p.shares}</td>
                   <td style={num}>${fmt(p.latest_price)}</td>
                   <td style={{ ...num, color: gain ? 'var(--green)' : 'var(--red)' }}>
                     {gain ? '+' : ''}{fmt(p.unrealized_gl_pct)}%

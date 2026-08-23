@@ -67,16 +67,6 @@ export default function MetricsGrid({
           } as MetricDef,
         ]
       : []),
-    ...(p.realised_pl !== undefined
-      ? [
-          {
-            label: 'Realised P&L',
-            value: `${p.realised_pl >= 0 ? '+$' : '-$'}${fmt(Math.abs(p.realised_pl), 2)}`,
-            tooltip: `Profit or loss you've actually locked in by selling${p.sell_method ? ` (${p.sell_method.toUpperCase()} cost basis)` : ''}. Unlike unrealised gains, this money is banked and taxable.`,
-            positive: p.realised_pl >= 0,
-          } as MetricDef,
-        ]
-      : []),
     {
       label: 'Annualised Return',
       value: `${p.annualised_return >= 0 ? '+' : ''}${fmt(p.annualised_return, 2)}`,
