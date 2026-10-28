@@ -1,40 +1,40 @@
 {
-  "last_updated": "2026-10-27 00:45 UTC",
+  "last_updated": "2026-10-28 00:42 UTC",
   "is_sample_data": false,
   "portfolio": {
-    "total_value": 7070.71,
+    "total_value": 7101.07,
     "total_cost_basis": 6365.03,
-    "total_return_dollar": 705.68,
-    "total_return_pct": 11.09,
-    "cagr": 13.13,
-    "annualised_return": 16.19,
-    "annualised_volatility": 23.45,
-    "sharpe_ratio": 0.507,
-    "sortino_ratio": 0.517,
+    "total_return_dollar": 736.03,
+    "total_return_pct": 11.56,
+    "cagr": 14.86,
+    "annualised_return": 17.7,
+    "annualised_volatility": 23.46,
+    "sharpe_ratio": 0.571,
+    "sortino_ratio": 0.582,
     "max_drawdown": -16.9,
     "max_drawdown_peak_date": "2025-10-29",
     "max_drawdown_trough_date": "2026-03-30",
-    "beta": 1.3834,
-    "alpha": -2.24,
-    "r_squared": 0.5708,
-    "correlation_to_benchmark": 0.7555,
-    "treynor_ratio": 0.086,
+    "beta": 1.386,
+    "alpha": -1.61,
+    "r_squared": 0.5718,
+    "correlation_to_benchmark": 0.7562,
+    "treynor_ratio": 0.0967,
     "tracking_error": 16.13,
-    "information_ratio": 0.1039,
-    "var_95_historical_dollar": 151.37,
-    "var_95_historical_pct": -2.141,
-    "var_95_parametric_dollar": 167.27,
-    "var_95_parametric_pct": -2.366,
+    "information_ratio": 0.1594,
+    "var_95_historical_dollar": 151.83,
+    "var_95_historical_pct": -2.138,
+    "var_95_parametric_dollar": 167.62,
+    "var_95_parametric_pct": -2.361,
     "risk_free_rate": 4.3,
     "benchmark": "SPY",
     "realised_pl": 0.0,
-    "unrealised_pl": 705.68,
+    "unrealised_pl": 736.03,
     "dividends_received": 0.0,
     "fees_paid": 0.0,
-    "total_pl": 705.68,
+    "total_pl": 736.03,
     "net_contributed": 6365.03,
-    "time_weighted_return": 15.44,
-    "money_weighted_return": 10.45,
+    "time_weighted_return": 17.38,
+    "money_weighted_return": 10.8,
     "sell_method": "fifo",
     "transaction_count": 11,
     "first_transaction": "2025-01-24",
@@ -44,176 +44,176 @@
     {
       "ticker": "FTEC",
       "shares": 3.4545,
-      "latest_price": 288.61,
+      "latest_price": 293.07,
       "cost_basis_per_share": 217.7323,
       "cost_basis_total": 752.16,
-      "market_value": 997.0,
-      "unrealized_gl_dollar": 244.85,
-      "unrealized_gl_pct": 32.55,
-      "weight_pct": 14.1
+      "market_value": 1012.41,
+      "unrealized_gl_dollar": 260.25,
+      "unrealized_gl_pct": 34.6,
+      "weight_pct": 14.26
     },
     {
       "ticker": "MNST",
       "shares": 36.327,
-      "latest_price": 46.44,
+      "latest_price": 45.44,
       "cost_basis_per_share": 38.335,
       "cost_basis_total": 1392.6,
-      "market_value": 1687.03,
-      "unrealized_gl_dollar": 294.43,
-      "unrealized_gl_pct": 21.14,
-      "weight_pct": 23.86
+      "market_value": 1650.7,
+      "unrealized_gl_dollar": 258.1,
+      "unrealized_gl_pct": 18.53,
+      "weight_pct": 23.25
     },
     {
       "ticker": "NVDA",
       "shares": 7.5763,
-      "latest_price": 216.0,
+      "latest_price": 217.94,
       "cost_basis_per_share": 187.5653,
       "cost_basis_total": 1421.05,
-      "market_value": 1636.48,
-      "unrealized_gl_dollar": 215.43,
-      "unrealized_gl_pct": 15.16,
-      "weight_pct": 23.14
+      "market_value": 1651.18,
+      "unrealized_gl_dollar": 230.13,
+      "unrealized_gl_pct": 16.19,
+      "weight_pct": 23.25
     },
     {
       "ticker": "SKHY",
       "shares": 7.75,
-      "latest_price": 142.62,
+      "latest_price": 145.36,
       "cost_basis_per_share": 154.1239,
       "cost_basis_total": 1194.46,
-      "market_value": 1105.31,
-      "unrealized_gl_dollar": -89.16,
-      "unrealized_gl_pct": -7.46,
-      "weight_pct": 15.63
+      "market_value": 1126.54,
+      "unrealized_gl_dollar": -67.92,
+      "unrealized_gl_pct": -5.69,
+      "weight_pct": 15.86
     },
     {
       "ticker": "UUUU",
       "shares": 9.1611,
-      "latest_price": 7.56,
+      "latest_price": 8.23,
       "cost_basis_per_share": 21.8315,
       "cost_basis_total": 200.0,
-      "market_value": 69.26,
-      "unrealized_gl_dollar": -130.74,
-      "unrealized_gl_pct": -65.37,
-      "weight_pct": 0.98
+      "market_value": 75.4,
+      "unrealized_gl_dollar": -124.6,
+      "unrealized_gl_pct": -62.3,
+      "weight_pct": 1.06
     },
     {
       "ticker": "VOO",
       "shares": 2.24,
-      "latest_price": 703.41,
+      "latest_price": 707.52,
       "cost_basis_per_share": 627.13,
       "cost_basis_total": 1404.77,
-      "market_value": 1575.64,
-      "unrealized_gl_dollar": 170.87,
-      "unrealized_gl_pct": 12.16,
-      "weight_pct": 22.28
+      "market_value": 1584.84,
+      "unrealized_gl_dollar": 180.07,
+      "unrealized_gl_pct": 12.82,
+      "weight_pct": 22.32
     }
   ],
   "risk_contribution": {
-    "FTEC": 11.62,
-    "MNST": 3.03,
-    "NVDA": 25.59,
-    "SKHY": 51.19,
-    "UUUU": 1.35,
-    "VOO": 7.22
+    "FTEC": 11.64,
+    "MNST": 2.78,
+    "NVDA": 25.51,
+    "SKHY": 51.46,
+    "UUUU": 1.45,
+    "VOO": 7.16
   },
   "matrices": {
     "covariance": {
       "FTEC": {
-        "FTEC": 0.062226,
-        "MNST": -0.001655,
-        "NVDA": 0.070289,
-        "SKHY": 0.160333,
-        "UUUU": 0.099823,
-        "VOO": 0.027767
+        "FTEC": 0.062175,
+        "MNST": -0.001596,
+        "NVDA": 0.070327,
+        "SKHY": 0.160233,
+        "UUUU": 0.099539,
+        "VOO": 0.027746
       },
       "MNST": {
-        "FTEC": -0.001655,
-        "MNST": 0.069354,
-        "NVDA": -0.01033,
-        "SKHY": -0.036451,
-        "UUUU": -0.018053,
-        "VOO": 0.00326
+        "FTEC": -0.001596,
+        "MNST": 0.069112,
+        "NVDA": -0.010204,
+        "SKHY": -0.035117,
+        "UUUU": -0.017961,
+        "VOO": 0.003272
       },
       "NVDA": {
-        "FTEC": 0.070289,
-        "MNST": -0.01033,
-        "NVDA": 0.139236,
-        "SKHY": 0.183015,
-        "UUUU": 0.108821,
-        "VOO": 0.031198
+        "FTEC": 0.070327,
+        "MNST": -0.010204,
+        "NVDA": 0.139215,
+        "SKHY": 0.183851,
+        "UUUU": 0.108561,
+        "VOO": 0.031219
       },
       "SKHY": {
-        "FTEC": 0.160333,
-        "MNST": -0.036451,
-        "NVDA": 0.183015,
-        "SKHY": 1.010983,
-        "UUUU": 0.268654,
-        "VOO": 0.040709
+        "FTEC": 0.160233,
+        "MNST": -0.035117,
+        "NVDA": 0.183851,
+        "SKHY": 1.00317,
+        "UUUU": 0.266764,
+        "VOO": 0.041107
       },
       "UUUU": {
-        "FTEC": 0.099823,
-        "MNST": -0.018053,
-        "NVDA": 0.108821,
-        "SKHY": 0.268654,
-        "UUUU": 0.772826,
-        "VOO": 0.04679
+        "FTEC": 0.099539,
+        "MNST": -0.017961,
+        "NVDA": 0.108561,
+        "SKHY": 0.266764,
+        "UUUU": 0.769996,
+        "VOO": 0.046656
       },
       "VOO": {
-        "FTEC": 0.027767,
-        "MNST": 0.00326,
-        "NVDA": 0.031198,
-        "SKHY": 0.040709,
-        "UUUU": 0.04679,
-        "VOO": 0.016253
+        "FTEC": 0.027746,
+        "MNST": 0.003272,
+        "NVDA": 0.031219,
+        "SKHY": 0.041107,
+        "UUUU": 0.046656,
+        "VOO": 0.01623
       }
     },
     "correlation": {
       "FTEC": {
         "FTEC": 1.0,
-        "MNST": -0.0252,
-        "NVDA": 0.7551,
-        "SKHY": 0.6616,
-        "UUUU": 0.4552,
-        "VOO": 0.8731
+        "MNST": -0.0244,
+        "NVDA": 0.7559,
+        "SKHY": 0.6641,
+        "UUUU": 0.4549,
+        "VOO": 0.8734
       },
       "MNST": {
-        "FTEC": -0.0252,
+        "FTEC": -0.0244,
         "MNST": 1.0,
-        "NVDA": -0.1051,
-        "SKHY": -0.1432,
-        "UUUU": -0.078,
-        "VOO": 0.0971
+        "NVDA": -0.104,
+        "SKHY": -0.1393,
+        "UUUU": -0.0779,
+        "VOO": 0.0977
       },
       "NVDA": {
-        "FTEC": 0.7551,
-        "MNST": -0.1051,
+        "FTEC": 0.7559,
+        "MNST": -0.104,
         "NVDA": 1.0,
-        "SKHY": 0.49,
-        "UUUU": 0.3317,
-        "VOO": 0.6558
+        "SKHY": 0.4941,
+        "UUUU": 0.3316,
+        "VOO": 0.6568
       },
       "SKHY": {
-        "FTEC": 0.6616,
-        "MNST": -0.1432,
-        "NVDA": 0.49,
+        "FTEC": 0.6641,
+        "MNST": -0.1393,
+        "NVDA": 0.4941,
         "SKHY": 1.0,
-        "UUUU": 0.4032,
-        "VOO": 0.37
+        "UUUU": 0.4044,
+        "VOO": 0.3752
       },
       "UUUU": {
-        "FTEC": 0.4552,
-        "MNST": -0.078,
-        "NVDA": 0.3317,
-        "SKHY": 0.4032,
+        "FTEC": 0.4549,
+        "MNST": -0.0779,
+        "NVDA": 0.3316,
+        "SKHY": 0.4044,
         "UUUU": 1.0,
-        "VOO": 0.4175
+        "VOO": 0.4174
       },
       "VOO": {
-        "FTEC": 0.8731,
-        "MNST": 0.0971,
-        "NVDA": 0.6558,
-        "SKHY": 0.37,
-        "UUUU": 0.4175,
+        "FTEC": 0.8734,
+        "MNST": 0.0977,
+        "NVDA": 0.6568,
+        "SKHY": 0.3752,
+        "UUUU": 0.4174,
         "VOO": 1.0
       }
     }
@@ -1563,6 +1563,11 @@
       "date": "2026-10-23",
       "portfolio": 114.02,
       "SPY": 115.74
+    },
+    {
+      "date": "2026-10-26",
+      "portfolio": 115.93,
+      "SPY": 116.57
     }
   ]
 }
