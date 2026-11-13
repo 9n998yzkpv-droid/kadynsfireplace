@@ -1,40 +1,40 @@
 {
-  "last_updated": "2026-11-12 02:28 UTC",
+  "last_updated": "2026-11-13 02:05 UTC",
   "is_sample_data": false,
   "portfolio": {
-    "total_value": 6633.53,
+    "total_value": 6534.25,
     "total_cost_basis": 6365.03,
-    "total_return_dollar": 268.5,
-    "total_return_pct": 4.22,
-    "cagr": 3.25,
-    "annualised_return": 4.08,
-    "annualised_volatility": 23.87,
-    "sharpe_ratio": -0.009,
-    "sortino_ratio": -0.009,
+    "total_return_dollar": 169.21,
+    "total_return_pct": 2.66,
+    "cagr": 6.26,
+    "annualised_return": 8.67,
+    "annualised_volatility": 23.94,
+    "sharpe_ratio": 0.183,
+    "sortino_ratio": 0.179,
     "max_drawdown": -16.9,
     "max_drawdown_peak_date": "2025-10-29",
     "max_drawdown_trough_date": "2026-03-30",
-    "beta": 1.3413,
-    "alpha": -12.38,
-    "r_squared": 0.579,
-    "correlation_to_benchmark": 0.7609,
-    "treynor_ratio": -0.0016,
-    "tracking_error": 16.16,
-    "information_ratio": -0.5743,
-    "var_95_historical_dollar": 145.52,
+    "beta": 1.3469,
+    "alpha": -9.65,
+    "r_squared": 0.585,
+    "correlation_to_benchmark": 0.7648,
+    "treynor_ratio": 0.0324,
+    "tracking_error": 16.13,
+    "information_ratio": -0.3742,
+    "var_95_historical_dollar": 143.34,
     "var_95_historical_pct": -2.194,
-    "var_95_parametric_dollar": 163.01,
-    "var_95_parametric_pct": -2.457,
+    "var_95_parametric_dollar": 159.86,
+    "var_95_parametric_pct": -2.446,
     "risk_free_rate": 4.3,
     "benchmark": "SPY",
     "realised_pl": 0.0,
-    "unrealised_pl": 268.5,
+    "unrealised_pl": 169.21,
     "dividends_received": 0.0,
     "fees_paid": 0.0,
-    "total_pl": 268.5,
+    "total_pl": 169.21,
     "net_contributed": 6365.03,
-    "time_weighted_return": 1.34,
-    "money_weighted_return": 3.84,
+    "time_weighted_return": 6.45,
+    "money_weighted_return": 2.42,
     "sell_method": "fifo",
     "transaction_count": 11,
     "first_transaction": "2025-01-24",
@@ -44,1535 +44,1535 @@
     {
       "ticker": "FTEC",
       "shares": 3.4545,
-      "latest_price": 271.48,
+      "latest_price": 269.86,
       "cost_basis_per_share": 217.7323,
       "cost_basis_total": 752.16,
-      "market_value": 937.83,
-      "unrealized_gl_dollar": 185.67,
-      "unrealized_gl_pct": 24.69,
-      "weight_pct": 14.14
+      "market_value": 932.23,
+      "unrealized_gl_dollar": 180.08,
+      "unrealized_gl_pct": 23.94,
+      "weight_pct": 14.27
     },
     {
       "ticker": "MNST",
       "shares": 36.327,
-      "latest_price": 45.4,
+      "latest_price": 45.57,
       "cost_basis_per_share": 38.335,
       "cost_basis_total": 1392.6,
-      "market_value": 1649.25,
-      "unrealized_gl_dollar": 256.65,
-      "unrealized_gl_pct": 18.43,
-      "weight_pct": 24.86
+      "market_value": 1655.42,
+      "unrealized_gl_dollar": 262.83,
+      "unrealized_gl_pct": 18.87,
+      "weight_pct": 25.33
     },
     {
       "ticker": "NVDA",
       "shares": 7.5763,
-      "latest_price": 173.73,
+      "latest_price": 166.19,
       "cost_basis_per_share": 187.5653,
       "cost_basis_total": 1421.05,
-      "market_value": 1316.23,
-      "unrealized_gl_dollar": -104.82,
-      "unrealized_gl_pct": -7.38,
-      "weight_pct": 19.84
+      "market_value": 1259.11,
+      "unrealized_gl_dollar": -161.95,
+      "unrealized_gl_pct": -11.4,
+      "weight_pct": 19.27
     },
     {
       "ticker": "SKHY",
       "shares": 7.75,
-      "latest_price": 142.25,
+      "latest_price": 137.71,
       "cost_basis_per_share": 154.1239,
       "cost_basis_total": 1194.46,
-      "market_value": 1102.44,
-      "unrealized_gl_dollar": -92.02,
-      "unrealized_gl_pct": -7.7,
-      "weight_pct": 16.62
+      "market_value": 1067.25,
+      "unrealized_gl_dollar": -127.21,
+      "unrealized_gl_pct": -10.65,
+      "weight_pct": 16.33
     },
     {
       "ticker": "UUUU",
       "shares": 9.1611,
-      "latest_price": 6.93,
+      "latest_price": 6.68,
       "cost_basis_per_share": 21.8315,
       "cost_basis_total": 200.0,
-      "market_value": 63.49,
-      "unrealized_gl_dollar": -136.51,
-      "unrealized_gl_pct": -68.26,
-      "weight_pct": 0.96
+      "market_value": 61.2,
+      "unrealized_gl_dollar": -138.8,
+      "unrealized_gl_pct": -69.4,
+      "weight_pct": 0.94
     },
     {
       "ticker": "VOO",
       "shares": 2.24,
-      "latest_price": 698.35,
+      "latest_price": 696.0,
       "cost_basis_per_share": 627.13,
       "cost_basis_total": 1404.77,
-      "market_value": 1564.3,
-      "unrealized_gl_dollar": 159.53,
-      "unrealized_gl_pct": 11.36,
-      "weight_pct": 23.58
+      "market_value": 1559.04,
+      "unrealized_gl_dollar": 154.27,
+      "unrealized_gl_pct": 10.98,
+      "weight_pct": 23.86
     }
   ],
   "risk_contribution": {
-    "FTEC": 11.98,
-    "MNST": 3.32,
-    "NVDA": 21.25,
-    "SKHY": 53.76,
-    "UUUU": 1.34,
-    "VOO": 8.35
+    "FTEC": 12.24,
+    "MNST": 3.66,
+    "NVDA": 20.69,
+    "SKHY": 53.48,
+    "UUUU": 1.32,
+    "VOO": 8.6
   },
   "matrices": {
     "covariance": {
       "FTEC": {
-        "FTEC": 0.068776,
-        "MNST": -0.001298,
-        "NVDA": 0.075764,
-        "SKHY": 0.192073,
-        "UUUU": 0.110517,
-        "VOO": 0.031002
+        "FTEC": 0.069349,
+        "MNST": -0.001033,
+        "NVDA": 0.075958,
+        "SKHY": 0.19829,
+        "UUUU": 0.112709,
+        "VOO": 0.031301
       },
       "MNST": {
-        "FTEC": -0.001298,
-        "MNST": 0.072086,
-        "NVDA": -0.010735,
-        "SKHY": -0.038083,
-        "UUUU": -0.015492,
-        "VOO": 0.004514
+        "FTEC": -0.001033,
+        "MNST": 0.071692,
+        "NVDA": -0.009888,
+        "SKHY": -0.037067,
+        "UUUU": -0.017535,
+        "VOO": 0.004553
       },
       "NVDA": {
-        "FTEC": 0.075764,
-        "MNST": -0.010735,
-        "NVDA": 0.151022,
-        "SKHY": 0.209986,
-        "UUUU": 0.114946,
-        "VOO": 0.032952
+        "FTEC": 0.075958,
+        "MNST": -0.009888,
+        "NVDA": 0.149974,
+        "SKHY": 0.216328,
+        "UUUU": 0.120179,
+        "VOO": 0.033199
       },
       "SKHY": {
-        "FTEC": 0.192073,
-        "MNST": -0.038083,
-        "NVDA": 0.209986,
-        "SKHY": 1.023708,
-        "UUUU": 0.318121,
-        "VOO": 0.061475
+        "FTEC": 0.19829,
+        "MNST": -0.037067,
+        "NVDA": 0.216328,
+        "SKHY": 1.039718,
+        "UUUU": 0.324474,
+        "VOO": 0.064411
       },
       "UUUU": {
-        "FTEC": 0.110517,
-        "MNST": -0.015492,
-        "NVDA": 0.114946,
-        "SKHY": 0.318121,
-        "UUUU": 0.751335,
-        "VOO": 0.052827
+        "FTEC": 0.112709,
+        "MNST": -0.017535,
+        "NVDA": 0.120179,
+        "SKHY": 0.324474,
+        "UUUU": 0.741616,
+        "VOO": 0.053384
       },
       "VOO": {
-        "FTEC": 0.031002,
-        "MNST": 0.004514,
-        "NVDA": 0.032952,
-        "SKHY": 0.061475,
-        "UUUU": 0.052827,
-        "VOO": 0.018156
+        "FTEC": 0.031301,
+        "MNST": 0.004553,
+        "NVDA": 0.033199,
+        "SKHY": 0.064411,
+        "UUUU": 0.053384,
+        "VOO": 0.018293
       }
     },
     "correlation": {
       "FTEC": {
         "FTEC": 1.0,
-        "MNST": -0.0184,
-        "NVDA": 0.7434,
-        "SKHY": 0.6683,
-        "UUUU": 0.4862,
-        "VOO": 0.8773
+        "MNST": -0.0147,
+        "NVDA": 0.7448,
+        "SKHY": 0.6778,
+        "UUUU": 0.497,
+        "VOO": 0.8788
       },
       "MNST": {
-        "FTEC": -0.0184,
+        "FTEC": -0.0147,
         "MNST": 1.0,
-        "NVDA": -0.1029,
-        "SKHY": -0.142,
-        "UUUU": -0.0666,
-        "VOO": 0.1248
+        "NVDA": -0.0954,
+        "SKHY": -0.1379,
+        "UUUU": -0.076,
+        "VOO": 0.1257
       },
       "NVDA": {
-        "FTEC": 0.7434,
-        "MNST": -0.1029,
+        "FTEC": 0.7448,
+        "MNST": -0.0954,
         "NVDA": 1.0,
-        "SKHY": 0.5003,
-        "UUUU": 0.3412,
-        "VOO": 0.6293
+        "SKHY": 0.5103,
+        "UUUU": 0.3604,
+        "VOO": 0.6338
       },
       "SKHY": {
-        "FTEC": 0.6683,
-        "MNST": -0.142,
-        "NVDA": 0.5003,
+        "FTEC": 0.6778,
+        "MNST": -0.1379,
+        "NVDA": 0.5103,
         "SKHY": 1.0,
-        "UUUU": 0.4511,
-        "VOO": 0.432
+        "UUUU": 0.4575,
+        "VOO": 0.4464
       },
       "UUUU": {
-        "FTEC": 0.4862,
-        "MNST": -0.0666,
-        "NVDA": 0.3412,
-        "SKHY": 0.4511,
+        "FTEC": 0.497,
+        "MNST": -0.076,
+        "NVDA": 0.3604,
+        "SKHY": 0.4575,
         "UUUU": 1.0,
-        "VOO": 0.4523
+        "VOO": 0.4583
       },
       "VOO": {
-        "FTEC": 0.8773,
-        "MNST": 0.1248,
-        "NVDA": 0.6293,
-        "SKHY": 0.432,
-        "UUUU": 0.4523,
+        "FTEC": 0.8788,
+        "MNST": 0.1257,
+        "NVDA": 0.6338,
+        "SKHY": 0.4464,
+        "UUUU": 0.4583,
         "VOO": 1.0
       }
     }
   },
   "growth_chart": [
     {
-      "date": "2025-10-14",
-      "portfolio": 100.0,
-      "SPY": 99.88
-    },
-    {
       "date": "2025-10-15",
-      "portfolio": 99.74,
-      "SPY": 100.32
+      "portfolio": 100.0,
+      "SPY": 100.44
     },
     {
       "date": "2025-10-16",
-      "portfolio": 99.03,
-      "SPY": 99.64
+      "portfolio": 99.28,
+      "SPY": 99.76
     },
     {
       "date": "2025-10-17",
-      "portfolio": 99.26,
-      "SPY": 100.2
+      "portfolio": 99.52,
+      "SPY": 100.33
     },
     {
       "date": "2025-10-20",
-      "portfolio": 100.08,
-      "SPY": 101.25
+      "portfolio": 100.34,
+      "SPY": 101.37
     },
     {
       "date": "2025-10-21",
-      "portfolio": 98.85,
-      "SPY": 101.24
+      "portfolio": 99.11,
+      "SPY": 101.37
     },
     {
       "date": "2025-10-22",
-      "portfolio": 98.98,
-      "SPY": 100.72
+      "portfolio": 99.24,
+      "SPY": 100.84
     },
     {
       "date": "2025-10-23",
-      "portfolio": 99.45,
-      "SPY": 101.32
+      "portfolio": 99.71,
+      "SPY": 101.44
     },
     {
       "date": "2025-10-24",
-      "portfolio": 101.32,
-      "SPY": 102.14
+      "portfolio": 101.59,
+      "SPY": 102.27
     },
     {
       "date": "2025-10-27",
-      "portfolio": 102.72,
-      "SPY": 103.35
+      "portfolio": 102.99,
+      "SPY": 103.47
     },
     {
       "date": "2025-10-28",
-      "portfolio": 106.44,
-      "SPY": 103.62
+      "portfolio": 106.72,
+      "SPY": 103.75
     },
     {
       "date": "2025-10-29",
-      "portfolio": 108.77,
-      "SPY": 103.67
-    },
-    {
-      "date": "2025-10-30",
-      "portfolio": 107.57,
-      "SPY": 102.53
-    },
-    {
-      "date": "2025-10-31",
-      "portfolio": 107.03,
-      "SPY": 102.87
-    },
-    {
-      "date": "2025-11-03",
-      "portfolio": 107.5,
-      "SPY": 103.06
-    },
-    {
-      "date": "2025-11-04",
-      "portfolio": 103.66,
-      "SPY": 101.84
-    },
-    {
-      "date": "2025-11-05",
-      "portfolio": 102.35,
-      "SPY": 102.19
-    },
-    {
-      "date": "2025-11-06",
-      "portfolio": 99.01,
-      "SPY": 101.1
-    },
-    {
-      "date": "2025-11-07",
-      "portfolio": 99.18,
-      "SPY": 101.2
-    },
-    {
-      "date": "2025-11-10",
-      "portfolio": 103.82,
-      "SPY": 102.78
-    },
-    {
-      "date": "2025-11-11",
-      "portfolio": 101.31,
-      "SPY": 103.01
-    },
-    {
-      "date": "2025-11-12",
-      "portfolio": 101.6,
-      "SPY": 103.07
-    },
-    {
-      "date": "2025-11-13",
-      "portfolio": 98.32,
-      "SPY": 101.36
-    },
-    {
-      "date": "2025-11-14",
-      "portfolio": 99.57,
-      "SPY": 101.34
-    },
-    {
-      "date": "2025-11-17",
-      "portfolio": 97.64,
-      "SPY": 100.4
-    },
-    {
-      "date": "2025-11-18",
-      "portfolio": 95.53,
-      "SPY": 99.55
-    },
-    {
-      "date": "2025-11-19",
-      "portfolio": 97.57,
-      "SPY": 99.94
-    },
-    {
-      "date": "2025-11-20",
-      "portfolio": 93.87,
-      "SPY": 98.41
-    },
-    {
-      "date": "2025-11-21",
-      "portfolio": 93.27,
-      "SPY": 99.4
-    },
-    {
-      "date": "2025-11-24",
-      "portfolio": 95.69,
-      "SPY": 100.86
-    },
-    {
-      "date": "2025-11-25",
-      "portfolio": 94.48,
-      "SPY": 101.81
-    },
-    {
-      "date": "2025-11-26",
-      "portfolio": 95.55,
-      "SPY": 102.51
-    },
-    {
-      "date": "2025-11-28",
-      "portfolio": 94.75,
-      "SPY": 103.07
-    },
-    {
-      "date": "2025-12-01",
-      "portfolio": 95.54,
-      "SPY": 102.6
-    },
-    {
-      "date": "2025-12-02",
-      "portfolio": 96.74,
-      "SPY": 102.79
-    },
-    {
-      "date": "2025-12-03",
-      "portfolio": 96.23,
-      "SPY": 103.14
-    },
-    {
-      "date": "2025-12-04",
-      "portfolio": 98.08,
-      "SPY": 103.22
-    },
-    {
-      "date": "2025-12-05",
-      "portfolio": 97.63,
-      "SPY": 103.42
-    },
-    {
-      "date": "2025-12-08",
-      "portfolio": 98.89,
-      "SPY": 103.11
-    },
-    {
-      "date": "2025-12-09",
-      "portfolio": 98.73,
-      "SPY": 103.02
-    },
-    {
-      "date": "2025-12-10",
-      "portfolio": 98.25,
-      "SPY": 103.7
-    },
-    {
-      "date": "2025-12-11",
-      "portfolio": 97.6,
-      "SPY": 103.94
-    },
-    {
-      "date": "2025-12-12",
-      "portfolio": 94.25,
-      "SPY": 102.82
-    },
-    {
-      "date": "2025-12-15",
-      "portfolio": 94.07,
-      "SPY": 102.67
-    },
-    {
-      "date": "2025-12-16",
-      "portfolio": 94.62,
-      "SPY": 102.39
-    },
-    {
-      "date": "2025-12-17",
-      "portfolio": 91.54,
-      "SPY": 101.26
-    },
-    {
-      "date": "2025-12-18",
-      "portfolio": 93.2,
-      "SPY": 102.03
-    },
-    {
-      "date": "2025-12-19",
-      "portfolio": 96.49,
-      "SPY": 102.95
-    },
-    {
-      "date": "2025-12-22",
-      "portfolio": 97.57,
-      "SPY": 103.59
-    },
-    {
-      "date": "2025-12-23",
-      "portfolio": 99.55,
-      "SPY": 104.07
-    },
-    {
-      "date": "2025-12-24",
-      "portfolio": 99.39,
-      "SPY": 104.43
-    },
-    {
-      "date": "2025-12-26",
-      "portfolio": 99.85,
-      "SPY": 104.42
-    },
-    {
-      "date": "2025-12-29",
-      "portfolio": 99.11,
-      "SPY": 104.05
-    },
-    {
-      "date": "2025-12-30",
-      "portfolio": 98.46,
-      "SPY": 103.92
-    },
-    {
-      "date": "2025-12-31",
-      "portfolio": 97.93,
-      "SPY": 103.15
-    },
-    {
-      "date": "2026-01-02",
-      "portfolio": 98.75,
-      "SPY": 103.34
-    },
-    {
-      "date": "2026-01-05",
-      "portfolio": 98.84,
-      "SPY": 104.03
-    },
-    {
-      "date": "2026-01-06",
-      "portfolio": 98.9,
-      "SPY": 104.65
-    },
-    {
-      "date": "2026-01-07",
-      "portfolio": 99.61,
-      "SPY": 104.31
-    },
-    {
-      "date": "2026-01-08",
-      "portfolio": 98.61,
-      "SPY": 104.3
-    },
-    {
-      "date": "2026-01-09",
-      "portfolio": 99.03,
-      "SPY": 104.99
-    },
-    {
-      "date": "2026-01-12",
-      "portfolio": 99.49,
-      "SPY": 105.15
-    },
-    {
-      "date": "2026-01-13",
-      "portfolio": 100.13,
-      "SPY": 104.94
-    },
-    {
-      "date": "2026-01-14",
-      "portfolio": 99.36,
-      "SPY": 104.43
-    },
-    {
-      "date": "2026-01-15",
-      "portfolio": 100.34,
-      "SPY": 104.71
-    },
-    {
-      "date": "2026-01-16",
-      "portfolio": 100.54,
-      "SPY": 104.62
-    },
-    {
-      "date": "2026-01-20",
-      "portfolio": 100.34,
-      "SPY": 102.49
-    },
-    {
-      "date": "2026-01-21",
-      "portfolio": 101.33,
-      "SPY": 103.68
-    },
-    {
-      "date": "2026-01-22",
-      "portfolio": 101.89,
-      "SPY": 104.22
-    },
-    {
-      "date": "2026-01-23",
-      "portfolio": 102.92,
-      "SPY": 104.26
-    },
-    {
-      "date": "2026-01-26",
-      "portfolio": 102.31,
-      "SPY": 104.79
-    },
-    {
-      "date": "2026-01-27",
-      "portfolio": 103.14,
-      "SPY": 105.2
-    },
-    {
-      "date": "2026-01-28",
-      "portfolio": 104.14,
-      "SPY": 105.19
-    },
-    {
-      "date": "2026-01-29",
-      "portfolio": 103.13,
-      "SPY": 104.98
-    },
-    {
-      "date": "2026-01-30",
-      "portfolio": 102.4,
-      "SPY": 104.67
-    },
-    {
-      "date": "2026-02-02",
-      "portfolio": 101.73,
-      "SPY": 105.19
-    },
-    {
-      "date": "2026-02-03",
-      "portfolio": 101.3,
-      "SPY": 104.3
-    },
-    {
-      "date": "2026-02-04",
-      "portfolio": 99.24,
+      "portfolio": 109.05,
       "SPY": 103.8
     },
     {
-      "date": "2026-02-05",
-      "portfolio": 98.09,
-      "SPY": 102.5
+      "date": "2025-10-30",
+      "portfolio": 107.85,
+      "SPY": 102.66
     },
     {
-      "date": "2026-02-06",
-      "portfolio": 101.78,
-      "SPY": 104.47
+      "date": "2025-10-31",
+      "portfolio": 107.31,
+      "SPY": 102.99
     },
     {
-      "date": "2026-02-09",
-      "portfolio": 102.57,
-      "SPY": 104.97
+      "date": "2025-11-03",
+      "portfolio": 107.78,
+      "SPY": 103.19
     },
     {
-      "date": "2026-02-10",
-      "portfolio": 101.72,
-      "SPY": 104.69
+      "date": "2025-11-04",
+      "portfolio": 103.93,
+      "SPY": 101.96
     },
     {
-      "date": "2026-02-11",
-      "portfolio": 102.28,
-      "SPY": 104.67
+      "date": "2025-11-05",
+      "portfolio": 102.62,
+      "SPY": 102.32
     },
     {
-      "date": "2026-02-12",
-      "portfolio": 100.96,
-      "SPY": 103.05
+      "date": "2025-11-06",
+      "portfolio": 99.27,
+      "SPY": 101.22
     },
     {
-      "date": "2026-02-13",
-      "portfolio": 100.4,
-      "SPY": 103.13
+      "date": "2025-11-07",
+      "portfolio": 99.44,
+      "SPY": 101.32
     },
     {
-      "date": "2026-02-17",
-      "portfolio": 101.24,
-      "SPY": 103.29
+      "date": "2025-11-10",
+      "portfolio": 104.09,
+      "SPY": 102.9
     },
     {
-      "date": "2026-02-18",
-      "portfolio": 102.19,
-      "SPY": 103.81
+      "date": "2025-11-11",
+      "portfolio": 101.57,
+      "SPY": 103.14
     },
     {
-      "date": "2026-02-19",
-      "portfolio": 101.74,
-      "SPY": 103.54
+      "date": "2025-11-12",
+      "portfolio": 101.87,
+      "SPY": 103.19
     },
     {
-      "date": "2026-02-20",
-      "portfolio": 102.8,
-      "SPY": 104.29
+      "date": "2025-11-13",
+      "portfolio": 98.58,
+      "SPY": 101.48
     },
     {
-      "date": "2026-02-23",
-      "portfolio": 102.82,
-      "SPY": 103.22
+      "date": "2025-11-14",
+      "portfolio": 99.83,
+      "SPY": 101.46
     },
     {
-      "date": "2026-02-24",
-      "portfolio": 104.02,
-      "SPY": 103.97
+      "date": "2025-11-17",
+      "portfolio": 97.9,
+      "SPY": 100.52
     },
     {
-      "date": "2026-02-25",
-      "portfolio": 104.84,
-      "SPY": 104.85
+      "date": "2025-11-18",
+      "portfolio": 95.78,
+      "SPY": 99.68
     },
     {
-      "date": "2026-02-26",
-      "portfolio": 103.39,
-      "SPY": 104.27
+      "date": "2025-11-19",
+      "portfolio": 97.82,
+      "SPY": 100.06
     },
     {
-      "date": "2026-02-27",
-      "portfolio": 101.11,
-      "SPY": 103.77
+      "date": "2025-11-20",
+      "portfolio": 94.12,
+      "SPY": 98.54
     },
     {
-      "date": "2026-03-02",
-      "portfolio": 100.92,
-      "SPY": 103.83
+      "date": "2025-11-21",
+      "portfolio": 93.51,
+      "SPY": 99.52
     },
     {
-      "date": "2026-03-03",
-      "portfolio": 98.95,
+      "date": "2025-11-24",
+      "portfolio": 95.94,
+      "SPY": 100.98
+    },
+    {
+      "date": "2025-11-25",
+      "portfolio": 94.73,
+      "SPY": 101.93
+    },
+    {
+      "date": "2025-11-26",
+      "portfolio": 95.8,
+      "SPY": 102.64
+    },
+    {
+      "date": "2025-11-28",
+      "portfolio": 94.99,
+      "SPY": 103.2
+    },
+    {
+      "date": "2025-12-01",
+      "portfolio": 95.79,
+      "SPY": 102.72
+    },
+    {
+      "date": "2025-12-02",
+      "portfolio": 97.0,
       "SPY": 102.91
     },
     {
-      "date": "2026-03-04",
-      "portfolio": 99.8,
-      "SPY": 103.64
+      "date": "2025-12-03",
+      "portfolio": 96.48,
+      "SPY": 103.27
     },
     {
-      "date": "2026-03-05",
-      "portfolio": 98.77,
-      "SPY": 103.06
+      "date": "2025-12-04",
+      "portfolio": 98.33,
+      "SPY": 103.35
     },
     {
-      "date": "2026-03-06",
-      "portfolio": 96.7,
-      "SPY": 101.71
-    },
-    {
-      "date": "2026-03-09",
-      "portfolio": 98.09,
-      "SPY": 102.6
-    },
-    {
-      "date": "2026-03-10",
-      "portfolio": 98.77,
-      "SPY": 102.43
-    },
-    {
-      "date": "2026-03-11",
-      "portfolio": 99.23,
-      "SPY": 102.31
-    },
-    {
-      "date": "2026-03-12",
+      "date": "2025-12-05",
       "portfolio": 97.89,
-      "SPY": 100.75
+      "SPY": 103.54
     },
     {
-      "date": "2026-03-13",
-      "portfolio": 97.04,
-      "SPY": 100.18
+      "date": "2025-12-08",
+      "portfolio": 99.14,
+      "SPY": 103.23
     },
     {
-      "date": "2026-03-16",
-      "portfolio": 98.02,
-      "SPY": 101.2
+      "date": "2025-12-09",
+      "portfolio": 98.99,
+      "SPY": 103.14
     },
     {
-      "date": "2026-03-17",
-      "portfolio": 98.16,
-      "SPY": 101.47
+      "date": "2025-12-10",
+      "portfolio": 98.51,
+      "SPY": 103.83
     },
     {
-      "date": "2026-03-18",
-      "portfolio": 96.09,
-      "SPY": 100.05
-    },
-    {
-      "date": "2026-03-19",
-      "portfolio": 95.52,
-      "SPY": 99.81
-    },
-    {
-      "date": "2026-03-20",
-      "portfolio": 93.73,
-      "SPY": 98.37
-    },
-    {
-      "date": "2026-03-23",
-      "portfolio": 94.94,
-      "SPY": 99.41
-    },
-    {
-      "date": "2026-03-24",
-      "portfolio": 94.42,
-      "SPY": 99.07
-    },
-    {
-      "date": "2026-03-25",
-      "portfolio": 95.36,
-      "SPY": 99.63
-    },
-    {
-      "date": "2026-03-26",
-      "portfolio": 92.78,
-      "SPY": 97.85
-    },
-    {
-      "date": "2026-03-27",
-      "portfolio": 91.45,
-      "SPY": 96.18
-    },
-    {
-      "date": "2026-03-30",
-      "portfolio": 90.39,
-      "SPY": 95.86
-    },
-    {
-      "date": "2026-03-31",
-      "portfolio": 93.74,
-      "SPY": 98.64
-    },
-    {
-      "date": "2026-04-01",
-      "portfolio": 94.38,
-      "SPY": 99.39
-    },
-    {
-      "date": "2026-04-02",
-      "portfolio": 94.59,
-      "SPY": 99.48
-    },
-    {
-      "date": "2026-04-06",
-      "portfolio": 95.46,
-      "SPY": 99.95
-    },
-    {
-      "date": "2026-04-07",
-      "portfolio": 94.91,
-      "SPY": 99.99
-    },
-    {
-      "date": "2026-04-08",
-      "portfolio": 97.68,
-      "SPY": 102.54
-    },
-    {
-      "date": "2026-04-09",
-      "portfolio": 98.48,
-      "SPY": 103.13
-    },
-    {
-      "date": "2026-04-10",
-      "portfolio": 99.07,
-      "SPY": 103.06
-    },
-    {
-      "date": "2026-04-13",
-      "portfolio": 99.71,
+      "date": "2025-12-11",
+      "portfolio": 97.86,
       "SPY": 104.07
     },
     {
+      "date": "2025-12-12",
+      "portfolio": 94.5,
+      "SPY": 102.95
+    },
+    {
+      "date": "2025-12-15",
+      "portfolio": 94.32,
+      "SPY": 102.79
+    },
+    {
+      "date": "2025-12-16",
+      "portfolio": 94.86,
+      "SPY": 102.51
+    },
+    {
+      "date": "2025-12-17",
+      "portfolio": 91.77,
+      "SPY": 101.38
+    },
+    {
+      "date": "2025-12-18",
+      "portfolio": 93.44,
+      "SPY": 102.15
+    },
+    {
+      "date": "2025-12-19",
+      "portfolio": 96.75,
+      "SPY": 103.08
+    },
+    {
+      "date": "2025-12-22",
+      "portfolio": 97.83,
+      "SPY": 103.72
+    },
+    {
+      "date": "2025-12-23",
+      "portfolio": 99.81,
+      "SPY": 104.19
+    },
+    {
+      "date": "2025-12-24",
+      "portfolio": 99.65,
+      "SPY": 104.56
+    },
+    {
+      "date": "2025-12-26",
+      "portfolio": 100.11,
+      "SPY": 104.55
+    },
+    {
+      "date": "2025-12-29",
+      "portfolio": 99.37,
+      "SPY": 104.18
+    },
+    {
+      "date": "2025-12-30",
+      "portfolio": 98.72,
+      "SPY": 104.05
+    },
+    {
+      "date": "2025-12-31",
+      "portfolio": 98.19,
+      "SPY": 103.28
+    },
+    {
+      "date": "2026-01-02",
+      "portfolio": 99.01,
+      "SPY": 103.47
+    },
+    {
+      "date": "2026-01-05",
+      "portfolio": 99.1,
+      "SPY": 104.16
+    },
+    {
+      "date": "2026-01-06",
+      "portfolio": 99.16,
+      "SPY": 104.78
+    },
+    {
+      "date": "2026-01-07",
+      "portfolio": 99.87,
+      "SPY": 104.44
+    },
+    {
+      "date": "2026-01-08",
+      "portfolio": 98.87,
+      "SPY": 104.43
+    },
+    {
+      "date": "2026-01-09",
+      "portfolio": 99.29,
+      "SPY": 105.12
+    },
+    {
+      "date": "2026-01-12",
+      "portfolio": 99.75,
+      "SPY": 105.28
+    },
+    {
+      "date": "2026-01-13",
+      "portfolio": 100.39,
+      "SPY": 105.07
+    },
+    {
+      "date": "2026-01-14",
+      "portfolio": 99.62,
+      "SPY": 104.56
+    },
+    {
+      "date": "2026-01-15",
+      "portfolio": 100.6,
+      "SPY": 104.84
+    },
+    {
+      "date": "2026-01-16",
+      "portfolio": 100.8,
+      "SPY": 104.75
+    },
+    {
+      "date": "2026-01-20",
+      "portfolio": 100.6,
+      "SPY": 102.62
+    },
+    {
+      "date": "2026-01-21",
+      "portfolio": 101.6,
+      "SPY": 103.8
+    },
+    {
+      "date": "2026-01-22",
+      "portfolio": 102.16,
+      "SPY": 104.35
+    },
+    {
+      "date": "2026-01-23",
+      "portfolio": 103.19,
+      "SPY": 104.38
+    },
+    {
+      "date": "2026-01-26",
+      "portfolio": 102.58,
+      "SPY": 104.91
+    },
+    {
+      "date": "2026-01-27",
+      "portfolio": 103.41,
+      "SPY": 105.33
+    },
+    {
+      "date": "2026-01-28",
+      "portfolio": 104.42,
+      "SPY": 105.32
+    },
+    {
+      "date": "2026-01-29",
+      "portfolio": 103.4,
+      "SPY": 105.11
+    },
+    {
+      "date": "2026-01-30",
+      "portfolio": 102.67,
+      "SPY": 104.8
+    },
+    {
+      "date": "2026-02-02",
+      "portfolio": 101.99,
+      "SPY": 105.32
+    },
+    {
+      "date": "2026-02-03",
+      "portfolio": 101.57,
+      "SPY": 104.43
+    },
+    {
+      "date": "2026-02-04",
+      "portfolio": 99.49,
+      "SPY": 103.92
+    },
+    {
+      "date": "2026-02-05",
+      "portfolio": 98.35,
+      "SPY": 102.63
+    },
+    {
+      "date": "2026-02-06",
+      "portfolio": 102.04,
+      "SPY": 104.6
+    },
+    {
+      "date": "2026-02-09",
+      "portfolio": 102.84,
+      "SPY": 105.1
+    },
+    {
+      "date": "2026-02-10",
+      "portfolio": 101.99,
+      "SPY": 104.82
+    },
+    {
+      "date": "2026-02-11",
+      "portfolio": 102.55,
+      "SPY": 104.8
+    },
+    {
+      "date": "2026-02-12",
+      "portfolio": 101.23,
+      "SPY": 103.18
+    },
+    {
+      "date": "2026-02-13",
+      "portfolio": 100.66,
+      "SPY": 103.25
+    },
+    {
+      "date": "2026-02-17",
+      "portfolio": 101.51,
+      "SPY": 103.42
+    },
+    {
+      "date": "2026-02-18",
+      "portfolio": 102.45,
+      "SPY": 103.94
+    },
+    {
+      "date": "2026-02-19",
+      "portfolio": 102.0,
+      "SPY": 103.67
+    },
+    {
+      "date": "2026-02-20",
+      "portfolio": 103.07,
+      "SPY": 104.41
+    },
+    {
+      "date": "2026-02-23",
+      "portfolio": 103.09,
+      "SPY": 103.35
+    },
+    {
+      "date": "2026-02-24",
+      "portfolio": 104.29,
+      "SPY": 104.1
+    },
+    {
+      "date": "2026-02-25",
+      "portfolio": 105.11,
+      "SPY": 104.98
+    },
+    {
+      "date": "2026-02-26",
+      "portfolio": 103.66,
+      "SPY": 104.4
+    },
+    {
+      "date": "2026-02-27",
+      "portfolio": 101.37,
+      "SPY": 103.89
+    },
+    {
+      "date": "2026-03-02",
+      "portfolio": 101.18,
+      "SPY": 103.95
+    },
+    {
+      "date": "2026-03-03",
+      "portfolio": 99.21,
+      "SPY": 103.04
+    },
+    {
+      "date": "2026-03-04",
+      "portfolio": 100.06,
+      "SPY": 103.76
+    },
+    {
+      "date": "2026-03-05",
+      "portfolio": 99.03,
+      "SPY": 103.19
+    },
+    {
+      "date": "2026-03-06",
+      "portfolio": 96.96,
+      "SPY": 101.83
+    },
+    {
+      "date": "2026-03-09",
+      "portfolio": 98.35,
+      "SPY": 102.72
+    },
+    {
+      "date": "2026-03-10",
+      "portfolio": 99.03,
+      "SPY": 102.56
+    },
+    {
+      "date": "2026-03-11",
+      "portfolio": 99.49,
+      "SPY": 102.43
+    },
+    {
+      "date": "2026-03-12",
+      "portfolio": 98.15,
+      "SPY": 100.88
+    },
+    {
+      "date": "2026-03-13",
+      "portfolio": 97.29,
+      "SPY": 100.3
+    },
+    {
+      "date": "2026-03-16",
+      "portfolio": 98.27,
+      "SPY": 101.33
+    },
+    {
+      "date": "2026-03-17",
+      "portfolio": 98.41,
+      "SPY": 101.59
+    },
+    {
+      "date": "2026-03-18",
+      "portfolio": 96.34,
+      "SPY": 100.17
+    },
+    {
+      "date": "2026-03-19",
+      "portfolio": 95.77,
+      "SPY": 99.93
+    },
+    {
+      "date": "2026-03-20",
+      "portfolio": 93.98,
+      "SPY": 98.49
+    },
+    {
+      "date": "2026-03-23",
+      "portfolio": 95.18,
+      "SPY": 99.53
+    },
+    {
+      "date": "2026-03-24",
+      "portfolio": 94.67,
+      "SPY": 99.2
+    },
+    {
+      "date": "2026-03-25",
+      "portfolio": 95.61,
+      "SPY": 99.75
+    },
+    {
+      "date": "2026-03-26",
+      "portfolio": 93.02,
+      "SPY": 97.97
+    },
+    {
+      "date": "2026-03-27",
+      "portfolio": 91.68,
+      "SPY": 96.3
+    },
+    {
+      "date": "2026-03-30",
+      "portfolio": 90.62,
+      "SPY": 95.97
+    },
+    {
+      "date": "2026-03-31",
+      "portfolio": 93.99,
+      "SPY": 98.76
+    },
+    {
+      "date": "2026-04-01",
+      "portfolio": 94.63,
+      "SPY": 99.51
+    },
+    {
+      "date": "2026-04-02",
+      "portfolio": 94.84,
+      "SPY": 99.6
+    },
+    {
+      "date": "2026-04-06",
+      "portfolio": 95.71,
+      "SPY": 100.07
+    },
+    {
+      "date": "2026-04-07",
+      "portfolio": 95.16,
+      "SPY": 100.11
+    },
+    {
+      "date": "2026-04-08",
+      "portfolio": 97.93,
+      "SPY": 102.66
+    },
+    {
+      "date": "2026-04-09",
+      "portfolio": 98.74,
+      "SPY": 103.25
+    },
+    {
+      "date": "2026-04-10",
+      "portfolio": 99.32,
+      "SPY": 103.19
+    },
+    {
+      "date": "2026-04-13",
+      "portfolio": 99.97,
+      "SPY": 104.19
+    },
+    {
       "date": "2026-04-14",
-      "portfolio": 101.31,
-      "SPY": 105.34
+      "portfolio": 101.58,
+      "SPY": 105.46
     },
     {
       "date": "2026-04-15",
-      "portfolio": 102.37,
-      "SPY": 106.17
+      "portfolio": 102.63,
+      "SPY": 106.3
     },
     {
       "date": "2026-04-16",
-      "portfolio": 102.65,
-      "SPY": 106.43
+      "portfolio": 102.92,
+      "SPY": 106.56
     },
     {
       "date": "2026-04-17",
-      "portfolio": 104.15,
-      "SPY": 107.71
+      "portfolio": 104.42,
+      "SPY": 107.85
     },
     {
       "date": "2026-04-20",
-      "portfolio": 104.58,
-      "SPY": 107.5
+      "portfolio": 104.85,
+      "SPY": 107.63
     },
     {
       "date": "2026-04-21",
-      "portfolio": 103.19,
-      "SPY": 106.79
+      "portfolio": 103.46,
+      "SPY": 106.92
     },
     {
       "date": "2026-04-22",
-      "portfolio": 104.8,
-      "SPY": 107.88
+      "portfolio": 105.07,
+      "SPY": 108.01
     },
     {
       "date": "2026-04-23",
-      "portfolio": 104.47,
-      "SPY": 107.46
+      "portfolio": 104.75,
+      "SPY": 107.59
     },
     {
       "date": "2026-04-24",
-      "portfolio": 106.32,
-      "SPY": 108.29
+      "portfolio": 106.6,
+      "SPY": 108.42
     },
     {
       "date": "2026-04-27",
-      "portfolio": 107.3,
-      "SPY": 108.48
+      "portfolio": 107.58,
+      "SPY": 108.61
     },
     {
       "date": "2026-04-28",
-      "portfolio": 106.38,
-      "SPY": 107.95
+      "portfolio": 106.66,
+      "SPY": 108.08
     },
     {
       "date": "2026-04-29",
-      "portfolio": 105.61,
-      "SPY": 107.93
+      "portfolio": 105.89,
+      "SPY": 108.06
     },
     {
       "date": "2026-04-30",
-      "portfolio": 104.9,
-      "SPY": 109.01
+      "portfolio": 105.18,
+      "SPY": 109.14
     },
     {
       "date": "2026-05-01",
-      "portfolio": 105.1,
-      "SPY": 109.31
+      "portfolio": 105.38,
+      "SPY": 109.44
     },
     {
       "date": "2026-05-04",
-      "portfolio": 104.34,
-      "SPY": 108.91
+      "portfolio": 104.61,
+      "SPY": 109.04
     },
     {
       "date": "2026-05-05",
-      "portfolio": 104.68,
-      "SPY": 109.78
+      "portfolio": 104.95,
+      "SPY": 109.92
     },
     {
       "date": "2026-05-06",
-      "portfolio": 108.11,
-      "SPY": 111.31
+      "portfolio": 108.39,
+      "SPY": 111.44
     },
     {
       "date": "2026-05-07",
-      "portfolio": 108.08,
-      "SPY": 110.97
+      "portfolio": 108.36,
+      "SPY": 111.1
     },
     {
       "date": "2026-05-08",
-      "portfolio": 112.6,
-      "SPY": 111.88
+      "portfolio": 112.89,
+      "SPY": 112.02
     },
     {
       "date": "2026-05-11",
-      "portfolio": 113.65,
-      "SPY": 112.14
+      "portfolio": 113.94,
+      "SPY": 112.27
     },
     {
       "date": "2026-05-12",
-      "portfolio": 113.19,
-      "SPY": 111.97
+      "portfolio": 113.49,
+      "SPY": 112.1
     },
     {
       "date": "2026-05-13",
-      "portfolio": 114.16,
-      "SPY": 112.59
+      "portfolio": 114.46,
+      "SPY": 112.73
     },
     {
       "date": "2026-05-14",
-      "portfolio": 115.96,
-      "SPY": 113.48
+      "portfolio": 116.26,
+      "SPY": 113.62
     },
     {
       "date": "2026-05-15",
-      "portfolio": 114.04,
-      "SPY": 112.12
+      "portfolio": 114.34,
+      "SPY": 112.25
     },
     {
       "date": "2026-05-18",
-      "portfolio": 113.71,
-      "SPY": 112.04
+      "portfolio": 114.01,
+      "SPY": 112.17
     },
     {
       "date": "2026-05-19",
-      "portfolio": 112.2,
-      "SPY": 111.29
+      "portfolio": 112.49,
+      "SPY": 111.43
     },
     {
       "date": "2026-05-20",
-      "portfolio": 113.58,
-      "SPY": 112.43
+      "portfolio": 113.87,
+      "SPY": 112.57
     },
     {
       "date": "2026-05-21",
-      "portfolio": 113.16,
-      "SPY": 112.66
-    },
-    {
-      "date": "2026-05-22",
-      "portfolio": 113.06,
-      "SPY": 113.1
-    },
-    {
-      "date": "2026-05-26",
-      "portfolio": 113.84,
-      "SPY": 113.85
-    },
-    {
-      "date": "2026-05-27",
-      "portfolio": 114.03,
-      "SPY": 113.83
-    },
-    {
-      "date": "2026-05-28",
-      "portfolio": 114.26,
-      "SPY": 114.46
-    },
-    {
-      "date": "2026-05-29",
-      "portfolio": 114.22,
-      "SPY": 114.74
-    },
-    {
-      "date": "2026-06-01",
-      "portfolio": 116.97,
-      "SPY": 115.05
-    },
-    {
-      "date": "2026-06-02",
-      "portfolio": 117.08,
-      "SPY": 115.21
-    },
-    {
-      "date": "2026-06-03",
-      "portfolio": 115.4,
-      "SPY": 114.4
-    },
-    {
-      "date": "2026-06-04",
-      "portfolio": 115.67,
-      "SPY": 114.83
-    },
-    {
-      "date": "2026-06-05",
-      "portfolio": 111.64,
-      "SPY": 111.87
-    },
-    {
-      "date": "2026-06-08",
-      "portfolio": 112.2,
-      "SPY": 112.12
-    },
-    {
-      "date": "2026-06-09",
-      "portfolio": 112.13,
-      "SPY": 111.8
-    },
-    {
-      "date": "2026-06-10",
-      "portfolio": 110.37,
-      "SPY": 110.03
-    },
-    {
-      "date": "2026-06-11",
-      "portfolio": 112.62,
-      "SPY": 111.9
-    },
-    {
-      "date": "2026-06-12",
-      "portfolio": 113.22,
-      "SPY": 112.51
-    },
-    {
-      "date": "2026-06-15",
-      "portfolio": 115.67,
-      "SPY": 114.49
-    },
-    {
-      "date": "2026-06-16",
-      "portfolio": 114.14,
-      "SPY": 113.81
-    },
-    {
-      "date": "2026-06-17",
-      "portfolio": 112.77,
-      "SPY": 112.39
-    },
-    {
-      "date": "2026-06-18",
-      "portfolio": 114.56,
-      "SPY": 113.56
-    },
-    {
-      "date": "2026-06-22",
-      "portfolio": 114.76,
-      "SPY": 113.2
-    },
-    {
-      "date": "2026-06-23",
-      "portfolio": 112.49,
-      "SPY": 111.56
-    },
-    {
-      "date": "2026-06-24",
-      "portfolio": 112.46,
-      "SPY": 111.5
-    },
-    {
-      "date": "2026-06-25",
-      "portfolio": 112.32,
-      "SPY": 111.67
-    },
-    {
-      "date": "2026-06-26",
-      "portfolio": 111.71,
-      "SPY": 110.86
-    },
-    {
-      "date": "2026-06-29",
-      "portfolio": 113.36,
-      "SPY": 112.68
-    },
-    {
-      "date": "2026-06-30",
-      "portfolio": 114.29,
-      "SPY": 113.56
-    },
-    {
-      "date": "2026-07-01",
-      "portfolio": 113.87,
-      "SPY": 113.41
-    },
-    {
-      "date": "2026-07-02",
-      "portfolio": 113.05,
-      "SPY": 113.26
-    },
-    {
-      "date": "2026-07-06",
-      "portfolio": 113.59,
-      "SPY": 114.25
-    },
-    {
-      "date": "2026-07-07",
-      "portfolio": 112.95,
-      "SPY": 113.7
-    },
-    {
-      "date": "2026-07-08",
-      "portfolio": 113.58,
-      "SPY": 113.35
-    },
-    {
-      "date": "2026-07-09",
-      "portfolio": 114.53,
-      "SPY": 114.31
-    },
-    {
-      "date": "2026-07-10",
-      "portfolio": 116.23,
-      "SPY": 114.81
-    },
-    {
-      "date": "2026-07-13",
-      "portfolio": 114.31,
-      "SPY": 113.93
-    },
-    {
-      "date": "2026-07-14",
-      "portfolio": 116.23,
-      "SPY": 114.33
-    },
-    {
-      "date": "2026-07-15",
-      "portfolio": 116.1,
-      "SPY": 114.78
-    },
-    {
-      "date": "2026-07-16",
-      "portfolio": 115.49,
-      "SPY": 114.16
-    },
-    {
-      "date": "2026-07-17",
-      "portfolio": 113.45,
-      "SPY": 113.03
-    },
-    {
-      "date": "2026-07-20",
-      "portfolio": 112.81,
-      "SPY": 112.85
-    },
-    {
-      "date": "2026-07-21",
-      "portfolio": 113.85,
-      "SPY": 113.79
-    },
-    {
-      "date": "2026-07-22",
-      "portfolio": 114.79,
-      "SPY": 113.66
-    },
-    {
-      "date": "2026-07-23",
-      "portfolio": 113.59,
-      "SPY": 112.26
-    },
-    {
-      "date": "2026-07-24",
-      "portfolio": 111.7,
-      "SPY": 112.37
-    },
-    {
-      "date": "2026-07-27",
-      "portfolio": 109.83,
-      "SPY": 112.39
-    },
-    {
-      "date": "2026-07-28",
-      "portfolio": 109.23,
-      "SPY": 112.66
-    },
-    {
-      "date": "2026-07-29",
-      "portfolio": 107.1,
-      "SPY": 110.93
-    },
-    {
-      "date": "2026-07-30",
-      "portfolio": 111.85,
+      "portfolio": 113.46,
       "SPY": 112.79
     },
     {
+      "date": "2026-05-22",
+      "portfolio": 113.35,
+      "SPY": 113.24
+    },
+    {
+      "date": "2026-05-26",
+      "portfolio": 114.14,
+      "SPY": 113.99
+    },
+    {
+      "date": "2026-05-27",
+      "portfolio": 114.33,
+      "SPY": 113.97
+    },
+    {
+      "date": "2026-05-28",
+      "portfolio": 114.56,
+      "SPY": 114.6
+    },
+    {
+      "date": "2026-05-29",
+      "portfolio": 114.52,
+      "SPY": 114.88
+    },
+    {
+      "date": "2026-06-01",
+      "portfolio": 117.28,
+      "SPY": 115.2
+    },
+    {
+      "date": "2026-06-02",
+      "portfolio": 117.39,
+      "SPY": 115.35
+    },
+    {
+      "date": "2026-06-03",
+      "portfolio": 115.7,
+      "SPY": 114.54
+    },
+    {
+      "date": "2026-06-04",
+      "portfolio": 115.97,
+      "SPY": 114.98
+    },
+    {
+      "date": "2026-06-05",
+      "portfolio": 111.93,
+      "SPY": 112.01
+    },
+    {
+      "date": "2026-06-08",
+      "portfolio": 112.49,
+      "SPY": 112.26
+    },
+    {
+      "date": "2026-06-09",
+      "portfolio": 112.42,
+      "SPY": 111.93
+    },
+    {
+      "date": "2026-06-10",
+      "portfolio": 110.66,
+      "SPY": 110.17
+    },
+    {
+      "date": "2026-06-11",
+      "portfolio": 112.92,
+      "SPY": 112.04
+    },
+    {
+      "date": "2026-06-12",
+      "portfolio": 113.51,
+      "SPY": 112.65
+    },
+    {
+      "date": "2026-06-15",
+      "portfolio": 115.97,
+      "SPY": 114.63
+    },
+    {
+      "date": "2026-06-16",
+      "portfolio": 114.44,
+      "SPY": 113.95
+    },
+    {
+      "date": "2026-06-17",
+      "portfolio": 113.06,
+      "SPY": 112.53
+    },
+    {
+      "date": "2026-06-18",
+      "portfolio": 114.86,
+      "SPY": 113.7
+    },
+    {
+      "date": "2026-06-22",
+      "portfolio": 115.06,
+      "SPY": 113.34
+    },
+    {
+      "date": "2026-06-23",
+      "portfolio": 112.79,
+      "SPY": 111.69
+    },
+    {
+      "date": "2026-06-24",
+      "portfolio": 112.75,
+      "SPY": 111.64
+    },
+    {
+      "date": "2026-06-25",
+      "portfolio": 112.62,
+      "SPY": 111.8
+    },
+    {
+      "date": "2026-06-26",
+      "portfolio": 112.0,
+      "SPY": 110.99
+    },
+    {
+      "date": "2026-06-29",
+      "portfolio": 113.65,
+      "SPY": 112.82
+    },
+    {
+      "date": "2026-06-30",
+      "portfolio": 114.59,
+      "SPY": 113.7
+    },
+    {
+      "date": "2026-07-01",
+      "portfolio": 114.17,
+      "SPY": 113.55
+    },
+    {
+      "date": "2026-07-02",
+      "portfolio": 113.35,
+      "SPY": 113.4
+    },
+    {
+      "date": "2026-07-06",
+      "portfolio": 113.89,
+      "SPY": 114.39
+    },
+    {
+      "date": "2026-07-07",
+      "portfolio": 113.24,
+      "SPY": 113.84
+    },
+    {
+      "date": "2026-07-08",
+      "portfolio": 113.87,
+      "SPY": 113.49
+    },
+    {
+      "date": "2026-07-09",
+      "portfolio": 114.83,
+      "SPY": 114.45
+    },
+    {
+      "date": "2026-07-10",
+      "portfolio": 116.54,
+      "SPY": 114.95
+    },
+    {
+      "date": "2026-07-13",
+      "portfolio": 114.61,
+      "SPY": 114.07
+    },
+    {
+      "date": "2026-07-14",
+      "portfolio": 116.54,
+      "SPY": 114.47
+    },
+    {
+      "date": "2026-07-15",
+      "portfolio": 116.4,
+      "SPY": 114.92
+    },
+    {
+      "date": "2026-07-16",
+      "portfolio": 115.79,
+      "SPY": 114.3
+    },
+    {
+      "date": "2026-07-17",
+      "portfolio": 113.75,
+      "SPY": 113.17
+    },
+    {
+      "date": "2026-07-20",
+      "portfolio": 113.11,
+      "SPY": 112.99
+    },
+    {
+      "date": "2026-07-21",
+      "portfolio": 114.15,
+      "SPY": 113.93
+    },
+    {
+      "date": "2026-07-22",
+      "portfolio": 115.09,
+      "SPY": 113.8
+    },
+    {
+      "date": "2026-07-23",
+      "portfolio": 113.88,
+      "SPY": 112.39
+    },
+    {
+      "date": "2026-07-24",
+      "portfolio": 111.99,
+      "SPY": 112.51
+    },
+    {
+      "date": "2026-07-27",
+      "portfolio": 110.12,
+      "SPY": 112.53
+    },
+    {
+      "date": "2026-07-28",
+      "portfolio": 109.51,
+      "SPY": 112.8
+    },
+    {
+      "date": "2026-07-29",
+      "portfolio": 107.38,
+      "SPY": 111.06
+    },
+    {
+      "date": "2026-07-30",
+      "portfolio": 112.14,
+      "SPY": 112.93
+    },
+    {
       "date": "2026-07-31",
-      "portfolio": 111.6,
-      "SPY": 113.6
+      "portfolio": 111.89,
+      "SPY": 113.74
     },
     {
       "date": "2026-08-03",
-      "portfolio": 112.08,
-      "SPY": 115.22
+      "portfolio": 112.37,
+      "SPY": 115.36
     },
     {
       "date": "2026-08-04",
-      "portfolio": 115.58,
-      "SPY": 117.3
+      "portfolio": 115.88,
+      "SPY": 117.44
     },
     {
       "date": "2026-08-05",
-      "portfolio": 115.95,
-      "SPY": 117.06
+      "portfolio": 116.26,
+      "SPY": 117.21
     },
     {
       "date": "2026-08-06",
-      "portfolio": 114.92,
-      "SPY": 116.87
+      "portfolio": 115.22,
+      "SPY": 117.02
     },
     {
       "date": "2026-08-07",
-      "portfolio": 114.29,
-      "SPY": 117.59
+      "portfolio": 114.59,
+      "SPY": 117.73
     },
     {
       "date": "2026-08-10",
-      "portfolio": 113.36,
-      "SPY": 117.55
+      "portfolio": 113.66,
+      "SPY": 117.7
     },
     {
       "date": "2026-08-11",
-      "portfolio": 114.02,
-      "SPY": 117.18
-    },
-    {
-      "date": "2026-08-12",
-      "portfolio": 116.88,
-      "SPY": 117.47
-    },
-    {
-      "date": "2026-08-13",
-      "portfolio": 119.2,
-      "SPY": 118.29
-    },
-    {
-      "date": "2026-08-14",
-      "portfolio": 119.32,
-      "SPY": 118.06
-    },
-    {
-      "date": "2026-08-17",
-      "portfolio": 119.0,
-      "SPY": 117.5
-    },
-    {
-      "date": "2026-08-18",
-      "portfolio": 116.85,
-      "SPY": 116.71
-    },
-    {
-      "date": "2026-08-19",
-      "portfolio": 116.72,
-      "SPY": 116.95
-    },
-    {
-      "date": "2026-08-20",
-      "portfolio": 117.11,
-      "SPY": 115.97
-    },
-    {
-      "date": "2026-08-21",
-      "portfolio": 117.36,
-      "SPY": 116.44
-    },
-    {
-      "date": "2026-08-24",
-      "portfolio": 115.89,
-      "SPY": 116.1
-    },
-    {
-      "date": "2026-08-25",
-      "portfolio": 117.23,
-      "SPY": 116.47
-    },
-    {
-      "date": "2026-08-26",
-      "portfolio": 116.13,
-      "SPY": 116.5
-    },
-    {
-      "date": "2026-08-27",
-      "portfolio": 118.85,
-      "SPY": 117.26
-    },
-    {
-      "date": "2026-08-28",
-      "portfolio": 117.14,
-      "SPY": 117.0
-    },
-    {
-      "date": "2026-08-31",
-      "portfolio": 117.41,
-      "SPY": 116.65
-    },
-    {
-      "date": "2026-09-01",
-      "portfolio": 115.53,
-      "SPY": 115.84
-    },
-    {
-      "date": "2026-09-02",
-      "portfolio": 116.72,
-      "SPY": 116.36
-    },
-    {
-      "date": "2026-09-03",
-      "portfolio": 117.36,
-      "SPY": 117.58
-    },
-    {
-      "date": "2026-09-04",
-      "portfolio": 119.06,
-      "SPY": 117.12
-    },
-    {
-      "date": "2026-09-08",
-      "portfolio": 119.03,
-      "SPY": 116.48
-    },
-    {
-      "date": "2026-09-09",
-      "portfolio": 120.08,
-      "SPY": 115.94
-    },
-    {
-      "date": "2026-09-10",
-      "portfolio": 117.87,
-      "SPY": 115.24
-    },
-    {
-      "date": "2026-09-11",
-      "portfolio": 118.57,
-      "SPY": 116.23
-    },
-    {
-      "date": "2026-09-14",
-      "portfolio": 115.89,
-      "SPY": 115.71
-    },
-    {
-      "date": "2026-09-15",
-      "portfolio": 115.95,
-      "SPY": 115.18
-    },
-    {
-      "date": "2026-09-16",
-      "portfolio": 116.03,
-      "SPY": 114.67
-    },
-    {
-      "date": "2026-09-17",
-      "portfolio": 118.32,
-      "SPY": 115.97
-    },
-    {
-      "date": "2026-09-18",
-      "portfolio": 119.46,
-      "SPY": 116.12
-    },
-    {
-      "date": "2026-09-21",
-      "portfolio": 120.74,
-      "SPY": 117.92
-    },
-    {
-      "date": "2026-09-22",
-      "portfolio": 121.98,
-      "SPY": 117.9
-    },
-    {
-      "date": "2026-09-23",
-      "portfolio": 120.25,
-      "SPY": 117.05
-    },
-    {
-      "date": "2026-09-24",
-      "portfolio": 118.93,
-      "SPY": 116.95
-    },
-    {
-      "date": "2026-09-25",
-      "portfolio": 120.17,
-      "SPY": 117.59
-    },
-    {
-      "date": "2026-09-28",
-      "portfolio": 118.31,
-      "SPY": 116.72
-    },
-    {
-      "date": "2026-09-29",
-      "portfolio": 118.56,
-      "SPY": 116.5
-    },
-    {
-      "date": "2026-09-30",
-      "portfolio": 118.38,
-      "SPY": 116.26
-    },
-    {
-      "date": "2026-10-01",
-      "portfolio": 120.33,
-      "SPY": 116.47
-    },
-    {
-      "date": "2026-10-02",
-      "portfolio": 121.73,
-      "SPY": 117.33
-    },
-    {
-      "date": "2026-10-05",
-      "portfolio": 122.95,
-      "SPY": 118.12
-    },
-    {
-      "date": "2026-10-06",
-      "portfolio": 121.58,
-      "SPY": 118.77
-    },
-    {
-      "date": "2026-10-07",
-      "portfolio": 120.34,
-      "SPY": 118.49
-    },
-    {
-      "date": "2026-10-08",
-      "portfolio": 118.54,
-      "SPY": 117.98
-    },
-    {
-      "date": "2026-10-09",
-      "portfolio": 118.45,
-      "SPY": 118.69
-    },
-    {
-      "date": "2026-10-12",
-      "portfolio": 117.06,
-      "SPY": 118.62
-    },
-    {
-      "date": "2026-10-13",
-      "portfolio": 116.36,
-      "SPY": 118.61
-    },
-    {
-      "date": "2026-10-14",
-      "portfolio": 113.93,
+      "portfolio": 114.32,
       "SPY": 117.32
     },
     {
-      "date": "2026-10-15",
-      "portfolio": 113.96,
-      "SPY": 117.66
+      "date": "2026-08-12",
+      "portfolio": 117.18,
+      "SPY": 117.62
     },
     {
-      "date": "2026-10-16",
-      "portfolio": 111.84,
-      "SPY": 116.36
+      "date": "2026-08-13",
+      "portfolio": 119.51,
+      "SPY": 118.44
     },
     {
-      "date": "2026-10-19",
-      "portfolio": 113.89,
+      "date": "2026-08-14",
+      "portfolio": 119.63,
+      "SPY": 118.2
+    },
+    {
+      "date": "2026-08-17",
+      "portfolio": 119.31,
+      "SPY": 117.64
+    },
+    {
+      "date": "2026-08-18",
+      "portfolio": 117.15,
       "SPY": 116.85
     },
     {
+      "date": "2026-08-19",
+      "portfolio": 117.02,
+      "SPY": 117.09
+    },
+    {
+      "date": "2026-08-20",
+      "portfolio": 117.41,
+      "SPY": 116.11
+    },
+    {
+      "date": "2026-08-21",
+      "portfolio": 117.67,
+      "SPY": 116.59
+    },
+    {
+      "date": "2026-08-24",
+      "portfolio": 116.19,
+      "SPY": 116.24
+    },
+    {
+      "date": "2026-08-25",
+      "portfolio": 117.54,
+      "SPY": 116.61
+    },
+    {
+      "date": "2026-08-26",
+      "portfolio": 116.44,
+      "SPY": 116.64
+    },
+    {
+      "date": "2026-08-27",
+      "portfolio": 119.16,
+      "SPY": 117.4
+    },
+    {
+      "date": "2026-08-28",
+      "portfolio": 117.45,
+      "SPY": 117.14
+    },
+    {
+      "date": "2026-08-31",
+      "portfolio": 117.72,
+      "SPY": 116.79
+    },
+    {
+      "date": "2026-09-01",
+      "portfolio": 115.83,
+      "SPY": 115.99
+    },
+    {
+      "date": "2026-09-02",
+      "portfolio": 117.03,
+      "SPY": 116.5
+    },
+    {
+      "date": "2026-09-03",
+      "portfolio": 117.66,
+      "SPY": 117.72
+    },
+    {
+      "date": "2026-09-04",
+      "portfolio": 119.37,
+      "SPY": 117.27
+    },
+    {
+      "date": "2026-09-08",
+      "portfolio": 119.35,
+      "SPY": 116.62
+    },
+    {
+      "date": "2026-09-09",
+      "portfolio": 120.39,
+      "SPY": 116.08
+    },
+    {
+      "date": "2026-09-10",
+      "portfolio": 118.18,
+      "SPY": 115.38
+    },
+    {
+      "date": "2026-09-11",
+      "portfolio": 118.88,
+      "SPY": 116.37
+    },
+    {
+      "date": "2026-09-14",
+      "portfolio": 116.19,
+      "SPY": 115.85
+    },
+    {
+      "date": "2026-09-15",
+      "portfolio": 116.26,
+      "SPY": 115.32
+    },
+    {
+      "date": "2026-09-16",
+      "portfolio": 116.33,
+      "SPY": 114.81
+    },
+    {
+      "date": "2026-09-17",
+      "portfolio": 118.63,
+      "SPY": 116.11
+    },
+    {
+      "date": "2026-09-18",
+      "portfolio": 119.77,
+      "SPY": 116.26
+    },
+    {
+      "date": "2026-09-21",
+      "portfolio": 121.06,
+      "SPY": 118.06
+    },
+    {
+      "date": "2026-09-22",
+      "portfolio": 122.3,
+      "SPY": 118.04
+    },
+    {
+      "date": "2026-09-23",
+      "portfolio": 120.56,
+      "SPY": 117.19
+    },
+    {
+      "date": "2026-09-24",
+      "portfolio": 119.24,
+      "SPY": 117.1
+    },
+    {
+      "date": "2026-09-25",
+      "portfolio": 120.48,
+      "SPY": 117.73
+    },
+    {
+      "date": "2026-09-28",
+      "portfolio": 118.62,
+      "SPY": 116.86
+    },
+    {
+      "date": "2026-09-29",
+      "portfolio": 118.87,
+      "SPY": 116.64
+    },
+    {
+      "date": "2026-09-30",
+      "portfolio": 118.69,
+      "SPY": 116.4
+    },
+    {
+      "date": "2026-10-01",
+      "portfolio": 120.64,
+      "SPY": 116.61
+    },
+    {
+      "date": "2026-10-02",
+      "portfolio": 122.05,
+      "SPY": 117.47
+    },
+    {
+      "date": "2026-10-05",
+      "portfolio": 123.28,
+      "SPY": 118.27
+    },
+    {
+      "date": "2026-10-06",
+      "portfolio": 121.9,
+      "SPY": 118.92
+    },
+    {
+      "date": "2026-10-07",
+      "portfolio": 120.66,
+      "SPY": 118.63
+    },
+    {
+      "date": "2026-10-08",
+      "portfolio": 118.85,
+      "SPY": 118.13
+    },
+    {
+      "date": "2026-10-09",
+      "portfolio": 118.76,
+      "SPY": 118.84
+    },
+    {
+      "date": "2026-10-12",
+      "portfolio": 117.37,
+      "SPY": 118.76
+    },
+    {
+      "date": "2026-10-13",
+      "portfolio": 116.67,
+      "SPY": 118.75
+    },
+    {
+      "date": "2026-10-14",
+      "portfolio": 114.23,
+      "SPY": 117.47
+    },
+    {
+      "date": "2026-10-15",
+      "portfolio": 114.26,
+      "SPY": 117.8
+    },
+    {
+      "date": "2026-10-16",
+      "portfolio": 112.13,
+      "SPY": 116.5
+    },
+    {
+      "date": "2026-10-19",
+      "portfolio": 114.19,
+      "SPY": 116.99
+    },
+    {
       "date": "2026-10-20",
-      "portfolio": 113.64,
-      "SPY": 117.24
+      "portfolio": 113.94,
+      "SPY": 117.38
     },
     {
       "date": "2026-10-21",
-      "portfolio": 114.91,
-      "SPY": 117.86
+      "portfolio": 115.21,
+      "SPY": 118.0
     },
     {
       "date": "2026-10-22",
-      "portfolio": 111.81,
-      "SPY": 116.46
+      "portfolio": 112.11,
+      "SPY": 116.61
     },
     {
       "date": "2026-10-23",
-      "portfolio": 111.59,
-      "SPY": 115.86
+      "portfolio": 111.88,
+      "SPY": 116.0
     },
     {
       "date": "2026-10-26",
-      "portfolio": 113.46,
-      "SPY": 116.68
+      "portfolio": 113.76,
+      "SPY": 116.82
     },
     {
       "date": "2026-10-27",
-      "portfolio": 113.95,
-      "SPY": 117.33
+      "portfolio": 114.25,
+      "SPY": 117.48
     },
     {
       "date": "2026-10-28",
-      "portfolio": 116.38,
-      "SPY": 117.74
+      "portfolio": 116.68,
+      "SPY": 117.88
     },
     {
       "date": "2026-10-29",
-      "portfolio": 115.96,
-      "SPY": 117.29
+      "portfolio": 116.26,
+      "SPY": 117.43
     },
     {
       "date": "2026-10-30",
-      "portfolio": 112.61,
-      "SPY": 115.21
+      "portfolio": 112.9,
+      "SPY": 115.35
     },
     {
       "date": "2026-11-02",
-      "portfolio": 111.92,
-      "SPY": 114.66
+      "portfolio": 112.21,
+      "SPY": 114.8
     },
     {
       "date": "2026-11-03",
-      "portfolio": 112.63,
-      "SPY": 115.0
+      "portfolio": 112.92,
+      "SPY": 115.14
     },
     {
       "date": "2026-11-04",
-      "portfolio": 112.22,
-      "SPY": 116.9
+      "portfolio": 112.51,
+      "SPY": 117.04
     },
     {
       "date": "2026-11-05",
-      "portfolio": 104.71,
-      "SPY": 111.74
+      "portfolio": 104.98,
+      "SPY": 111.88
     },
     {
       "date": "2026-11-06",
-      "portfolio": 104.79,
-      "SPY": 112.09
+      "portfolio": 105.07,
+      "SPY": 112.23
     },
     {
       "date": "2026-11-09",
-      "portfolio": 105.8,
-      "SPY": 114.75
+      "portfolio": 106.07,
+      "SPY": 114.89
     },
     {
       "date": "2026-11-10",
-      "portfolio": 103.49,
-      "SPY": 114.32
+      "portfolio": 103.76,
+      "SPY": 114.46
+    },
+    {
+      "date": "2026-11-11",
+      "portfolio": 106.73,
+      "SPY": 115.97
     }
   ]
 }
